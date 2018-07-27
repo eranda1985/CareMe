@@ -1,4 +1,5 @@
-﻿using Identity.Api.Exceptions;
+﻿using Identity.Api.ActionFilters;
+using Identity.Api.Exceptions;
 using Identity.Core;
 using Identity.Model.Dto;
 using Identity.Model.Repositories;
@@ -27,18 +28,19 @@ namespace Identity.Api
             services.Configure<AppSettings>(Configuration)
                     .AddIoC(Configuration)
                     .AddCors(options =>
-                             {
-                                 options.AddPolicy("CorsPolicy", builder =>
-                                 {
-                                     builder.AllowAnyOrigin()
-                                            .AllowAnyMethod()
-                                            .AllowAnyHeader();
-                                 });
-                             })
+                     {
+                         options.AddPolicy("CorsPolicy", builder =>
+                         {
+                             builder.AllowAnyOrigin()
+                                    .AllowAnyMethod()
+                                    .AllowAnyHeader();
+                         });
+                     })
                     .AddMvc(options =>
-            {
-                options.Filters.Add(typeof(GlobalExceptionHandler));
-            }).AddControllersAsServices(); // <- TODO: Add model state validation.
+                    {
+                        options.Filters.Add(typeof(GlobalExceptionHandler));
+                        options.Filters.Add(typeof(ValidateModelAttribute));
+                    }).AddControllersAsServices();
 
             services.AddApiVersioning(o =>
             {

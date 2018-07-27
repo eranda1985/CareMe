@@ -25,11 +25,11 @@ namespace Identity.Model.Repositories
 
         private UserModel GetMockUserByName(string name)
         {
-            return new UserModel
+            return name == "test@123.com" ? new UserModel
             {
-                Username = name,
-                Password = "1234"
-            };
+                Username = "test@123.com",
+                Password = "testPassword"
+            } : null;
         }
     }
 }

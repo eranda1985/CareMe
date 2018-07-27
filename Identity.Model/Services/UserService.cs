@@ -39,6 +39,10 @@ namespace Identity.Model.Services
             // Get the user record based on username
             var user = await _userRepository.GetUserByNameAsync(userName);
 
+            if(user == null)
+            {
+                return await RegisterUserAsync(userName, password);
+            }
             // Check for app versions. 
 
             // Ensure the passwords match. 

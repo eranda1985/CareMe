@@ -6,6 +6,7 @@ namespace Identity.Api.Parameters
     public class AuthRequest
     {
         [Required]
+        [EmailAddress]
         public string Username { get; set; }
 
         [Required]

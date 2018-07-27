@@ -11,6 +11,7 @@
     <Folder Include="ActionFilters\" />
     <Folder Include="Resources\Config\" />
     <Folder Include="Exceptions\" />
+    <Folder Include="Extensions\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -10,5 +10,7 @@
   <ItemGroup>
     <Folder Include="Exceptions\" />
     <Folder Include="Validators\" />
+    <Folder Include="Security\" />
+    <Folder Include="Security\KeyGenerators\" />
   </ItemGroup>
 </Project>
