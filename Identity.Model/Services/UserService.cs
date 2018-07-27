@@ -43,7 +43,7 @@ namespace Identity.Model.Services
             {
                 return await RegisterUserAsync(userName, password);
             }
-            // Check for app versions. 
+            // TODO: Check for app versions. //
 
             // Ensure the passwords match. 
             if (user?.Password != password)
