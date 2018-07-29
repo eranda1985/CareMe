@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Identity.Core.Security.KeyGenerators;
 using Identity.Core.Validators;
 using Identity.Model.Dto;
 using Identity.Model.Models;
@@ -69,9 +70,14 @@ namespace Identity.Model.Services
             _exceptionService.Throw(() => { Validator.CheckStringEmpty(username); });
             _exceptionService.Throw(() => { Validator.CheckStringEmpty(pwd); });
 
-            var newUser = await _userRepository.AddUserAsync(new UserModel { Username = username, Password = pwd });
+            var newUser = await _userRepository.AddUserAsync(new UserModel
+            {
+                Username = username,
+                Password = pwd,
+                SecretKey = SecretKey.GenerateKey(64)
+            });
 
-            return new AuthenticationResponseDto { Token = "1234", Username = newUser.Username };
+            return new AuthenticationResponseDto { Token = newUser.SecretKey, Username = newUser.Username };
         }
     }
 }

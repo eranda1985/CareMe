@@ -22,7 +22,7 @@ namespace Identity.Core.Security.KeyGenerators
 
             var keyBytes = CreateKey(keyLength);
 
-            if(!ValidateKey(keyLength, keyBytes))
+            if(!ValidateKey(32, keyBytes))
             {
                 throw new ValidationException();
             }
@@ -49,7 +49,7 @@ namespace Identity.Core.Security.KeyGenerators
 
             SHA256CryptoServiceProvider sHA256Crypto = new SHA256CryptoServiceProvider();
 
-            return sHA256Crypto.ComputeHash(bytes); // <- This allows us to keep the key in alphanumeric format. 
+            return sHA256Crypto.ComputeHash(bytes); 
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Identity.Core.Security.KeyGenerators
 
             for (int i = 0; i < keyBytes.Length;i++)
             {
-                keyStr += keyBytes[i].ToString("x2"); // <- lowecase 
+                keyStr += keyBytes[i].ToString("x2"); // <- lowercase hex format
             }
 
             return keyStr;
