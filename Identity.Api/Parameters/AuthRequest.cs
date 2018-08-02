@@ -11,5 +11,8 @@ namespace Identity.Api.Parameters
 
         [Required]
         public string Password { get; set; }
+
+        [Required]
+        public string VersionHash { get; set; }
     }
 }

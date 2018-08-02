@@ -1,4 +1,6 @@
 ﻿using System;
+using Identity.Core.Exceptions;
+
 namespace Identity.Core.Validators
 {
     public static class Validator
@@ -21,6 +23,14 @@ namespace Identity.Core.Validators
 
         public static void UnAuthorized(){
             throw new UnauthorizedAccessException();
+        }
+
+        public static void CheckArgsLength(object[] args, int length)
+        {
+            if(args.Length != length)
+            {
+                throw new ValidationException();
+            }
         }
     }
 }

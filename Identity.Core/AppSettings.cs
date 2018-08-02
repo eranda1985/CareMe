@@ -5,9 +5,7 @@ namespace Identity.Core
     public class AppSettings
     {
         public string MyKey { get; }
-
-        public AppSettings()
-        {
-        }
+        public int JWTExpiry { get; set; }
+        public string JWTSecretKey { get; set; }
     }
 }

@@ -1,16 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
+using System.Linq;
 using System.Threading.Tasks;
 using Identity.Model.Models;
 using Identity.Model.Repositories.Interfaces;
+using NPoco;
 
 namespace Identity.Model.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : DBRepository<UserModel>, IUserRepository
     {
+        public UserRepository(string connectionString, DatabaseType databaseType, DbProviderFactory dbProvideerFactory) 
+            : base(connectionString, databaseType, dbProvideerFactory)
+        {
+        }
+
         public async Task<UserModel> AddUserAsync(UserModel user)
         {
-            return user;
+            return await Add(user);
         }
 
         public List<UserModel> GetAll()
@@ -20,7 +28,10 @@ namespace Identity.Model.Repositories
 
         public async Task<UserModel> GetUserByNameAsync(string name)
         {
-            return GetMockUserByName(name);
+            string sql = @"SELECT * FROM UserDetail where username = @0";
+            var result = await Query(sql, name);
+            return result.FirstOrDefault();
+            //return GetMockUserByName(name);
         }
 
         private UserModel GetMockUserByName(string name)

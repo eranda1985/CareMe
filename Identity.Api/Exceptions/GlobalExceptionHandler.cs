@@ -2,6 +2,7 @@
 using System;
 using Identity.Api.ExtensionMethods;
 using Identity.Core.Exceptions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -10,9 +11,9 @@ namespace Identity.Api.Exceptions
 {
     public class GlobalExceptionHandler : IExceptionFilter
     {
-        public void OnException(ExceptionContext context)
+        void IExceptionFilter.OnException(ExceptionContext context)
         {
-            
+
             if (context.Exception.IsA<ArgumentNullException>())
             {
                 context.Result = new BadRequestResult();
@@ -23,9 +24,13 @@ namespace Identity.Api.Exceptions
                 context.Result = new UnauthorizedResult();
             }
 
-            else if(context.Exception.IsA<ValidationException>())
+            else if (context.Exception.IsA<ValidationException>())
             {
                 context.Result = new BadRequestResult();
+            }
+            else
+            {
+                context.Result = new StatusCodeResult(500);
             }
         }
     }
