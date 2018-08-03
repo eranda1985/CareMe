@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Identity.Core;
@@ -42,30 +41,43 @@ namespace Identity.Model.Services
         public async Task<AuthenticationResponseDto> LoginAsync(params object[] args)
         {
             _logger.LogDebug("Entering LoginAsync");
+            _exceptionService.Throw(() => Validator.CheckArgsLength(args, 4));
 
             var userName = args[0] as string;
             var password = args[1] as string;
             var versionHash = args[2] as string;
+            var deviceType = args[3] as string;
 
             _exceptionService.Throw(() => { Validator.CheckNull(userName); });
 
             // Get the user record based on username
             var user = await _userRepository.GetUserByNameAsync(userName);
+            var userDto = AutoMapper.Mapper.Map<UserDto>(user ?? null);
 
             if(user == null)
             {
-                return await RegisterUserAsync(userName, password, versionHash);
+                userDto =  await RegisterUserAsync(userName, password, versionHash, deviceType);
             }
             // TODO: Check for app versions. //
 
             // Ensure the passwords match. 
-            if (user?.Password != password)
+            if (userDto?.Password != password)
             {
                 _exceptionService.Throw(Validator.UnAuthorized);
             }
 
+            // Create claims 
+            List<Claim> claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, userDto.Username),
+                new Claim(ClaimTypes.Version, versionHash),
+                new Claim(ClaimTypes.System, userDto.DeviceType)
+            };
+
+            var token = JWTHelper.GenerateUserToken(claims, userDto.SecretKey, _appSettings.JWTSecretKey, _appSettings.JWTExpiry);
+
             // Get the token from Db and return 
-            return new AuthenticationResponseDto { Token = "1234", Username = user.Username };
+            return new AuthenticationResponseDto { Token = token, Username = user.Username };
 
         }
 
@@ -74,37 +86,29 @@ namespace Identity.Model.Services
         /// </summary>
         /// <returns>The user async.</returns>
         /// <param name="args">Arguments.</param>
-        public async Task<AuthenticationResponseDto> RegisterUserAsync(params object[] args)
+        public async Task<UserDto> RegisterUserAsync(params object[] args)
         {
             _exceptionService.Throw(() => Validator.CheckArgsLength(args, 4));
 
             var username = args[0] as string;
             var pwd = args[1] as string;
             var versionHash = args[2] as string;
+            var deviceType = args[3] as string;
 
             _exceptionService.Throw(() => { Validator.CheckStringEmpty(username); });
             _exceptionService.Throw(() => { Validator.CheckStringEmpty(pwd); });
             _exceptionService.Throw(() => { Validator.CheckStringEmpty(versionHash); });
 
-            // Create claims 
-            List<Claim> claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.NameIdentifier, username),
-                new Claim(ClaimTypes.Version, versionHash)
-            };
-
             var newUser = await _userRepository.AddUserAsync(new UserModel
             {
                 Username = username,
                 Password = pwd,
-                SecretKey = SecretKey.GenerateKey(64)
+                SecretKey = SecretKey.GenerateKey(64),
+                DeviceType = deviceType
             });
 
-            // TODO: Persist the new user in the underlying Data model.
-
-            var token = JWTHelper.GenerateUserToken(claims, newUser.SecretKey, _appSettings.JWTSecretKey, _appSettings.JWTExpiry);
-
-            return new AuthenticationResponseDto { Token = token, Username = newUser.Username };
+            var dto = AutoMapper.Mapper.Map<UserDto>(newUser);
+            return dto;
         }
     }
 }

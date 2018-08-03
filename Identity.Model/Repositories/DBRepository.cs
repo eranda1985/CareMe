@@ -6,13 +6,23 @@ using NPoco;
 
 namespace Identity.Model.Repositories
 {
-    public class DBRepository<T> where T : class
+    public class DBRepository<T> : IDisposable where T : class
     {
-        private Database _dbContext = null;
+        private Database _dbContext => getDataContext();
+        private string _connString;
+        private DatabaseType _databaseType;
+        private DbProviderFactory _dbProviderFactory;
 
         public DBRepository(string connectionString, DatabaseType databaseType, DbProviderFactory dbProvideerFactory)
         {
-            _dbContext = new Database(connectionString, databaseType, dbProvideerFactory);
+            _connString = connectionString;
+            _databaseType = databaseType;
+            _dbProviderFactory = dbProvideerFactory;
+        }
+
+        private Database getDataContext()
+        {
+            return new Database(_connString, _databaseType, _dbProviderFactory);
         }
 
         /// <summary>
@@ -37,6 +47,14 @@ namespace Identity.Model.Repositories
         {
             var obj = await _dbContext.InsertAsync<T>(item);
             return obj as T;
+        }
+
+        public void Dispose()
+        {
+            if(_dbContext != null)
+            {
+                _dbContext.Dispose();
+            }
         }
     }
 }

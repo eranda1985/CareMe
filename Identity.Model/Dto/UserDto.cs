@@ -6,5 +6,7 @@ namespace Identity.Model.Dto
         public long Id { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
+        public string DeviceType { get; set; }
+        public string SecretKey { get; set; }
     }
 }

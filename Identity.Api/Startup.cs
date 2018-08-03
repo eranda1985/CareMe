@@ -1,7 +1,10 @@
-﻿using Identity.Api.ActionFilters;
+﻿using AutoMapper;
+using Identity.Api.ActionFilters;
 using Identity.Api.Exceptions;
 using Identity.Core;
+using Identity.Model.DataConnections;
 using Identity.Model.Dto;
+using Identity.Model.Models;
 using Identity.Model.Repositories;
 using Identity.Model.Repositories.Interfaces;
 using Identity.Model.Services;
@@ -27,6 +30,7 @@ namespace Identity.Api
         {
             services.Configure<AppSettings>(Configuration)
                     .AddIoC(Configuration)
+                    .ModelMapping(Configuration)
                     .AddCors(options =>
                      {
                          options.AddPolicy("CorsPolicy", builder =>
@@ -62,6 +66,17 @@ namespace Identity.Api
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IService<UserDto>, UserService>();
             services.AddTransient<IExceptionService, ExceptionService>();
+
+            services.AddTransient<IDataConnection, SqlDataConnection>();
+            return services;
+        }
+
+        public static IServiceCollection ModelMapping(this IServiceCollection services, IConfiguration configuration)
+        {
+            Mapper.Initialize(cfg=>
+            {
+                cfg.CreateMap<UserModel, UserDto>();
+            });
             return services;
         }
     }

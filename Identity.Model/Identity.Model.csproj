@@ -10,6 +10,7 @@
     <Folder Include="Repositories\Interfaces\" />
     <Folder Include="Services\" />
     <Folder Include="Dto\" />
+    <Folder Include="DataConnections\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Models\EmptyClass.cs" />
@@ -20,5 +21,6 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="2.2.4" />
     <PackageReference Include="NPoco" Version="3.9.4" />
+    <PackageReference Include="AutoMapper" Version="7.0.1" />
   </ItemGroup>
 </Project>
