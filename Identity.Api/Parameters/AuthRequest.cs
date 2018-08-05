@@ -14,5 +14,7 @@ namespace Identity.Api.Parameters
 
         [Required]
         public string VersionHash { get; set; }
+
+        public string DeviceType { get; set; }
     }
 }

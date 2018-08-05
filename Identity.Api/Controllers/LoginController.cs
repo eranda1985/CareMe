@@ -38,7 +38,7 @@ namespace Identity.Api.Controllers
             _logger.LogDebug(string.Format("Entering Login controller v1.0 {0}.", _configuration["MyKey"]));
 
             // Get the token from Db and return 
-            var res = await ((UserService)_userService).LoginAsync(requestBody.Username, requestBody.Password, requestBody.VersionHash);
+            var res = await ((UserService)_userService).LoginAsync(requestBody.Username, requestBody.Password, requestBody.VersionHash, requestBody.DeviceType);
 
             return Ok(res);
         }

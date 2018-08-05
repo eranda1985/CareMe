@@ -8,5 +8,6 @@ namespace Identity.Model.Dto
         public string Password { get; set; }
         public string DeviceType { get; set; }
         public string SecretKey { get; set; }
+        public DateTime LastLoginDate { get; set; }
     }
 }

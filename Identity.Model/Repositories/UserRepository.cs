@@ -15,7 +15,7 @@ namespace Identity.Model.Repositories
         {
         }
 
-        public async Task<UserModel> AddUserAsync(UserModel user)
+        public async Task<long> AddUserAsync(UserModel user)
         {
             return await Add(user);
         }
@@ -30,6 +30,18 @@ namespace Identity.Model.Repositories
             string sql = @"SELECT * FROM UserDetail where username = @0";
             var result = await Query(sql, name);
             return result.FirstOrDefault();
+        }
+
+        public async Task<UserModel> GetUserByIdAsync(long id)
+        {
+            string sql = @"SELECT * FROM UserDetail where Id = @0";
+            var result = await Query(sql, id);
+            return result.FirstOrDefault();
+        }
+
+        public async Task<long> UpdateUserAsync(UserModel user)
+        {
+            return await Update(user);
         }
 
         private UserModel GetMockUserByName(string name)

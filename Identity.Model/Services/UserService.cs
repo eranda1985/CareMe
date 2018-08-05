@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Identity.Core;
@@ -57,6 +58,15 @@ namespace Identity.Model.Services
             if(user == null)
             {
                 userDto =  await RegisterUserAsync(userName, password, versionHash, deviceType);
+                user = new UserModel
+                {
+                    Id = userDto.Id,
+                    DeviceType = userDto.DeviceType,
+                    LastLoginDate = userDto.LastLoginDate,
+                    Password = userDto.Password,
+                    SecretKey = userDto.SecretKey,
+                    Username = userDto.Username
+                };
             }
             // TODO: Check for app versions. //
 
@@ -65,6 +75,10 @@ namespace Identity.Model.Services
             {
                 _exceptionService.Throw(Validator.UnAuthorized);
             }
+
+            // Update last login date
+            user.LastLoginDate = DateTime.Now;
+            await _userRepository.UpdateUserAsync(user);
 
             // Create claims 
             List<Claim> claims = new List<Claim>
@@ -77,7 +91,7 @@ namespace Identity.Model.Services
             var token = JWTHelper.GenerateUserToken(claims, userDto.SecretKey, _appSettings.JWTSecretKey, _appSettings.JWTExpiry);
 
             // Get the token from Db and return 
-            return new AuthenticationResponseDto { Token = token, Username = user.Username };
+            return new AuthenticationResponseDto { Token = token, Username = userDto.Username };
 
         }
 
@@ -99,14 +113,16 @@ namespace Identity.Model.Services
             _exceptionService.Throw(() => { Validator.CheckStringEmpty(pwd); });
             _exceptionService.Throw(() => { Validator.CheckStringEmpty(versionHash); });
 
-            var newUser = await _userRepository.AddUserAsync(new UserModel
+            var id = await _userRepository.AddUserAsync(new UserModel
             {
                 Username = username,
                 Password = pwd,
                 SecretKey = SecretKey.GenerateKey(64),
-                DeviceType = deviceType
+                DeviceType = deviceType,
+                LastLoginDate = DateTime.Now
             });
 
+            var newUser = await _userRepository.GetUserByIdAsync(id);
             var dto = AutoMapper.Mapper.Map<UserDto>(newUser);
             return dto;
         }

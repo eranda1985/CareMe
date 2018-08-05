@@ -43,10 +43,18 @@ namespace Identity.Model.Repositories
         /// </summary>
         /// <returns>The add.</returns>
         /// <param name="item">Item.</param>
-        protected async Task<T> Add(T item)
+        protected async Task<long> Add(T item)
         {
-            var obj = await _dbContext.InsertAsync<T>(item);
-            return obj as T;
+            var id = await _dbContext.InsertAsync<T>(item);
+            var res =  Convert.ToInt64((Decimal)id);
+            return res;
+        }
+
+        protected async Task<long> Update(T item)
+        {
+            var id = await _dbContext.UpdateAsync(item);
+            var res = Convert.ToInt64(id);
+            return res;
         }
 
         public void Dispose()
