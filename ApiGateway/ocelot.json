@@ -11,6 +11,18 @@
       ],
       "UpstreamPathTemplate": "/login/",
       "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/authentication/signup",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 20192
+        }
+      ],
+      "UpstreamPathTemplate": "/signup/",
+      "UpstreamHttpMethod": [ "POST" ]
     }
   ],
   "GlobalConfiguration": {

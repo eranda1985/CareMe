@@ -52,7 +52,7 @@ namespace Identity.Api.Controllers
         {
             _logger.LogDebug("Entering sign-up controller");
 
-            var auth = await ((UserService)_userService).RegisterUserAsync(requestBody.Username, requestBody.Password);
+            var auth = await ((UserService)_userService).SignUpUserAsync(requestBody.Username, requestBody.Password, requestBody.VersionHash, requestBody.DeviceType);
 
             return Ok(auth);
         }

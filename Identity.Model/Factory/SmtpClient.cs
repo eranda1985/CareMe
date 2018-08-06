@@ -32,7 +32,7 @@ namespace Identity.Model.Factory
       smtpClient.EnableSsl = true;
       MailMessage mail = new MailMessage(emailObj.FromAddress, emailObj.ToAddress);
       mail.Subject = "Test email";
-      mail.Body = "Test body";
+      mail.Body = "Please use the following code to sign-up: 0000";
 
       smtpClient.Send(mail);
 
