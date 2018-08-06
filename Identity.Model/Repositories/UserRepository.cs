@@ -27,27 +27,31 @@ namespace Identity.Model.Repositories
 
         public async Task<UserModel> GetUserByNameAsync(string name)
         {
-            string sql = @"SELECT * FROM UserDetail where username = @0";
-            var result = await Query(sql, name);
-            return result.FirstOrDefault();
+      //string sql = @"SELECT * FROM UserDetail where username = @0";
+      //var result = await Query(sql, name);
+      //return result.FirstOrDefault();
+      return GetMockUserByName(name);
         }
 
         public async Task<UserModel> GetUserByIdAsync(long id)
         {
-            string sql = @"SELECT * FROM UserDetail where Id = @0";
-            var result = await Query(sql, id);
-            return result.FirstOrDefault();
+      //string sql = @"SELECT * FROM UserDetail where Id = @0";
+      //var result = await Query(sql, id);
+      //return result.FirstOrDefault();
+      return GetMockUserByName("test@123.com");
         }
 
         public async Task<long> UpdateUserAsync(UserModel user)
         {
-            return await Update(user);
-        }
+            //return await Update(user);
+            return GetMockUserByName("test@123.com").Id;
+    }
 
         private UserModel GetMockUserByName(string name)
         {
-            return name == "test@123.com" ? new UserModel
-            {
+      return name == "test@123.com" ? new UserModel
+      {
+        Id = 1L,DeviceType = "iOS", SecretKey = "secret",
                 Username = "test@123.com",
                 Password = "testPassword"
             } : null;

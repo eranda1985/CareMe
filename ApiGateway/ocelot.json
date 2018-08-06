@@ -1,0 +1,19 @@
+﻿{
+  "ReRoutes": [
+    {
+      "DownstreamPathTemplate": "/authentication/login",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 20192
+        }
+      ],
+      "UpstreamPathTemplate": "/login/",
+      "UpstreamHttpMethod": [ "POST" ]
+    }
+  ],
+  "GlobalConfiguration": {
+   
+  }
+}
