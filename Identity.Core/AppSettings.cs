@@ -4,11 +4,17 @@ using System.Collections.Generic;
 
 namespace Identity.Core
 {
-    public class AppSettings
-    {
-        public string MyKey { get; }
-        public int JWTExpiry { get; set; }
-        public string JWTSecretKey { get; set; }
-        public Dictionary<string, string> ConnectionStrings { get; set; }
-    }
+  public class AppSettings
+  {
+    public string MyKey { get; }
+    public int JWTExpiry { get; set; }
+    public string JWTSecretKey { get; set; }
+    public Dictionary<string, string> ConnectionStrings { get; set; }
+
+    public string SmtpUserName { get; set; }
+    public string SmtpPassword { get; set; }
+    public string SmtpProvider { get; set; }
+    public int SmtpPort { get; set; }
+
+  }
 }

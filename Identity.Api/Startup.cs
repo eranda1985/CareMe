@@ -4,6 +4,7 @@ using Identity.Api.Exceptions;
 using Identity.Core;
 using Identity.Model.DataConnections;
 using Identity.Model.Dto;
+using Identity.Model.Factory;
 using Identity.Model.Models;
 using Identity.Model.Repositories;
 using Identity.Model.Repositories.Interfaces;
@@ -65,6 +66,8 @@ namespace Identity.Api
         {
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IService<UserDto>, UserService>();
+            services.AddTransient<IService<EmailDto>, EmailService>();
+            services.AddTransient<IClientFactory, ClientFactory>();
             services.AddTransient<IExceptionService, ExceptionService>();
 
             services.AddTransient<IDataConnection, SqlDataConnection>();

@@ -32,5 +32,13 @@ namespace Identity.Core.Validators
                 throw new ValidationException();
             }
         }
+
+    public static void CheckType<T>(object obj)
+    {
+      if (typeof(T) != obj.GetType())
+      {
+        throw new ValidationException();
+      }
     }
+  }
 }

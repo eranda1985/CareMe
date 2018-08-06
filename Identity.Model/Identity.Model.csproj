@@ -8,8 +8,6 @@
     <Folder Include="Repositories\" />
     <Folder Include="Models\" />
     <Folder Include="Repositories\Interfaces\" />
-    <Folder Include="Services\" />
-    <Folder Include="Dto\" />
     <Folder Include="DataConnections\" />
   </ItemGroup>
   <ItemGroup>

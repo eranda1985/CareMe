@@ -20,18 +20,21 @@ namespace Identity.Model.Services
         private readonly IUserRepository _userRepository;
         private IConfiguration _configuration;
         private readonly AppSettings _appSettings;
+        private readonly IService<EmailDto> _emailService;
 
         private ILogger<UserService> _logger;
 
         public UserService(ILogger<UserService> logger, IExceptionService exceptionService,
                            IUserRepository userRepo,
-                           IConfiguration configuration)
+                           IConfiguration configuration,
+                           IService<EmailDto> emailService)
         {
             _exceptionService = exceptionService;
             _userRepository = userRepo;
             _logger = logger;
             _configuration = configuration;
             _appSettings = configuration.Get<AppSettings>();
+      _emailService = emailService;
         }
 
         /// <summary>
@@ -57,17 +60,20 @@ namespace Identity.Model.Services
 
             if(user == null)
             {
-                userDto =  await RegisterUserAsync(userName, password, versionHash, deviceType);
-                user = new UserModel
-                {
-                    Id = userDto.Id,
-                    DeviceType = userDto.DeviceType,
-                    LastLoginDate = userDto.LastLoginDate,
-                    Password = userDto.Password,
-                    SecretKey = userDto.SecretKey,
-                    Username = userDto.Username
-                };
-            }
+        var emailService = _emailService as EmailService;
+        emailService.SendMail("eranda.lakshantha@gmail.com", "eranda1985@yahoo.com");
+                return new AuthenticationResponseDto { Token = "", Username = userName };
+                //userDto =  await RegisterUserAsync(userName, password, versionHash, deviceType);
+                //user = new UserModel
+                //{
+                //    Id = userDto.Id,
+                //    DeviceType = userDto.DeviceType,
+                //    LastLoginDate = userDto.LastLoginDate,
+                //    Password = userDto.Password,
+                //    SecretKey = userDto.SecretKey,
+                //    Username = userDto.Username
+              //};
+             }
             // TODO: Check for app versions. //
 
             // Ensure the passwords match. 
