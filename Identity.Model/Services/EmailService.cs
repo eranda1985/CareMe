@@ -37,7 +37,7 @@ namespace Identity.Model.Services
       smtpFac.Password = _appSettings.SmtpPassword;
       smtpFac.SmtpDomain = _appSettings.SmtpProvider;
       smtpFac.SmtpPort = _appSettings.SmtpPort;
-      smtpFac.SendRequest(_emailDto);
+      smtpFac.SendRequest(_emailDto); // <- Potential place to implement resilient connections. 
     }
 
   }
