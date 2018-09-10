@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Compile Remove="Class1.cs" />
+    <Compile Remove=":Users:geethamali:Projects:CareMeApp:CareMe.Core:Factory:ApiClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Exceptions\" />
