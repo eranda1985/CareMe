@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Identity.Api.Parameters;
 using Identity.Model.Dto;
 using Identity.Model.Services;
@@ -18,14 +19,17 @@ namespace Identity.Api.Controllers
         private readonly ILogger<LoginController> _logger;
         private readonly IConfiguration _configuration;
         private readonly IService<UserDto> _userService;
+        private readonly IService<VersionDto> _versionService;
 
         public LoginController(ILogger<LoginController> logger,
                                IConfiguration configuration,
-                               IService<UserDto> userService)
+                               IService<UserDto> userService,
+                               IService<VersionDto> versionservice)
         {
             _logger = logger;
             _configuration = configuration;
             _userService = userService;
+            _versionService = versionservice;
         }
 
         [HttpPost]
@@ -55,6 +59,20 @@ namespace Identity.Api.Controllers
             var auth = await ((UserService)_userService).SignUpUserAsync(requestBody.Username, requestBody.Password, requestBody.VersionHash, requestBody.DeviceType);
 
             return Ok(auth);
+        }
+
+        [HttpGet]
+        [Route("version/{devicetype}")]
+        [ProducesResponseType(200, Type = typeof(List<VersionDto>))]
+        [ProducesResponseType(401)]
+        [MapToApiVersion("1.0")]
+        public async Task<IActionResult> GetVersions([FromRoute] string devicetype)
+        {
+            _logger.LogDebug("Entering version check");
+
+            var res = await ((VersionService)_versionService).GetAllowedVersionsAsync(devicetype);
+
+            return Ok(res);
         }
     }
 }

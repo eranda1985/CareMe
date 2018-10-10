@@ -14,5 +14,7 @@ namespace Identity.Model.Models
         public string VersionNumber { get; set; }
         [Column("Enabled")]
         public bool Enabled { get; set; }
+        [Column("DeviceType")]
+        public string DeviceType { get; set; }
     }
 }

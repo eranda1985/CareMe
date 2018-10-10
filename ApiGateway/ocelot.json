@@ -5,7 +5,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "192.168.0.103",
           "Port": 20191
         }
       ],
@@ -17,12 +17,24 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "192.168.0.103",
           "Port": 20191
         }
       ],
       "UpstreamPathTemplate": "/signup/",
       "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/authentication/version/{devicetype}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "192.168.0.103",
+          "Port": 20191
+        }
+      ],
+      "UpstreamPathTemplate": "/versions/{devicetype}",
+      "UpstreamHttpMethod": [ "GET" ]
     }
   ],
   "GlobalConfiguration": {

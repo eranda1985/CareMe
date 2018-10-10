@@ -38,24 +38,24 @@ namespace Identity.Model.Repositories
             //string sql = @"SELECT * FROM UserDetail where Id = @0";
             //var result = await Query(sql, id);
             //return result.FirstOrDefault();
-            return GetMockUserByName("test@123.com");
+            return GetMockUserByName("eranda1985@yahoo.com");
         }
 
         public async Task<long> UpdateUserAsync(UserModel user)
         {
             //return await Update(user);
-            return GetMockUserByName("test@123.com").Id;
+            return GetMockUserByName("eranda1985@yahoo.com").Id;
         }
 
         private UserModel GetMockUserByName(string name)
         {
-            return name == "test@123.com" ? new UserModel
+            return name == "eranda1985@yahoo.com" ? new UserModel
             {
                 Id = 1L,
                 DeviceType = "iOS",
                 SecretKey = "secret",
-                Username = "test@123.com",
-                Password = "testPassword"
+                Username = name,
+                Password = "test123"
             } : null;
         }
     }

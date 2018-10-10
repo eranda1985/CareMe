@@ -7,9 +7,9 @@ namespace Identity.Core.Validators
     {
         public static void CheckNull<T>(T obj)
         {
-            if(obj == null)
+            if (obj == null)
             {
-                throw new ArgumentNullException();  
+                throw new ArgumentNullException();
             }
         }
 
@@ -21,24 +21,25 @@ namespace Identity.Core.Validators
             }
         }
 
-        public static void UnAuthorized(){
+        public static void UnAuthorized()
+        {
             throw new UnauthorizedAccessException();
         }
 
         public static void CheckArgsLength(object[] args, int length)
         {
-            if(args.Length != length)
+            if (args.Length != length)
             {
                 throw new ValidationException();
             }
         }
 
-    public static void CheckType<T>(object obj)
-    {
-      if (typeof(T) != obj.GetType())
-      {
-        throw new ValidationException();
-      }
+        public static void CheckType<T>(object obj)
+        {
+            if (typeof(T) != obj.GetType())
+            {
+                throw new ValidationException();
+            }
+        }
     }
-  }
 }
