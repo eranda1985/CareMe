@@ -17,7 +17,8 @@ namespace Identity.Model.Repositories
 
         public async Task<long> AddUserAsync(UserModel user)
         {
-            return await Add(user);
+            //return await Add(user);
+            return 2L;
         }
 
         public List<UserModel> GetAll()
