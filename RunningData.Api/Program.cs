@@ -20,7 +20,7 @@ namespace RunningData.Api
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
-                   .ConfigureLogging((hostinContext, logging)=>
+                   .ConfigureLogging((hostinContext, logging) =>
         {
             logging.AddLog4Net();
             logging.SetMinimumLevel(LogLevel.Error);
