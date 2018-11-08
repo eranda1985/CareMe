@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -15,7 +15,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="NPoco" Version="3.9.4" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="2.2.6" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="2.2.4" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RunningData.Core\RunningData.Core.csproj" />

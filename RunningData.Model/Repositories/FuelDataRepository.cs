@@ -17,8 +17,9 @@ namespace RunningData.Model.Repositories
 
         public async Task<bool> AddFuelData(FuelDataModel poco)
         {
-            var res = await Add(poco);
-            return (res > -1);
+            //var res = await Add(poco);
+            //return (res > -1);
+            return true;
         }
 
         public List<FuelDataModel> GetAll()

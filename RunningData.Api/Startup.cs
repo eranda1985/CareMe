@@ -30,19 +30,20 @@ namespace RunningData.Api
             services.Configure<AppSettings>(Configuration);
             services.AddIoC(Configuration)
             .AddCors(options =>
-                    {
-                        options.AddPolicy("CorsPolicy", builder =>
-                        {
-                            builder.AllowAnyOrigin()
-                                   .AllowAnyMethod()
-                                   .AllowAnyHeader();
-                        });
-                    })
-                    .AddMvc(options =>
-                    {
-                        options.Filters.Add(typeof(GlobalExceptionHandler));
-                    })
-                .AddControllersAsServices();
+            {
+                options.AddPolicy("CorsPolicy", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+                    });
+            })
+            .AddMvc(options =>
+            {
+                options.Filters.Add(typeof(GlobalExceptionHandler));
+            })
+            .AddControllersAsServices();
+
             services.AddApiVersioning(o =>
             {
                 o.ApiVersionReader = new HeaderApiVersionReader("api-version");
@@ -52,12 +53,13 @@ namespace RunningData.Api
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddLog4Net();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
             app.UseMvc();
-            loggerFactory.AddLog4Net();
         }
     }
 

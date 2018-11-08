@@ -19,11 +19,12 @@ namespace RunningData.Api
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+            .UseKestrel()
                 .UseStartup<Startup>()
                    .ConfigureLogging((hostinContext, logging) =>
         {
             logging.AddLog4Net();
-            logging.SetMinimumLevel(LogLevel.Error);
+            logging.SetMinimumLevel(LogLevel.Debug);
         });
     }
 }
