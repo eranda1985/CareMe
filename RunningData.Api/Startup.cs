@@ -1,17 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RunningData.Api.Exceptions;
 using RunningData.Core;
+using RunningData.Model.DataConnections;
+using RunningData.Model.Dto;
+using RunningData.Model.Repositories;
+using RunningData.Model.Repositories.Interfaces;
 using RunningData.Model.Services;
 
 namespace RunningData.Api
@@ -54,6 +60,7 @@ namespace RunningData.Api
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddLog4Net();
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -68,6 +75,10 @@ namespace RunningData.Api
         public static IServiceCollection AddIoC(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddTransient<IExceptionService, ExceptionService>();
+            services.AddTransient<IService<FuelDataDto>, FuelDataService>();
+            services.AddTransient<IFuelDataRepository, FuelDataRepository>();
+            services.AddTransient<IDataConnection, SqlDataConnection>();
+
             return services;
         }
 

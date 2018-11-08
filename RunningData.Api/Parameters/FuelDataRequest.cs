@@ -1,10 +1,13 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 
 namespace RunningData.Api.Parameters
 {
     public class FuelDataRequest
     {
+        [JsonProperty(PropertyName = "mileage")]
         public string Mileage
         {
             get;
@@ -12,20 +15,22 @@ namespace RunningData.Api.Parameters
         }
 
         [Required]
-        [DataType(DataType.DateTime)]
-        public DateTime Date
+        [JsonProperty(PropertyName = "date")]
+        public string Date
         {
             get;
             set;
         }
 
         [DataType(DataType.Currency)]
+        [JsonProperty(PropertyName = "price")]
         public double Price
         {
             get;
             set;
         }
 
+        [JsonProperty(PropertyName = "litres")]
         public double Litres
         {
             get;

@@ -16,6 +16,6 @@ namespace RunningData.Model.Models
         public double Price { get; set; }
 
         [Column("Mileage")]
-        public double Mileage { get; set; }
+        public string Mileage { get; set; }
     }
 }

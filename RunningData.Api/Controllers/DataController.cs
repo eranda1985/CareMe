@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -37,7 +38,10 @@ namespace RunningData.Api.Controllers
         public async Task<bool> InsertFuelData([FromBody]FuelDataRequest request)
         {
             _logger.LogDebug("Entering InsertFuelData method.");
-            var res = await ((FuelDataService)_fuelService).InsertAsync(request.Date, request.Litres, request.Price, request.Mileage);
+            var res = await ((FuelDataService)_fuelService).InsertAsync(DateTime.Parse(request.Date,CultureInfo.GetCultureInfo("en-AU"))
+                , request.Litres, 
+                request.Price, 
+                request.Mileage);
             return res;
         }
     }

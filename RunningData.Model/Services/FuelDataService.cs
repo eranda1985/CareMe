@@ -37,13 +37,13 @@ namespace RunningData.Model.Services
             _exceptionService.Throw(() => Validator.CheckArgsLength(args, 4));
             _exceptionService.Throw(() => Validator.CheckType<DateTime>(args[0]));
             _exceptionService.Throw(() => Validator.CheckType<double>(args[1]));
-            _exceptionService.Throw(() => Validator.CheckType<DateTime>(args[2]));
-            _exceptionService.Throw(() => Validator.CheckType<DateTime>(args[3]));
+            _exceptionService.Throw(() => Validator.CheckType<double>(args[2]));
+            _exceptionService.Throw(() => Validator.CheckType<string>(args[3]));
 
             var date = (DateTime)args[0];
             var litres = (double)args[1];
             var price = (double)args[2];
-            var mileage = (double)args[3];
+            var mileage = (string)args[3];
 
             return await _fuelDataRepository.AddFuelData(new FuelDataModel
             {
