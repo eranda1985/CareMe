@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using RunningData.Api.ActionFilters;
 using RunningData.Api.Exceptions;
 using RunningData.Core;
 using RunningData.Model.DataConnections;
@@ -47,6 +48,7 @@ namespace RunningData.Api
             .AddMvc(options =>
             {
                 options.Filters.Add(typeof(GlobalExceptionHandler));
+                //options.Filters.Add(typeof(AuthorizeUserTokenAttribute)); // Can't register the filter here since it uses DI
             })
             .AddControllersAsServices();
 
@@ -54,6 +56,8 @@ namespace RunningData.Api
             {
                 o.ApiVersionReader = new HeaderApiVersionReader("api-version");
             });
+
+            services.AddScoped<AuthorizeUserTokenAttribute>(); // <-- Retrives the instance of the filter from DI
         }
 
 

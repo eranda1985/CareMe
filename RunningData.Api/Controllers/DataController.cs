@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using RunningData.Api.ActionFilters;
 using RunningData.Api.Parameters;
 using RunningData.Model.Dto;
 using RunningData.Model.Services;
@@ -17,6 +18,7 @@ namespace RunningData.Api.Controllers
     [Route("postdata")]
     [Produces("application/json")]
     [ApiVersion("1.0")]
+    [ServiceFilter(typeof(AuthorizeUserTokenAttribute))]
     public class DataController : Controller
     {
         private IService<FuelDataDto> _fuelService;
