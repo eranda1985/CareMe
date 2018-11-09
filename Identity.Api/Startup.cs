@@ -77,7 +77,10 @@ namespace Identity.Api
 
             services.AddTransient<IDataConnection, SqlDataConnection>();
 
-            services.AddSingleton<IServiceBus, RabbitMQServiceBus>();
+            services.AddSingleton<IServiceBus, RabbitMQServiceBus>(sp=> 
+						{
+							return new RabbitMQServiceBus();
+						});
             return services;
         }
 

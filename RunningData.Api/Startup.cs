@@ -72,8 +72,9 @@ namespace RunningData.Api
             {
                 app.UseDeveloperExceptionPage();
             }
-            var eventBus = app.ApplicationServices.GetRequiredService<IServiceBus>();
-            eventBus.Subscribe<IdentityUserAddedEvent, IdentityUserAddEventHandler>("UserAdded");
+            
+			var eventBus = app.ApplicationServices.GetRequiredService<IServiceBus>();
+			eventBus.Subscribe<IdentityUserAddedEvent, IdentityUserAddEventHandler>("UserAdded");
 
             app.UseMvc();
         }
@@ -89,8 +90,13 @@ namespace RunningData.Api
             services.AddTransient<IDataConnection, SqlDataConnection>();
             services.AddTransient<IdentityUserAddEventHandler>();
 
-            services.AddSingleton<IServiceBus, RabbitMQServiceBus>();
-
+						services.AddSingleton<ISubscriptionManager, RunningDataSubscriptionManager>();
+						services.AddSingleton<IServiceBus, RabbitMQServiceBus>(sp => 
+						{
+							var subsManager = sp.GetRequiredService<ISubscriptionManager>();
+							return new RabbitMQServiceBus(subsManager);
+						});
+						
             return services;
         }
 
