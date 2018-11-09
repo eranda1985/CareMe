@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using CareMe.IntegrationService;
+using CareMe.RabbitMQIntegrationService;
 using Identity.Api.ActionFilters;
 using Identity.Api.Exceptions;
 using Identity.Core;
@@ -74,6 +76,8 @@ namespace Identity.Api
             services.AddTransient<IExceptionService, ExceptionService>();
 
             services.AddTransient<IDataConnection, SqlDataConnection>();
+
+            services.AddSingleton<IServiceBus, RabbitMQServiceBus>();
             return services;
         }
 

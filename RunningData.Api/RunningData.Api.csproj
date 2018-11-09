@@ -37,6 +37,8 @@
     <Compile Remove="RunningData.Core\Exceptions\ValidationException.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CareMe.IntegrationService\CareMe.IntegrationService.csproj" />
+    <ProjectReference Include="..\CareMe.RabbitMQIntegrationService\CareMe.RabbitMQIntegrationService.csproj" />
     <ProjectReference Include="..\RunningData.Core\RunningData.Core.csproj" />
     <ProjectReference Include="..\RunningData.Model\RunningData.Model.csproj" />
   </ItemGroup>

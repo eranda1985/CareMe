@@ -4,6 +4,8 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using CareMe.IntegrationService;
+using CareMe.RabbitMQIntegrationService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -14,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RunningData.Api.ActionFilters;
 using RunningData.Api.Exceptions;
+using RunningData.Api.IntegrationEventHandlers;
 using RunningData.Core;
 using RunningData.Model.DataConnections;
 using RunningData.Model.Dto;
@@ -69,6 +72,8 @@ namespace RunningData.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+            var eventBus = app.ApplicationServices.GetRequiredService<IServiceBus>();
+            eventBus.Subscribe<IdentityUserAddedEvent, IdentityUserAddEventHandler>("UserAdded");
 
             app.UseMvc();
         }
@@ -82,6 +87,9 @@ namespace RunningData.Api
             services.AddTransient<IService<FuelDataDto>, FuelDataService>();
             services.AddTransient<IFuelDataRepository, FuelDataRepository>();
             services.AddTransient<IDataConnection, SqlDataConnection>();
+            services.AddTransient<IdentityUserAddEventHandler>();
+
+            services.AddSingleton<IServiceBus, RabbitMQServiceBus>();
 
             return services;
         }

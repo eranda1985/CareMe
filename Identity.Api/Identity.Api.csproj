@@ -37,6 +37,8 @@
     <None Include="appsettings.json" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CareMe.IntegrationService\CareMe.IntegrationService.csproj" />
+    <ProjectReference Include="..\CareMe.RabbitMQIntegrationService\CareMe.RabbitMQIntegrationService.csproj" />
     <ProjectReference Include="..\Identity.Model\Identity.Model.csproj" />
     <ProjectReference Include="..\Identity.Core\Identity.Core.csproj" />
   </ItemGroup>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using CareMe.IntegrationService;
 using Identity.Core;
 using Identity.Core.Security;
 using Identity.Core.Security.KeyGenerators;
@@ -21,13 +22,15 @@ namespace Identity.Model.Services
         private IConfiguration _configuration;
         private readonly AppSettings _appSettings;
         private readonly IService<EmailDto> _emailService;
+        private readonly IServiceBus _serviceBus;
 
         private ILogger<UserService> _logger;
 
         public UserService(ILogger<UserService> logger, IExceptionService exceptionService,
                            IUserRepository userRepo,
                            IConfiguration configuration,
-                           IService<EmailDto> emailService)
+                           IService<EmailDto> emailService,
+                           IServiceBus serviceBus)
         {
             _exceptionService = exceptionService;
             _userRepository = userRepo;
@@ -35,6 +38,7 @@ namespace Identity.Model.Services
             _configuration = configuration;
             _appSettings = configuration.Get<AppSettings>();
             _emailService = emailService;
+            _serviceBus = serviceBus;
         }
 
         /// <summary>
@@ -162,6 +166,9 @@ namespace Identity.Model.Services
             {
                 _exceptionService.Throw(Validator.UnAuthorized);
             }
+
+            // Make sure to communicate this new user to RunningData API for integration purposes. 
+            _serviceBus.Publish<IdentityUserAddedEvent>(new IdentityUserAddedEvent(userDto.Username, userDto.SecretKey));
 
             // Update last login date
             user.LastLoginDate = DateTime.Now;
