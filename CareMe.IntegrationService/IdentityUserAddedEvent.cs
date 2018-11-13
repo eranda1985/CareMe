@@ -11,7 +11,7 @@ namespace CareMe.IntegrationService
 
         public IdentityUserAddedEvent(string userName, string secret)
         {
-            Username = Username;
+            Username = userName;
             UserSecret = secret;
         }
     }

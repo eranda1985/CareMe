@@ -20,6 +20,7 @@ using RunningData.Api.IntegrationEventHandlers;
 using RunningData.Core;
 using RunningData.Model.DataConnections;
 using RunningData.Model.Dto;
+using RunningData.Model.Models;
 using RunningData.Model.Repositories;
 using RunningData.Model.Repositories.Interfaces;
 using RunningData.Model.Services;
@@ -39,6 +40,7 @@ namespace RunningData.Api
         {
             services.Configure<AppSettings>(Configuration);
             services.AddIoC(Configuration)
+						.ModelMapping(Configuration)
             .AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy", builder =>
@@ -60,7 +62,7 @@ namespace RunningData.Api
                 o.ApiVersionReader = new HeaderApiVersionReader("api-version");
             });
 
-            services.AddScoped<AuthorizeUserTokenAttribute>(); // <-- Retrives the instance of the filter from DI
+            services.AddScoped<AuthorizeUserTokenAttribute>(); // <-- Retrieves the instance of the filter from DI
         }
 
 
@@ -86,7 +88,9 @@ namespace RunningData.Api
         {
             services.AddTransient<IExceptionService, ExceptionService>();
             services.AddTransient<IService<FuelDataDto>, FuelDataService>();
+						services.AddTransient<IService<UserDataDto>, UserDataService>();
             services.AddTransient<IFuelDataRepository, FuelDataRepository>();
+						services.AddTransient<IUserDataRepository, UserDataRepository>();
             services.AddTransient<IDataConnection, SqlDataConnection>();
             services.AddTransient<IdentityUserAddEventHandler>();
 
@@ -104,7 +108,9 @@ namespace RunningData.Api
         {
             Mapper.Initialize(cfg =>
             {
-                
+							cfg.CreateMap<UserDataDto, UserDataModel>()
+							.ForMember(dest => dest.UserName, opt=>opt.MapFrom(src=>src.Username))
+							.ForMember(dest => dest.SecretKey, opt => opt.MapFrom(src => src.Secret));
             });
             return services;
         }
