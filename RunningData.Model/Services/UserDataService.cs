@@ -28,5 +28,11 @@ namespace RunningData.Model.Services
 			var res = await _userDataRepository.UpsertUser(model);
 			return res;
 		}
+
+		public async Task<UserDataDto> GetUserByName(string name)
+		{
+			var res = await _userDataRepository.GetUserByName(name);
+			return new UserDataDto { Username = res.UserName, Secret = res.SecretKey };
+		}
 	}
 }

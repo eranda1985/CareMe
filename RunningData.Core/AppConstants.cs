@@ -3,6 +3,6 @@ namespace RunningData.Core
 {
     public class AppConstants
     {
-        public const string CareMeDatabase = "CareMeDatabase";
+        public const string CareMeDatabase = "CareMeRunningData";
     }
 }
