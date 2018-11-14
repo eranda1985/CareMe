@@ -8,7 +8,7 @@ namespace RunningData.Api.Parameters
     public class FuelDataRequest
     {
         [JsonProperty(PropertyName = "mileage")]
-        public string Mileage
+        public double Mileage
         {
             get;
             set;
@@ -24,7 +24,7 @@ namespace RunningData.Api.Parameters
 
         [DataType(DataType.Currency)]
         [JsonProperty(PropertyName = "price")]
-        public double Price
+        public decimal Price
         {
             get;
             set;

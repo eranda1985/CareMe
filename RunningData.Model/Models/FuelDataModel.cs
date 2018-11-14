@@ -13,9 +13,9 @@ namespace RunningData.Model.Models
         public double Litres { get; set; }
 
         [Column("Price")]
-        public double Price { get; set; }
+        public decimal Price { get; set; }
 
         [Column("Mileage")]
-        public string Mileage { get; set; }
+        public double Mileage { get; set; }
     }
 }
