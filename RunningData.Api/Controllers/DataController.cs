@@ -36,7 +36,7 @@ namespace RunningData.Api.Controllers
         [Route("fuel")]
         [ProducesResponseType(200, Type=typeof(bool))]
         [MapToApiVersion("1.0")]
-				[ServiceFilter(typeof(AuthorizeUserTokenAttribute))]
+	    [ServiceFilter(typeof(AuthorizeUserTokenAttribute))]
         public async Task<bool> InsertFuelData([FromBody]FuelDataRequest request)
         {
             _logger.LogDebug("Entering InsertFuelData method.");

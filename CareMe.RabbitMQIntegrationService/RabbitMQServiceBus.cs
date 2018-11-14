@@ -39,7 +39,7 @@ namespace CareMe.RabbitMQIntegrationService
 		{
 			var handler = _subscriptionManager.GetEventHandler<H>();
 			
-			_bus.Subscribe<T>(subscriptionId, handler.HandleEvent);
+			_bus.SubscribeAsync<T>(subscriptionId, handler.HandleEvent);
 		}
 
 		public IBus GetBus()

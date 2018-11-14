@@ -19,8 +19,9 @@ namespace RunningData.Model.Repositories
 
 		public async Task<bool> AddUser(UserDataModel user)
 		{
-			var res = await Add(user);
-			return res > -1;
+            //var res = await Add(user);
+            //return res > -1;
+            return true;
 		}
 
 		public List<UserDataModel> GetAll()

@@ -7,6 +7,6 @@ namespace CareMe.IntegrationService
 {
     public interface IIntegrationEventHandler
     {
-        void HandleEvent(IntegrationEvent @event);
+        Task HandleEvent(IntegrationEvent @event);
     }
 }

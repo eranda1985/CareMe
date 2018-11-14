@@ -88,19 +88,19 @@ namespace RunningData.Api
         {
             services.AddTransient<IExceptionService, ExceptionService>();
             services.AddTransient<IService<FuelDataDto>, FuelDataService>();
-						services.AddTransient<IService<UserDataDto>, UserDataService>();
+            services.AddTransient<IService<UserDataDto>, UserDataService>();
             services.AddTransient<IFuelDataRepository, FuelDataRepository>();
-						services.AddTransient<IUserDataRepository, UserDataRepository>();
+            services.AddTransient<IUserDataRepository, UserDataRepository>();
             services.AddTransient<IDataConnection, SqlDataConnection>();
             services.AddTransient<IdentityUserAddEventHandler>();
 
-						services.AddSingleton<ISubscriptionManager, RunningDataSubscriptionManager>();
-						services.AddSingleton<IServiceBus, RabbitMQServiceBus>(sp => 
-						{
-							var subsManager = sp.GetRequiredService<ISubscriptionManager>();
-							return new RabbitMQServiceBus(subsManager);
-						});
-						
+			services.AddSingleton<ISubscriptionManager, RunningDataSubscriptionManager>();
+			services.AddSingleton<IServiceBus, RabbitMQServiceBus>(sp => 
+			{
+				var subsManager = sp.GetRequiredService<ISubscriptionManager>();
+				return new RabbitMQServiceBus(subsManager);
+			});
+
             return services;
         }
 
