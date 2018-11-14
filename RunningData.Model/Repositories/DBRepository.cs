@@ -46,7 +46,7 @@ namespace RunningData.Model.Repositories
         protected async Task<long> Add(T item)
         {
             var id = await _dbContext.InsertAsync<T>(item);
-            var res =  Convert.ToInt64((Decimal)id);
+            var res =  Convert.ToInt64(id);
             return res;
         }
 

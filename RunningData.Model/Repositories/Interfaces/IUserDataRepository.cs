@@ -8,6 +8,7 @@ namespace RunningData.Model.Repositories.Interfaces
 {
 	public interface IUserDataRepository: IRepository<UserDataModel>
 	{
-		Task<bool> AddUser(UserDataModel user);
+		Task<bool> UpsertUser(UserDataModel user);
+        Task<UserDataModel> GetUserByName(string username);
 	}
 }

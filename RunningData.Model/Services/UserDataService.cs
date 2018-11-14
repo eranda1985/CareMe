@@ -25,7 +25,7 @@ namespace RunningData.Model.Services
 		public async Task<bool> AddNewUser(UserDataDto userDto)
 		{
 			var model = Mapper.Map<UserDataModel>(userDto);
-			var res = await _userDataRepository.AddUser(model);
+			var res = await _userDataRepository.UpsertUser(model);
 			return res;
 		}
 	}

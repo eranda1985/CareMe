@@ -5,6 +5,7 @@ using RunningData.Model.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,16 +18,23 @@ namespace RunningData.Model.Repositories
 		{
 		}
 
-		public async Task<bool> AddUser(UserDataModel user)
+		public async Task<bool> UpsertUser(UserDataModel user)
 		{
-            //var res = await Add(user);
-            //return res > -1;
-            return true;
-		}
+            var userExisting = await GetUserByName(user.UserName);
+            var res = (userExisting == null) ? await Add(user) : await Update(user);
+            return res > -1;
+            //return true;
+        }
 
-		public List<UserDataModel> GetAll()
-		{
-			throw new NotImplementedException();
-		}
-	}
+		public async Task<UserDataModel> GetUserByName(string username)
+        {
+            var user = await Query("Select * from UserData WHERE UserName=@0", username);
+            return user?.FirstOrDefault();
+        }
+
+        public List<UserDataModel> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
