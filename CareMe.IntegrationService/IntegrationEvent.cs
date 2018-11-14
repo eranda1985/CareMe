@@ -2,7 +2,7 @@
 
 namespace CareMe.IntegrationService
 {
-    public class IntegrationEvent
+    public abstract class IntegrationEvent
     {
         public Guid Id { get; }
         public DateTime CreationDate { get; }

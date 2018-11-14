@@ -6,8 +6,8 @@ namespace CareMe.IntegrationService
 {
     public class IdentityUserAddedEvent: IntegrationEvent
     {
-        public string Username { get; private set; }
-        public string UserSecret { get; private set; }
+        public string Username { get; set; }
+        public string UserSecret { get; set; }
 
         public IdentityUserAddedEvent(string userName, string secret)
         {

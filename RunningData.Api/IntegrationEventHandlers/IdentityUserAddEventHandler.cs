@@ -20,7 +20,7 @@ namespace RunningData.Api.IntegrationEventHandlers
         {
             var e = @event as IdentityUserAddedEvent;
 			var t = e.UserSecret;
-            _logger.LogDebug("Handling RabbitMQ subscription for user {0}", e.Username);
+            _logger.LogDebug("Handling RabbitMQ subscription for user {0} and secret {1}", e.Username, e.UserSecret);
         }
     }
 }

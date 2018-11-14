@@ -168,7 +168,9 @@ namespace Identity.Model.Services
             }
 
             // Make sure to communicate this new user to RunningData API for integration purposes. 
-            _serviceBus.Publish<IdentityUserAddedEvent>(new IdentityUserAddedEvent(userDto.Username, userDto.SecretKey));
+            var msg = new IdentityUserAddedEvent(userDto.Username, userDto.SecretKey);
+            _logger.LogDebug("Publish Message username: {0} secret: {1}", msg.Username, msg.UserSecret);
+            _serviceBus.Publish<IdentityUserAddedEvent>(msg);
 
             // Update last login date
             user.LastLoginDate = DateTime.Now;
