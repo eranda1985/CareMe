@@ -28,9 +28,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RunningData.Model", "Runnin
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IntegrationServices", "IntegrationServices", "{DED14981-FB32-4AC0-A483-2B1818F4D52A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CareMe.IntegrationService", "CareMe.IntegrationService\CareMe.IntegrationService.csproj", "{87311929-7675-4A08-9F8E-4CEA3D318151}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CareMe.IntegrationService", "CareMe.IntegrationService\CareMe.IntegrationService.csproj", "{87311929-7675-4A08-9F8E-4CEA3D318151}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CareMe.RabbitMQIntegrationService", "CareMe.RabbitMQIntegrationService\CareMe.RabbitMQIntegrationService.csproj", "{F1510B9C-E4CD-4547-8B43-8AE8B75B9D9D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CareMe.RabbitMQIntegrationService", "CareMe.RabbitMQIntegrationService\CareMe.RabbitMQIntegrationService.csproj", "{F1510B9C-E4CD-4547-8B43-8AE8B75B9D9D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vehicle.API", "Vehicle.API\Vehicle.API.csproj", "{4104F63E-CF8D-4A73-8691-9CA0E2F3FF5F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -74,6 +76,10 @@ Global
 		{F1510B9C-E4CD-4547-8B43-8AE8B75B9D9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1510B9C-E4CD-4547-8B43-8AE8B75B9D9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1510B9C-E4CD-4547-8B43-8AE8B75B9D9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4104F63E-CF8D-4A73-8691-9CA0E2F3FF5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4104F63E-CF8D-4A73-8691-9CA0E2F3FF5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4104F63E-CF8D-4A73-8691-9CA0E2F3FF5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4104F63E-CF8D-4A73-8691-9CA0E2F3FF5F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -93,6 +99,7 @@ Global
 		{DED14981-FB32-4AC0-A483-2B1818F4D52A} = {36D1A919-4C17-444F-9244-27162495ED19}
 		{87311929-7675-4A08-9F8E-4CEA3D318151} = {DED14981-FB32-4AC0-A483-2B1818F4D52A}
 		{F1510B9C-E4CD-4547-8B43-8AE8B75B9D9D} = {DED14981-FB32-4AC0-A483-2B1818F4D52A}
+		{4104F63E-CF8D-4A73-8691-9CA0E2F3FF5F} = {8E5C2F38-157F-476C-A1CF-79AD170836D8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DB004AEA-07E7-4018-A0E6-FC6508E8581B}
