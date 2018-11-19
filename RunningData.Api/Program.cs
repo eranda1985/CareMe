@@ -10,21 +10,21 @@ using Microsoft.Extensions.Logging;
 
 namespace RunningData.Api
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateWebHostBuilder(args).Build().Run();
-        }
+	public class Program
+	{
+		public static void Main(string[] args)
+		{
+			CreateWebHostBuilder(args).Build().Run();
+		}
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-            .UseKestrel()
-                .UseStartup<Startup>()
-                   .ConfigureLogging((hostinContext, logging) =>
-        {
-            logging.AddLog4Net();
-            logging.SetMinimumLevel(LogLevel.Debug);
-        });
-    }
+		public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+				WebHost.CreateDefaultBuilder(args)
+				.UseKestrel()
+						.UseStartup<Startup>()
+							 .ConfigureLogging((hostinContext, logging) =>
+		{
+			logging.AddLog4Net();
+			logging.SetMinimumLevel(LogLevel.Debug);
+		});
+	}
 }

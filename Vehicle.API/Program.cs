@@ -21,7 +21,7 @@ namespace Vehicle.API
 				WebHost.CreateDefaultBuilder(args)
 			.UseKestrel()
 						.UseStartup<Startup>()
-			.ConfigureLogging((hostingCtx, loggerBuilder)=> 
+			.ConfigureLogging((hostingCtx, loggerBuilder) =>
 			{
 				loggerBuilder.AddLog4Net();
 				loggerBuilder.SetMinimumLevel(LogLevel.Debug);
