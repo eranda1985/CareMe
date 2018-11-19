@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ActionFilters\AuthorizeUserTokenAttribute.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ActionFilters\" />
     <Folder Include="Parameters\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
