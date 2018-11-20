@@ -72,7 +72,7 @@ namespace Vehicle.API
             }
 
             var eventBus = app.ApplicationServices.GetRequiredService<IServiceBus>();
-            eventBus.Subscribe<IdentityUserAddedEvent, IdentityUserAddEventHandler>("UserAdded");
+            eventBus.Subscribe<IdentityUserAddedEvent, IdentityUserAddEventHandler>("UserAddedVehicle");
 
             app.UseMvc();
         }
@@ -84,7 +84,11 @@ namespace Vehicle.API
         {
             services.AddTransient<IExceptionService, ExceptionService>();
             services.AddTransient<IService<VehicleDataDto>, VehicleDataService>();
+            services.AddTransient<IService<UserDataDto>, UserdataService>();
+
             services.AddTransient<IVehicleDataRepository, VehicleDataRepository>();
+            services.AddTransient<IUserDataRepository, UserDataRepository>();
+
             services.AddTransient<IDataConnection, SqlDataConnection>();
             services.AddTransient<IdentityUserAddEventHandler>();
 
