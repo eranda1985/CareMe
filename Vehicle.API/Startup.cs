@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using CareMe.IntegrationService;
+using CareMe.RabbitMQIntegrationService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -11,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Vehicle.Api.Exceptions;
+using Vehicle.Api.IntegrationEventHandlers;
 using Vehicle.Core;
 using Vehicle.Model.DataConnections;
 using Vehicle.Model.Dto;
@@ -68,6 +71,9 @@ namespace Vehicle.API
                 app.UseDeveloperExceptionPage();
             }
 
+            var eventBus = app.ApplicationServices.GetRequiredService<IServiceBus>();
+            eventBus.Subscribe<IdentityUserAddedEvent, IdentityUserAddEventHandler>("UserAdded");
+
             app.UseMvc();
         }
     }
@@ -80,15 +86,26 @@ namespace Vehicle.API
             services.AddTransient<IService<VehicleDataDto>, VehicleDataService>();
             services.AddTransient<IVehicleDataRepository, VehicleDataRepository>();
             services.AddTransient<IDataConnection, SqlDataConnection>();
+            services.AddTransient<IdentityUserAddEventHandler>();
+
+            services.AddSingleton<ISubscriptionManager, VehicleSubscriptionManager>();
+            services.AddSingleton<IServiceBus, RabbitMQServiceBus>(sp =>
+            {
+                var subsManager = sp.GetRequiredService<ISubscriptionManager>();
+                return new RabbitMQServiceBus(subsManager);
+            });
 
             return services;
         }
 
         public static IServiceCollection ModelMapping(this IServiceCollection services, IConfiguration configuration)
         {
-            Mapper.Initialize(cfg=> 
+            Mapper.Initialize(cfg =>
             {
                 cfg.CreateMap<VehicleDataModel, VehicleDataDto>();
+                cfg.CreateMap<UserDataDto, UserDataModel>()
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Username))
+                .ForMember(dest => dest.SecretKey, opt => opt.MapFrom(src => src.Secret));
             });
             return services;
         }
