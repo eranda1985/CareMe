@@ -76,7 +76,7 @@ namespace RunningData.Api
             }
             
 			var eventBus = app.ApplicationServices.GetRequiredService<IServiceBus>();
-			eventBus.Subscribe<IdentityUserAddedEvent, IdentityUserAddEventHandler>("UserAdded");
+			eventBus.Subscribe<IdentityUserAddedEvent, IdentityUserAddEventHandler>("UserAddedRunningData");
 
             app.UseMvc();
         }

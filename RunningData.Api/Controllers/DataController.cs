@@ -31,7 +31,7 @@ namespace RunningData.Api.Controllers
             _configuration = configuration;
         }
         
-        // POST: data/fuel
+        // POST: postdata/fuel
         [HttpPost]
         [Route("fuel")]
         [ProducesResponseType(200, Type=typeof(bool))]
