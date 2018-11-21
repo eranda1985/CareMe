@@ -11,6 +11,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Vehicle.Core;
+using Vehicle.Model.Dto;
+using Vehicle.Model.Services;
 
 namespace Vehicle.Api.ActionFilters
 {
@@ -18,12 +20,14 @@ namespace Vehicle.Api.ActionFilters
 	{
 		private IConfiguration _configuration;
 		private AppSettings _appSettings;
+        private IService<UserDataDto> _userService;
 
-		public AuthorizeUserTokenAttribute(IConfiguration configuration)
+		public AuthorizeUserTokenAttribute(IConfiguration configuration, IService<UserDataDto> userService)
 		{
 
 			_configuration = configuration;
 			_appSettings = configuration.Get<AppSettings>();
+            _userService = userService;
 		}
 
 		public async override Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate actionExecutionDelegate)
@@ -48,7 +52,7 @@ namespace Vehicle.Api.ActionFilters
 				}
 
 				// Get the user record from back-end 
-				var userModel = await ((UserDataService)_userService).GetUserByName(username.Value);
+				var userModel = await ((UserdataService)_userService).GetUserByName(username.Value);
 
 				// Using the secret key generate a new token 
 				// Compute jwt secret

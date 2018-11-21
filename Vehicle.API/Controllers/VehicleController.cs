@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Vehicle.Api.ActionFilters;
 using Vehicle.API.Parameters;
 using Vehicle.Model.Dto;
 using Vehicle.Model.Services;
@@ -26,6 +27,7 @@ namespace Vehicle.API.Controllers
         [Route("add")]
         [ProducesResponseType(200, Type = typeof(bool))]
         [MapToApiVersion("1.0")]
+        [ServiceFilter(typeof(AuthorizeUserTokenAttribute))]
         public async Task<IActionResult> AddVehicle([FromBody]VehicleDataAddRequest request)
         {
             var res = await ((VehicleDataService)_service).

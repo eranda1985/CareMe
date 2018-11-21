@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Vehicle.Api.ActionFilters;
 using Vehicle.Api.Exceptions;
 using Vehicle.Api.IntegrationEventHandlers;
 using Vehicle.Core;
@@ -58,7 +59,7 @@ namespace Vehicle.API
                 o.ApiVersionReader = new HeaderApiVersionReader("api-version");
             });
 
-            //services.AddScoped<AuthorizeUserTokenAttribute>(); // <-- Retrieves the instance of the filter from DI
+            services.AddScoped<AuthorizeUserTokenAttribute>(); // <-- Retrieves the instance of the filter from DI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -5,15 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="ActionFilters\AuthorizeUserTokenAttribute.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Remove="appsettings.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ActionFilters\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

@@ -7,5 +7,6 @@ namespace Vehicle.Core
 	public class AppConstants
 	{
 		public const string CareMeVehicleDB = "CareMeVehicleDB";
-	}
+
+    }
 }
