@@ -23,6 +23,7 @@ namespace Vehicle.API.Controllers
             _service = service;
         }
 
+        // POST: vehicle/add
         [HttpPost]
         [Route("add")]
         [ProducesResponseType(200, Type = typeof(bool))]
