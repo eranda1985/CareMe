@@ -10,5 +10,7 @@ namespace Vehicle.Model.Repositories.Interfaces
     public interface IVehicleUserDataRepository: IRepository<VehicleUserDataModel>
     {
         Task<long> AddNew(VehicleUserDataModel poco);
+        Task<List<VehicleUserDataModel>> GetExistingUserVehicles(string username);
+        Task<long> UpdateEntry(VehicleUserDataModel poco);
     }
 }

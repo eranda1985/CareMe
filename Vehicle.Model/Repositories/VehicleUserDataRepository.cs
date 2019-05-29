@@ -29,5 +29,21 @@ namespace Vehicle.Model.Repositories
             var res = await Add(poco);
             return res; 
         }
+
+        public async Task<List<VehicleUserDataModel>> GetExistingUserVehicles(string username)
+        {
+            using (DbContext)
+            {
+                return await Query("SELECT * FROM VehicleUsers WHERE Username=@0", username);
+            }
+        }
+
+        public async Task<long> UpdateEntry(VehicleUserDataModel poco)
+        {
+            using (DbContext)
+            {
+                return await Update(poco);
+            }
+        }
     }
 }

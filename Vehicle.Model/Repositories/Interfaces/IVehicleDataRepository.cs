@@ -9,5 +9,6 @@ namespace Vehicle.Model.Repositories.Interfaces
     public interface IVehicleDataRepository: IRepository<VehicleDataModel>
     {
 		Task<bool> AddNewVehicle(VehicleDataModel poco, string username);
+        Task<VehicleDataModel> GetVehicleByRego(string rego);
     }
 }

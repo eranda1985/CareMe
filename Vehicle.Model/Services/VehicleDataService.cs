@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Vehicle.Core.Exceptions;
 using Vehicle.Core.Validators;
 using Vehicle.Model.Dto;
 using Vehicle.Model.Models;
@@ -15,21 +16,24 @@ namespace Vehicle.Model.Services
     {
         IExceptionService _exceptionService;
         IVehicleDataRepository _vehicleDataRepository;
+        IVehicleUserDataRepository _vehicleUserDataRepository;
         ILogger<VehicleDataService> _logger;
         IService<UserDataDto> _userService;
 
         public VehicleDataService(ILogger<VehicleDataService> logger,
             IExceptionService exceptionService,
             IVehicleDataRepository vehicleDataRepository,
-                        IService<UserDataDto> userService)
+                        IService<UserDataDto> userService,
+                        IVehicleUserDataRepository vehicleUserDataRepository)
         {
             _logger = logger;
             _exceptionService = exceptionService;
             _vehicleDataRepository = vehicleDataRepository;
             _userService = userService;
+            _vehicleUserDataRepository = vehicleUserDataRepository;
         }
 
-        public async Task<bool> AddVehicle(params object[] args)
+        public async Task<VehicleDataDto> AddVehicle(params object[] args)
         {
             _logger.LogDebug("Calling AddVehicle for {0}", args[4]);
 
@@ -56,10 +60,54 @@ namespace Vehicle.Model.Services
                 ODOMeter = odoMeter
             };
 
-            var vehicledataPoco = Mapper.Map<VehicleDataModel>(dto);
             var userDto = await ((UserdataService)_userService).GetUserByName(username);
+            var vehicle = await _vehicleDataRepository.GetVehicleByRego(dto.RegoPlate);
+
             _exceptionService.Throw(() => Validator.CheckNull(userDto));
-            return await _vehicleDataRepository.AddNewVehicle(vehicledataPoco, username);
+            _exceptionService.Throw(() => 
+            {
+                if(vehicle != null)
+                {
+                    throw new ValidationException("A Vehicle already exists with the supplied rego.");
+                }
+            });
+
+            var vehicledataPoco = Mapper.Map<VehicleDataModel>(dto);
+            var res =  await _vehicleDataRepository.AddNewVehicle(vehicledataPoco, username) && await SetDefaultVehicle(dto.RegoPlate, username);
+            return (res) ? dto : null;
         }
+
+        public async Task<bool> SetDefaultVehicle(params object[] args)
+        {
+            _logger.LogDebug("Calling SetDefaultVehicle");
+            _exceptionService.Throw(() => Validator.CheckArgsLength(args, 2));
+
+            bool result = false;
+
+            var vehicleRego = args[0] as string;
+            var username = args[1] as string;
+
+            var vehicle = await _vehicleDataRepository.GetVehicleByRego(vehicleRego);
+            var list = await _vehicleUserDataRepository.GetExistingUserVehicles(username);
+            foreach(var item in list)
+            {
+                if(item.VehicleId == vehicle.Id)
+                {
+                    item.IsDefault = true;
+                }
+                else
+                {
+                    item.IsDefault = false;
+                }
+
+                var res = await _vehicleUserDataRepository.UpdateEntry(item);
+                result = res > -1;
+            }
+
+            return result;
+        }
+
+        // Update Vehicle details.
+        // Get Vehicle types, brands, models, fueltypes
     }
 }
