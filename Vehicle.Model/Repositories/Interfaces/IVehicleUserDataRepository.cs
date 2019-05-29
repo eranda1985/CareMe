@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NPoco;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -6,8 +7,8 @@ using Vehicle.Model.Models;
 
 namespace Vehicle.Model.Repositories.Interfaces
 {
-    public interface IVehicleDataRepository: IRepository<VehicleDataModel>
+    public interface IVehicleUserDataRepository: IRepository<VehicleUserDataModel>
     {
-		Task<bool> AddNewVehicle(VehicleDataModel poco, string username);
+        Task<long> AddNew(VehicleUserDataModel poco);
     }
 }

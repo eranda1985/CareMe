@@ -16,19 +16,18 @@ namespace Vehicle.Model.Services
         IExceptionService _exceptionService;
         IVehicleDataRepository _vehicleDataRepository;
         ILogger<VehicleDataService> _logger;
-				IService<UserDataDto> _userService;
+        IService<UserDataDto> _userService;
 
-		public VehicleDataService(ILogger<VehicleDataService> logger, 
-            IExceptionService exceptionService, 
+        public VehicleDataService(ILogger<VehicleDataService> logger,
+            IExceptionService exceptionService,
             IVehicleDataRepository vehicleDataRepository,
-						IService<UserDataDto> userService)
+                        IService<UserDataDto> userService)
         {
             _logger = logger;
             _exceptionService = exceptionService;
             _vehicleDataRepository = vehicleDataRepository;
-			_userService = userService;
-
-				}
+            _userService = userService;
+        }
 
         public async Task<bool> AddVehicle(params object[] args)
         {
@@ -44,7 +43,7 @@ namespace Vehicle.Model.Services
             var regoPlate = args[4] as string;
             var date = (DateTime)args[5];
             var odoMeter = (double)args[6];
-						var username = args[7] as string;
+            var username = args[7] as string;
 
             var dto = new VehicleDataDto
             {
@@ -57,14 +56,10 @@ namespace Vehicle.Model.Services
                 ODOMeter = odoMeter
             };
 
-			var userModel = await ((UserdataService)_userService).GetUserByName(username);
-
-			var vehicledataPoco = Mapper.Map<VehicleDataModel>(dto);
-
-			var vehicleId = await _vehicleDataRepository.AddVNewVehicle(vehicledataPoco, userModel.Id);
-
-
-						
+            var vehicledataPoco = Mapper.Map<VehicleDataModel>(dto);
+            var userDto = await ((UserdataService)_userService).GetUserByName(username);
+            _exceptionService.Throw(() => Validator.CheckNull(userDto));
+            return await _vehicleDataRepository.AddNewVehicle(vehicledataPoco, username);
         }
     }
 }

@@ -89,6 +89,7 @@ namespace Vehicle.API
 
             services.AddTransient<IVehicleDataRepository, VehicleDataRepository>();
             services.AddTransient<IUserDataRepository, UserDataRepository>();
+            services.AddTransient<IVehicleUserDataRepository, VehicleUserDataRepository>();
 
             services.AddTransient<IDataConnection, SqlDataConnection>();
             services.AddTransient<IdentityUserAddEventHandler>();

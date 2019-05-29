@@ -8,21 +8,23 @@ namespace Vehicle.Model.Repositories
 {
     public class DBRepository<T> : IDisposable where T : class
     {
-        protected Database DbContext => getDataContext();
+        protected Database DbContext { get => _dynamicDbContext; set { _dynamicDbContext = value; } }
         private string _connString;
         private DatabaseType _databaseType;
         private DbProviderFactory _dbProviderFactory;
+        private Database _dynamicDbContext;
 
         public DBRepository(string connectionString, DatabaseType databaseType, DbProviderFactory dbProvideerFactory)
         {
             _connString = connectionString;
             _databaseType = databaseType;
             _dbProviderFactory = dbProvideerFactory;
+            _dynamicDbContext = new Database(_connString, _databaseType, _dbProviderFactory);
         }
 
         private Database getDataContext()
         {
-            return new Database(_connString, _databaseType, _dbProviderFactory);
+            return _dynamicDbContext ?? new Database(_connString, _databaseType, _dbProviderFactory);
         }
 
         /// <summary>

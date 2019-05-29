@@ -5,13 +5,15 @@ using System.Text;
 
 namespace Vehicle.Model.Models
 {
-	[TableName("VehicleData")]
+	[TableName("VehicleUsers")]
 	public class VehicleUserDataModel
 	{
-		[Column("VehicleId")]
+        [ResultColumn("Id")]
+        public long Id { get; set; }
+        [Column("VehicleId")]
 		public long VehicleId { get; set; }
-		[Column("UserId")]
-		public long UserId { get; set; }
+		[Column("Username")]
+		public string Username { get; set; }
 		[Column("IsDefault")]
 		public bool IsDefault { get; set; }
 	}

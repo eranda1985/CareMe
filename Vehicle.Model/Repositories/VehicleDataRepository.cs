@@ -12,30 +12,41 @@ namespace Vehicle.Model.Repositories
 {
     public class VehicleDataRepository : DBRepository<VehicleDataModel>, IVehicleDataRepository
     {
-        public VehicleDataRepository(IDataConnection dataConnection) 
+        IVehicleUserDataRepository _vehicleUserDataRepository;
+
+        public VehicleDataRepository(IDataConnection dataConnection, IVehicleUserDataRepository vehicleUserDataRepository)
             : base(dataConnection.ConnectionString, dataConnection.DatabaseType, dataConnection.DbProviderFactory)
         {
+            _vehicleUserDataRepository = vehicleUserDataRepository;
         }
 
-        public async Task<long> AddVNewVehicle(VehicleDataModel poco, long userId)
+        public async Task<bool> AddNewVehicle(VehicleDataModel poco, string userId)
         {
-			using (var trans = DbContext.GetTransaction())
-			{
-				var vehicleId = await Add(poco);
+            bool result = false;
 
-				var vehicleUserModel = new VehicleUserDataModel
-				{
-					UserId = userId,
-					VehicleId = vehicleId,
-					IsDefault = false
-				};
+            var prop = _vehicleUserDataRepository.GetType().GetProperty("DBContext");
 
-				trans.Complete();
-			}
-				
+            prop?.SetValue(_vehicleUserDataRepository, this.DbContext);
 
+            using (DbContext)
+            {
+                using (var trans = DbContext.GetTransaction())
+                {
+                    var vehicleId = await Add(poco);
 
-			return res;
+                    var vehicleUserModel = new VehicleUserDataModel
+                    {
+                        Username = userId,
+                        VehicleId = vehicleId,
+                        IsDefault = false
+                    };
+
+                    var vuserId = await _vehicleUserDataRepository.AddNew(vehicleUserModel);
+                    result = (vehicleId > -1) && (vuserId > -1);
+                    trans.Complete();
+                }
+            }
+            return result;
         }
     }
 }

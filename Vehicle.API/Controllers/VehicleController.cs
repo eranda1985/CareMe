@@ -28,7 +28,7 @@ namespace Vehicle.API.Controllers
         [Route("add")]
         [ProducesResponseType(200, Type = typeof(bool))]
         [MapToApiVersion("1.0")]
-        [ServiceFilter(typeof(AuthorizeUserTokenAttribute))]
+        //[ServiceFilter(typeof(AuthorizeUserTokenAttribute))]
         public async Task<IActionResult> AddVehicle([FromBody]VehicleDataAddRequest request)
         {
             var res = await ((VehicleDataService)_service).
@@ -38,7 +38,8 @@ namespace Vehicle.API.Controllers
                 request.FuelType,
                 request.RegoPlate,
                 DateTime.Parse(request.Date, CultureInfo.GetCultureInfo("en-AU")),
-                request.ODOMeter);
+                request.ODOMeter,
+                request.Username);
 
             return Ok(res);
         }

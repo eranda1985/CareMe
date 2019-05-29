@@ -79,7 +79,7 @@ namespace Identity.Model.Services
 
             // Update last login date
             user.LastLoginDate = DateTime.Now;
-            await _userRepository.UpdateUserAsync(user);
+            _ = await _userRepository.UpdateUserAsync(user);
 
             // Create claims 
             List<Claim> claims = new List<Claim>
