@@ -30,7 +30,7 @@ namespace Vehicle.Model.Services
         public async Task<UserDataDto> GetUserByName(string name)
         {
             var res = await _userDataRepository.GetUserByName(name);
-            return new UserDataDto { Username = res.UserName, Secret = res.SecretKey };
+            return new UserDataDto { Username = res.UserName, Secret = res.SecretKey, Id = res.Id };
         }
     }
 }

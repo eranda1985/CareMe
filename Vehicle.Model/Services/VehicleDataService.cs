@@ -16,21 +16,25 @@ namespace Vehicle.Model.Services
         IExceptionService _exceptionService;
         IVehicleDataRepository _vehicleDataRepository;
         ILogger<VehicleDataService> _logger;
+				IService<UserDataDto> _userService;
 
-        public VehicleDataService(ILogger<VehicleDataService> logger, 
+		public VehicleDataService(ILogger<VehicleDataService> logger, 
             IExceptionService exceptionService, 
-            IVehicleDataRepository vehicleDataRepository)
+            IVehicleDataRepository vehicleDataRepository,
+						IService<UserDataDto> userService)
         {
             _logger = logger;
             _exceptionService = exceptionService;
             _vehicleDataRepository = vehicleDataRepository;
-        }
+			_userService = userService;
+
+				}
 
         public async Task<bool> AddVehicle(params object[] args)
         {
             _logger.LogDebug("Calling AddVehicle for {0}", args[4]);
 
-            _exceptionService.Throw(() => Validator.CheckArgsLength(args, 7));
+            _exceptionService.Throw(() => Validator.CheckArgsLength(args, 8));
             _exceptionService.Throw(() => Validator.CheckType<DateTime>(args[5]));
 
             var vehicleType = args[0] as string;
@@ -40,6 +44,7 @@ namespace Vehicle.Model.Services
             var regoPlate = args[4] as string;
             var date = (DateTime)args[5];
             var odoMeter = (double)args[6];
+						var username = args[7] as string;
 
             var dto = new VehicleDataDto
             {
@@ -52,9 +57,14 @@ namespace Vehicle.Model.Services
                 ODOMeter = odoMeter
             };
 
-            var poco = Mapper.Map<VehicleDataModel>(dto);
+			var userModel = await ((UserdataService)_userService).GetUserByName(username);
 
-            return await _vehicleDataRepository.AddVNewVehicle(poco);
+			var vehicledataPoco = Mapper.Map<VehicleDataModel>(dto);
+
+			var vehicleId = await _vehicleDataRepository.AddVNewVehicle(vehicledataPoco, userModel.Id);
+
+
+						
         }
     }
 }

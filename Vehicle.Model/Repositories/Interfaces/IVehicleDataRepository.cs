@@ -8,6 +8,6 @@ namespace Vehicle.Model.Repositories.Interfaces
 {
     public interface IVehicleDataRepository: IRepository<VehicleDataModel>
     {
-        Task<bool> AddVNewVehicle(VehicleDataModel poco);
+		Task<long> AddVNewVehicle(VehicleDataModel poco, long userId);
     }
 }

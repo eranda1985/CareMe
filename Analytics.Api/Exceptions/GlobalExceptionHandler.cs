@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Analytics.Api.Extensions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -19,6 +21,11 @@ namespace Analytics.Api.Exceptions
 		public void OnException(ExceptionContext context)
 		{
 			_logger.LogError(context.Exception.ToString());
+
+			if (context.Exception.IsA<ArgumentException>())
+			{
+				context.Result = new BadRequestResult();
+			}
 
 		}
 	}

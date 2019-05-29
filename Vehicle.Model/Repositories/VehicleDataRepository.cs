@@ -17,10 +17,25 @@ namespace Vehicle.Model.Repositories
         {
         }
 
-        public async Task<bool> AddVNewVehicle(VehicleDataModel poco)
+        public async Task<long> AddVNewVehicle(VehicleDataModel poco, long userId)
         {
-            var res = await Add(poco);
-            return res > -1;
+			using (var trans = DbContext.GetTransaction())
+			{
+				var vehicleId = await Add(poco);
+
+				var vehicleUserModel = new VehicleUserDataModel
+				{
+					UserId = userId,
+					VehicleId = vehicleId,
+					IsDefault = false
+				};
+
+				trans.Complete();
+			}
+				
+
+
+			return res;
         }
     }
 }
