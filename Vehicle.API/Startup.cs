@@ -108,8 +108,9 @@ namespace Vehicle.API
         {
             Mapper.Initialize(cfg =>
             {
-                cfg.CreateMap<VehicleDataModel, VehicleDataDto>();
-                cfg.CreateMap<UserDataDto, UserDataModel>()
+							cfg.CreateMap<VehicleDataModel, VehicleDataDto>();
+							cfg.CreateMap<VehicleDataDto, VehicleDataModel>();
+							cfg.CreateMap<UserDataDto, UserDataModel>()
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Username))
                 .ForMember(dest => dest.SecretKey, opt => opt.MapFrom(src => src.Secret));
             });

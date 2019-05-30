@@ -1,17 +1,18 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Vehicle.Model.Dto
+namespace Vehicle.API.Parameters
 {
-    public class VehicleDataDto
-    {
-
+	public class VehicleDataUpdateRequest
+	{
 		[JsonProperty(PropertyName = "id")]
 		public long Id { get; set; }
 
-		[JsonProperty(PropertyName = "vehicletype")]
+		[JsonProperty(PropertyName = "type")]
 		public string VehicleType { get; set; }
 
 		[JsonProperty(PropertyName = "brand")]
@@ -20,19 +21,20 @@ namespace Vehicle.Model.Dto
 		[JsonProperty(PropertyName = "model")]
 		public string Model { get; set; }
 
-		[JsonProperty(PropertyName = "fueltype")]
+		[JsonProperty(PropertyName = "fuel")]
 		public string FuelType { get; set; }
 
 		[JsonProperty(PropertyName = "rego")]
+		[Required]
 		public string RegoPlate { get; set; }
 
 		[JsonProperty(PropertyName = "date")]
-		public DateTime Date { get; set; }
+		public string Date { get; set; }
 
-		[JsonProperty(PropertyName = "odometer")]
+		[JsonProperty(PropertyName = "odo")]
 		public double ODOMeter { get; set; }
 
-		[JsonProperty(PropertyName = "isdefault")]
-		public bool IsSelected { get; set; }
+		[JsonProperty(PropertyName = "username")]
+		public string Username { get; set; }
 	}
 }

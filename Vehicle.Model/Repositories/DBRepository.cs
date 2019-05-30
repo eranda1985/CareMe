@@ -59,7 +59,14 @@ namespace Vehicle.Model.Repositories
             return res;
         }
 
-        public void Dispose()
+		protected async Task<long> Delete(T item)
+		{
+			var id = await DbContext.DeleteAsync(item);
+			var res = Convert.ToInt64(id);
+			return res;
+		}
+
+		public void Dispose()
         {
             if(DbContext != null)
             {
