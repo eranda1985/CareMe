@@ -63,5 +63,8 @@
     <Build Include="dbo\Tables\VehicleUsers.sql" />
     <Build Include="dbo\Tables\VehicleData.sql" />
     <Build Include="dbo\Tables\UserData.sql" />
+    <Build Include="dbo\Tables\VehicleTypes.sql" />
+    <Build Include="dbo\Tables\VehicleModels.sql" />
+    <Build Include="dbo\Tables\VehicleBrands.sql" />
   </ItemGroup>
 </Project>
