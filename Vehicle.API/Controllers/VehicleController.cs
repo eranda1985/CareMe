@@ -28,7 +28,7 @@ namespace Vehicle.API.Controllers
 		[Route("add")]
 		[ProducesResponseType(200, Type = typeof(VehicleDataDto))]
 		[MapToApiVersion("1.0")]
-		//[ServiceFilter(typeof(AuthorizeUserTokenAttribute))]
+		[ServiceFilter(typeof(AuthorizeUserTokenAttribute))]
 		public async Task<IActionResult> AddVehicle([FromBody]VehicleDataAddRequest request)
 		{
 			var res = await ((VehicleDataService)_service).
@@ -49,7 +49,7 @@ namespace Vehicle.API.Controllers
 		[Route("setdfault/{rego}/{username}")]
 		[ProducesResponseType(200, Type = typeof(bool))]
 		[MapToApiVersion("1.0")]
-		//[ServiceFilter(typeof(AuthorizeUserTokenAttribute))]
+		[ServiceFilter(typeof(AuthorizeUserTokenAttribute))]
 		public async Task<IActionResult> SetDefault(string rego, string username)
 		{
 			var res = await ((VehicleDataService)_service).SetDefaultVehicle(rego, username);
@@ -62,7 +62,7 @@ namespace Vehicle.API.Controllers
 		[Route("update")]
 		[ProducesResponseType(200, Type = typeof(bool))]
 		[MapToApiVersion("1.0")]
-		//[ServiceFilter(typeof(AuthorizeUserTokenAttribute))]
+		[ServiceFilter(typeof(AuthorizeUserTokenAttribute))]
 		public async Task<IActionResult> Update([FromBody]VehicleDataUpdateRequest request)
 		{
 			var res = await ((VehicleDataService)_service).Update(new VehicleDataDto
@@ -85,7 +85,7 @@ namespace Vehicle.API.Controllers
 		[Route("get/{username}")]
 		[ProducesResponseType(200, Type = typeof(List<VehicleDataDto>))]
 		[MapToApiVersion("1.0")]
-		//[ServiceFilter(typeof(AuthorizeUserTokenAttribute))]
+		[ServiceFilter(typeof(AuthorizeUserTokenAttribute))]
 		public async Task<IActionResult> GetVehiclesForUser(string username)
 		{
 			var res = await ((VehicleDataService)_service).GetVehiclesByUser(username);
@@ -98,7 +98,7 @@ namespace Vehicle.API.Controllers
 		[Route("delete/{id}")]
 		[ProducesResponseType(200, Type = typeof(bool))]
 		[MapToApiVersion("1.0")]
-		//[ServiceFilter(typeof(AuthorizeUserTokenAttribute))]
+		[ServiceFilter(typeof(AuthorizeUserTokenAttribute))]
 		public async Task<IActionResult> Delete(long id)
 		{
 			var res = await ((VehicleDataService)_service).Delete(id);
@@ -112,7 +112,7 @@ namespace Vehicle.API.Controllers
 		[Route("types")]
 		[ProducesResponseType(200, Type = typeof(List<VehicleTypeDto>))]
 		[MapToApiVersion("1.0")]
-		//[ServiceFilter(typeof(AuthorizeUserTokenAttribute))]
+		[ServiceFilter(typeof(AuthorizeUserTokenAttribute))]
 		public async Task<IActionResult> GetVehiclesTypes()
 		{
 			var res = await ((VehicleDataService)_service).GetVehicleTypes();
@@ -125,7 +125,7 @@ namespace Vehicle.API.Controllers
 		[Route("brands")]
 		[ProducesResponseType(200, Type = typeof(List<VehicleBrandDto>))]
 		[MapToApiVersion("1.0")]
-		//[ServiceFilter(typeof(AuthorizeUserTokenAttribute))]
+		[ServiceFilter(typeof(AuthorizeUserTokenAttribute))]
 		public async Task<IActionResult> GetVehiclesBrands()
 		{
 			var res = await ((VehicleDataService)_service).GetVehicleBrands();
@@ -138,7 +138,7 @@ namespace Vehicle.API.Controllers
 		[Route("models/{brandid}")]
 		[ProducesResponseType(200, Type = typeof(List<VehicleModelDto>))]
 		[MapToApiVersion("1.0")]
-		//[ServiceFilter(typeof(AuthorizeUserTokenAttribute))]
+		[ServiceFilter(typeof(AuthorizeUserTokenAttribute))]
 		public async Task<IActionResult> GetVehiclesModels(long brandid)
 		{
 			var res = await ((VehicleDataService)_service).GetVehicleModels(brandid);
