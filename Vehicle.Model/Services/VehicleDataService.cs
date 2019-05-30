@@ -16,22 +16,31 @@ namespace Vehicle.Model.Services
 	public class VehicleDataService : IService<VehicleDataDto>
 	{
 		private IExceptionService _exceptionService;
-		private IVehicleDataRepository _vehicleDataRepository;
-		private IVehicleUserDataRepository _vehicleUserDataRepository;
-		private ILogger<VehicleDataService> _logger;
-		private IService<UserDataDto> _userService;
+		private readonly IVehicleDataRepository _vehicleDataRepository;
+		private readonly IVehicleUserDataRepository _vehicleUserDataRepository;
+		private readonly IVehicleTypeRepository _vehicleTypeRepository;
+		private readonly IVehicleBrandRepository _vehicleBrandRepository;
+		private readonly IVehicleModelRepository _vehicleModelRepository;
+		private readonly ILogger<VehicleDataService> _logger;
+		private readonly IService<UserDataDto> _userService;
 
 		public VehicleDataService(ILogger<VehicleDataService> logger,
 				IExceptionService exceptionService,
 				IVehicleDataRepository vehicleDataRepository,
 				IService<UserDataDto> userService,
-				IVehicleUserDataRepository vehicleUserDataRepository)
+				IVehicleUserDataRepository vehicleUserDataRepository,
+				IVehicleTypeRepository vehicleTypeRepository,
+				IVehicleBrandRepository vehicleBrandRepository,
+				IVehicleModelRepository  vehicleModelRepository)
 		{
 			_logger = logger;
 			_exceptionService = exceptionService;
 			_vehicleDataRepository = vehicleDataRepository;
 			_userService = userService;
 			_vehicleUserDataRepository = vehicleUserDataRepository;
+			_vehicleTypeRepository = vehicleTypeRepository;
+			_vehicleBrandRepository = vehicleBrandRepository;
+			_vehicleModelRepository = vehicleModelRepository;
 		}
 
 		/// <summary>
@@ -179,6 +188,38 @@ namespace Vehicle.Model.Services
 
 		}
 
-		// Get Vehicle types, brands, models, fueltypes
+		/// <summary>
+		/// Gets the list of vehicle types 
+		/// </summary>
+		/// <returns></returns>
+		public async Task<List<VehicleTypeDto>> GetVehicleTypes()
+		{
+			var models = await _vehicleTypeRepository.GetVehicleTypes();
+			var dtos = Mapper.Map<List<VehicleTypeDto>>(models);
+			return dtos;
+		}
+
+		/// <summary>
+		/// Gets the list of car makes. 
+		/// </summary>
+		/// <returns></returns>
+		public async Task<List<VehicleBrandDto>> GetVehicleBrands()
+		{
+			var models = await _vehicleBrandRepository.GetVehicleBrands();
+			var dtos = Mapper.Map<List<VehicleBrandDto>>(models);
+			return dtos;
+		}
+
+		/// <summary>
+		/// Get vehicle models
+		/// </summary>
+		/// <param name="brandId"></param>
+		/// <returns></returns>
+		public async Task<List<VehicleModelDto>> GetVehicleModels(long brandId)
+		{
+			var models = await _vehicleModelRepository.GetVehicleModels(brandId);
+			var dtos = Mapper.Map<List<VehicleModelDto>>(models);
+			return dtos;
+		}
 	}
 }

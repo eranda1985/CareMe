@@ -105,5 +105,45 @@ namespace Vehicle.API.Controllers
 
 			return Ok(res);
 		}
+
+
+		// GET: vehicle/types
+		[HttpGet]
+		[Route("types")]
+		[ProducesResponseType(200, Type = typeof(List<VehicleTypeDto>))]
+		[MapToApiVersion("1.0")]
+		//[ServiceFilter(typeof(AuthorizeUserTokenAttribute))]
+		public async Task<IActionResult> GetVehiclesTypes()
+		{
+			var res = await ((VehicleDataService)_service).GetVehicleTypes();
+
+			return Ok(res);
+		}
+
+		// GET: vehicle/brands
+		[HttpGet]
+		[Route("brands")]
+		[ProducesResponseType(200, Type = typeof(List<VehicleBrandDto>))]
+		[MapToApiVersion("1.0")]
+		//[ServiceFilter(typeof(AuthorizeUserTokenAttribute))]
+		public async Task<IActionResult> GetVehiclesBrands()
+		{
+			var res = await ((VehicleDataService)_service).GetVehicleBrands();
+
+			return Ok(res);
+		}
+
+		// GET: vehicle/models/{brandid}
+		[HttpGet]
+		[Route("models/{brandid}")]
+		[ProducesResponseType(200, Type = typeof(List<VehicleModelDto>))]
+		[MapToApiVersion("1.0")]
+		//[ServiceFilter(typeof(AuthorizeUserTokenAttribute))]
+		public async Task<IActionResult> GetVehiclesModels(long brandid)
+		{
+			var res = await ((VehicleDataService)_service).GetVehicleModels(brandid);
+
+			return Ok(res);
+		}
 	}
 }

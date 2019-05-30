@@ -90,8 +90,12 @@ namespace Vehicle.API
             services.AddTransient<IVehicleDataRepository, VehicleDataRepository>();
             services.AddTransient<IUserDataRepository, UserDataRepository>();
             services.AddTransient<IVehicleUserDataRepository, VehicleUserDataRepository>();
+			services.AddTransient<IVehicleTypeRepository, VehicleTypeRepository>();
+			services.AddTransient<IVehicleBrandRepository, VehicleBrandRepository>();
+			services.AddTransient<IVehicleModelRepository, VehicleModelRepository>();
 
-            services.AddTransient<IDataConnection, SqlDataConnection>();
+
+			services.AddTransient<IDataConnection, SqlDataConnection>();
             services.AddTransient<IdentityUserAddEventHandler>();
 
             services.AddSingleton<ISubscriptionManager, VehicleSubscriptionManager>();
@@ -110,6 +114,11 @@ namespace Vehicle.API
             {
 							cfg.CreateMap<VehicleDataModel, VehicleDataDto>();
 							cfg.CreateMap<VehicleDataDto, VehicleDataModel>();
+							cfg.CreateMap<VehicleTypeModel, VehicleTypeDto>();
+							cfg.CreateMap<VehicleBrandModel, VehicleBrandDto>();
+							cfg.CreateMap<VehicleModelDataModel, VehicleModelDto>();
+
+
 							cfg.CreateMap<UserDataDto, UserDataModel>()
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Username))
                 .ForMember(dest => dest.SecretKey, opt => opt.MapFrom(src => src.Secret));
