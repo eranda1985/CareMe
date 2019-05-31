@@ -111,6 +111,11 @@ namespace Vehicle.Model.Repositories
 			}
 		}
 
+		/// <summary>
+		/// Deletes a vehicle and associated user relationship
+		/// </summary>
+		/// <param name="poco"></param>
+		/// <returns></returns>
 		public async Task<long> DeleteEntry(VehicleDataModel poco)
 		{
 			long result;
