@@ -12,5 +12,7 @@ namespace Vehicle.Model.Repositories.Interfaces
         Task<long> AddNew(VehicleUserDataModel poco);
         Task<List<VehicleUserDataModel>> GetExistingUserVehicles(string username);
         Task<long> UpdateEntry(VehicleUserDataModel poco);
-    }
+		Task<long> DeleteEntry(VehicleUserDataModel poco);
+		Task<VehicleUserDataModel> GetVehicleUserById(long id);
+	}
 }

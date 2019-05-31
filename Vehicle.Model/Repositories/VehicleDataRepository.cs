@@ -113,10 +113,23 @@ namespace Vehicle.Model.Repositories
 
 		public async Task<long> DeleteEntry(VehicleDataModel poco)
 		{
+			long result;
+
+			var prop = _vehicleUserDataRepository.GetType().GetProperty("DBContext");
+			prop?.SetValue(_vehicleUserDataRepository, this.DbContext);
+
 			using (DbContext)
 			{
-				return await Delete(poco);
+				using (var trans = DbContext.GetTransaction())
+				{
+					var vehicleUserPoco = await _vehicleUserDataRepository.GetVehicleUserById(poco.Id);
+					await _vehicleUserDataRepository.DeleteEntry(vehicleUserPoco);
+					result = await Delete(poco);
+					trans.Complete();
+				}
 			}
+
+			return result;
 		}
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NPoco;
@@ -45,5 +46,24 @@ namespace Vehicle.Model.Repositories
                 return await Update(poco);
             }
         }
-    }
+
+		public async Task<long> DeleteEntry(VehicleUserDataModel poco)
+		{
+			if (DBContext != null)
+			{
+				this.DbContext = DBContext;
+			}
+			
+			return await Delete(poco);
+		}
+
+		public async Task<VehicleUserDataModel> GetVehicleUserById(long id)
+		{
+			using (DbContext)
+			{
+				var res = await Query("SELECT * FROM VehicleUsers WHERE VehicleId=@0", id);
+				return res.FirstOrDefault();
+			}
+		}
+	}
 }

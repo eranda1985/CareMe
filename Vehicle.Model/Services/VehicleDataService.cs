@@ -181,8 +181,8 @@ namespace Vehicle.Model.Services
 			_exceptionService.Throw(() => Validator.CheckArgsLength(args, 1));
 
 			var id = (long)args[0];
-			var poco = await _vehicleDataRepository.GetVehicleById(id);
-			var res = await _vehicleDataRepository.DeleteEntry(poco);
+			var vehiclePoco = await _vehicleDataRepository.GetVehicleById(id);
+			var res = await _vehicleDataRepository.DeleteEntry(vehiclePoco);
 			
 			return res > -1;
 
