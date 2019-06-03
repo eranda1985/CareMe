@@ -62,5 +62,6 @@
   <ItemGroup>
     <Build Include="dbo\Tables\VehicleDetails.sql" />
     <Build Include="dbo\Tables\UserData.sql" />
+    <Build Include="dbo\Tables\FuelConsumption.sql" />
   </ItemGroup>
 </Project>
