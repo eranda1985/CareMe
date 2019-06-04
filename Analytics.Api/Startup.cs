@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Analytics.Api.ActionFilters;
 using Analytics.Api.Exceptions;
 using Analytics.Api.IntegrationEventHandlers;
 using Analytics.Core;
@@ -57,6 +58,8 @@ namespace Analytics.Api
 			{
 				o.ApiVersionReader = new HeaderApiVersionReader("api-version");
 			});
+
+			services.AddScoped<AuthorizeUserTokenAttribute>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
