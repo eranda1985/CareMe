@@ -14,13 +14,13 @@ namespace Analytics.Api.Controllers
 	{
 
 		// GET: analytics/fuel/recent 
-		[HttpGet]
-		[Route("fuel/recent")]
-		[ProducesResponseType(200)]
-		[MapToApiVersion("1.0")]
-		public async Task<IActionResult> GetFuelConsumptionRecent()
-		{
+		//[HttpGet]
+		//[Route("fuel/recent")]
+		//[ProducesResponseType(200)]
+		//[MapToApiVersion("1.0")]
+		//public async Task<IActionResult> GetFuelConsumptionRecent()
+		//{
 
-		}
+		//}
 	}
 }

@@ -52,6 +52,8 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "CareMe.Identity", "CareMe.I
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "CareMe.AnalyticsData", "CareMe.AnalyticsData\CareMe.AnalyticsData.sqlproj", "{90588353-2B12-4FC5-9F22-BCF06621AA05}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Analytics.Model", "Analytics.Model\Analytics.Model.csproj", "{4C549F42-6B94-43DD-B1C2-C1FA954EEAD7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -138,6 +140,10 @@ Global
 		{90588353-2B12-4FC5-9F22-BCF06621AA05}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90588353-2B12-4FC5-9F22-BCF06621AA05}.Release|Any CPU.Build.0 = Release|Any CPU
 		{90588353-2B12-4FC5-9F22-BCF06621AA05}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{4C549F42-6B94-43DD-B1C2-C1FA954EEAD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C549F42-6B94-43DD-B1C2-C1FA954EEAD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C549F42-6B94-43DD-B1C2-C1FA954EEAD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C549F42-6B94-43DD-B1C2-C1FA954EEAD7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -166,6 +172,7 @@ Global
 		{04E382D6-A4D0-429C-8A73-17203B89A47A} = {22F9C66A-F919-4FD9-8970-023F634EE49C}
 		{AE4ECD05-84CC-4E53-BBEC-ED9B518620A4} = {22F9C66A-F919-4FD9-8970-023F634EE49C}
 		{90588353-2B12-4FC5-9F22-BCF06621AA05} = {22F9C66A-F919-4FD9-8970-023F634EE49C}
+		{4C549F42-6B94-43DD-B1C2-C1FA954EEAD7} = {690C7746-ABE6-4A34-8304-62405CA43EC3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DB004AEA-07E7-4018-A0E6-FC6508E8581B}

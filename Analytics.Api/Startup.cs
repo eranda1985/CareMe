@@ -4,6 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Analytics.Api.Exceptions;
 using Analytics.Core;
+using Analytics.Model.Dto;
+using Analytics.Model.Models;
+using Analytics.Model.Services;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -35,7 +39,8 @@ namespace Analytics.Api
 					builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
 				});
 			})
-			.AddMvc(options => 
+			.AddModelMapping()
+			.AddMvc(options =>
 			{
 				options.Filters.Add<GlobalExceptionHandler>();
 			})
@@ -58,6 +63,32 @@ namespace Analytics.Api
 			}
 
 			app.UseMvc();
+		}
+	}
+
+	static class ServiceExtensions
+	{
+		public static IServiceCollection AddModelMapping(this IServiceCollection services)
+		{
+			Mapper.Initialize(config =>
+			{
+				config.CreateMap<UserDataModel, UserDataDto>()
+				.ForMember(dst => dst.Secret, opt => opt.MapFrom(src => src.SecretKey))
+				.ForMember(dst => dst.Username, opt => opt.MapFrom(src => src.UserName));
+			});
+
+			return services;
+		}
+
+		public static IServiceCollection AddIoC(this IServiceCollection services)
+		{
+			// services 
+			services.AddTransient<IService<UserDataDto>, UserDataService>();
+
+			// respositories
+
+
+			return services;
 		}
 	}
 }
