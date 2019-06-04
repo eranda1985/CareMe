@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CareMe.IntegrationService;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,7 @@ namespace Vehicle.Model.Services
 		private readonly IVehicleModelRepository _vehicleModelRepository;
 		private readonly ILogger<VehicleDataService> _logger;
 		private readonly IService<UserDataDto> _userService;
+		private readonly IServiceBus _serviceBus;
 
 		public VehicleDataService(ILogger<VehicleDataService> logger,
 				IExceptionService exceptionService,
@@ -31,7 +33,8 @@ namespace Vehicle.Model.Services
 				IVehicleUserDataRepository vehicleUserDataRepository,
 				IVehicleTypeRepository vehicleTypeRepository,
 				IVehicleBrandRepository vehicleBrandRepository,
-				IVehicleModelRepository  vehicleModelRepository)
+				IVehicleModelRepository  vehicleModelRepository,
+				IServiceBus serviceBus)
 		{
 			_logger = logger;
 			_exceptionService = exceptionService;
@@ -41,6 +44,7 @@ namespace Vehicle.Model.Services
 			_vehicleTypeRepository = vehicleTypeRepository;
 			_vehicleBrandRepository = vehicleBrandRepository;
 			_vehicleModelRepository = vehicleModelRepository;
+			_serviceBus = serviceBus;
 		}
 
 		/// <summary>
@@ -70,7 +74,7 @@ namespace Vehicle.Model.Services
 				Brand = brand,
 				Model = model,
 				FuelType = fuelType,
-				RegoPlate = regoPlate,
+				RegoPlate = regoPlate.Trim(),
 				Date = date,
 				ODOMeter = odoMeter
 			};
@@ -89,6 +93,18 @@ namespace Vehicle.Model.Services
 
 			var vehicledataPoco = Mapper.Map<VehicleDataModel>(dto);
 			var res = await _vehicleDataRepository.AddNewVehicle(vehicledataPoco, username) && await SetDefaultVehicle(dto.RegoPlate, username);
+			if (res)
+			{
+				var newvehicle = await _vehicleDataRepository.GetVehicleByRego(dto.RegoPlate);
+				var evt = new NewVehicleAddedEvent()
+				{
+					VehicleId = newvehicle.Id, Rego = newvehicle.RegoPlate, LastODOMeter = newvehicle.ODOMeter, LastUpdated = newvehicle.Date
+				};
+
+				_serviceBus.Publish<NewVehicleAddedEvent>(evt);
+				_logger.LogDebug("New vehicle added event published for rego: {0}", newvehicle.RegoPlate);
+			}
+
 			return (res) ? dto : null;
 		}
 
