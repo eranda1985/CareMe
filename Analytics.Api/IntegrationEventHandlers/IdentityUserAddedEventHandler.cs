@@ -14,14 +14,21 @@ namespace Analytics.Api.IntegrationEventHandlers
 		private ILogger<IdentityUserAddedEventHandler> _logger;
 		private IService<UserDataDto> _userDataService;
 
-		public IdentityUserAddedEventHandler(ILogger<IdentityUserAddedEventHandler> logger)
+		public IdentityUserAddedEventHandler(
+			ILogger<IdentityUserAddedEventHandler> logger,
+			IService<UserDataDto> userService)
 		{
 			_logger = logger;
+			_userDataService = userService;
 		}
 
-		public Task HandleEvent(IntegrationEvent @event)
+		public async Task HandleEvent(IntegrationEvent @event)
 		{
-			throw new NotImplementedException();
+			var e = @event as IdentityUserAddedEvent;
+			_ = await ((UserDataService)_userDataService).CreateUser(new UserDataDto
+			{
+				Secret = e.UserSecret, Username = e.Username
+			});
 		}
 	}
 }

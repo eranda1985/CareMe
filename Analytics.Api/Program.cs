@@ -23,7 +23,7 @@ namespace Analytics.Api
                 .UseStartup<Startup>()
             .ConfigureLogging((hostingContext, loggerBuilder) => 
             {
-                loggerBuilder.AddLog4Net();
+							loggerBuilder.AddLog4Net();
                 loggerBuilder.SetMinimumLevel(LogLevel.Debug);
             });
     }

@@ -13,7 +13,7 @@ namespace Analytics.Api.Controllers
 	public class AnalyticsController : ControllerBase
 	{
 
-		// GET: analytics/fuel/recent 
+		//	GET: analytics/fuel/recent
 		//[HttpGet]
 		//[Route("fuel/recent")]
 		//[ProducesResponseType(200)]

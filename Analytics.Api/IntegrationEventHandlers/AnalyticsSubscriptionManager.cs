@@ -8,10 +8,21 @@ namespace Analytics.Api.IntegrationEventHandlers
 {
 	public class AnalyticsSubscriptionManager : ISubscriptionManager
 	{
+		private IdentityUserAddedEventHandler _identityUserAddedEventHandler;
+
+		public AnalyticsSubscriptionManager(IdentityUserAddedEventHandler handler )
+		{
+			_identityUserAddedEventHandler = handler;
+		}
 
 		public IIntegrationEventHandler GetEventHandler<T>() where T : IIntegrationEventHandler
 		{
-			throw new NotImplementedException();
+			if(typeof(T).Equals(_identityUserAddedEventHandler.GetType()))
+			{
+				return _identityUserAddedEventHandler;
+			}
+
+			return null;
 		}
 	}
 }

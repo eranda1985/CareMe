@@ -3,11 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Analytics.Api.Exceptions;
+using Analytics.Api.IntegrationEventHandlers;
 using Analytics.Core;
+using Analytics.Model.DataConnections;
 using Analytics.Model.Dto;
 using Analytics.Model.Models;
+using Analytics.Model.Repositories;
+using Analytics.Model.Repositories.Interfaces;
 using Analytics.Model.Services;
 using AutoMapper;
+using CareMe.IntegrationService;
+using CareMe.RabbitMQIntegrationService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -39,6 +45,7 @@ namespace Analytics.Api
 					builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
 				});
 			})
+			.AddIoC()
 			.AddModelMapping()
 			.AddMvc(options =>
 			{
@@ -62,6 +69,9 @@ namespace Analytics.Api
 				app.UseDeveloperExceptionPage();
 			}
 
+			var bus = app.ApplicationServices.GetRequiredService<IServiceBus>();
+			bus.Subscribe<IdentityUserAddedEvent, IdentityUserAddedEventHandler>("UserAddedAnalytics");
+
 			app.UseMvc();
 		}
 	}
@@ -75,6 +85,10 @@ namespace Analytics.Api
 				config.CreateMap<UserDataModel, UserDataDto>()
 				.ForMember(dst => dst.Secret, opt => opt.MapFrom(src => src.SecretKey))
 				.ForMember(dst => dst.Username, opt => opt.MapFrom(src => src.UserName));
+
+				config.CreateMap<UserDataDto, UserDataModel>()
+				.ForMember(dst => dst.SecretKey, opt => opt.MapFrom(src => src.Secret))
+				.ForMember(dst => dst.UserName, opt => opt.MapFrom(src => src.Username));
 			});
 
 			return services;
@@ -84,9 +98,26 @@ namespace Analytics.Api
 		{
 			// services 
 			services.AddTransient<IService<UserDataDto>, UserDataService>();
+			services.AddTransient<IExceptionService, ExceptionService>();
+
 
 			// respositories
+			services.AddTransient<IUserDataRepository<UserDataModel>, UserDataRepository>();
+			services.AddTransient<IDataConnection, SqlDataConnection>();
 
+			// MQ integration
+			services.AddTransient<IdentityUserAddedEventHandler>();
+			services.AddSingleton<ISubscriptionManager, AnalyticsSubscriptionManager>(sp=>
+			{
+				var handler = sp.GetRequiredService<IdentityUserAddedEventHandler>();
+				return new AnalyticsSubscriptionManager(handler);
+			 });
+
+			services.AddSingleton<IServiceBus, RabbitMQServiceBus>(sp =>
+			{
+				var manager = sp.GetRequiredService<ISubscriptionManager>();
+				return new RabbitMQServiceBus(manager);
+			});
 
 			return services;
 		}

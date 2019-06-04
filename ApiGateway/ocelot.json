@@ -1,5 +1,5 @@
 ﻿{
-  "ReRoutes": [
+	"ReRoutes": [
 		{
 			/*Authentication*/
 
@@ -14,18 +14,18 @@
 			"UpstreamPathTemplate": "/login/",
 			"UpstreamHttpMethod": [ "POST" ]
 		},
-    {
-      "DownstreamPathTemplate": "/authentication/signup",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
+		{
+			"DownstreamPathTemplate": "/authentication/signup",
+			"DownstreamScheme": "http",
+			"DownstreamHostAndPorts": [
 				{
 					"Host": "10.222.98.163",
 					"Port": 20191
 				}
-      ],
-      "UpstreamPathTemplate": "/signup/",
-      "UpstreamHttpMethod": [ "POST" ]
-    },
+			],
+			"UpstreamPathTemplate": "/signup/",
+			"UpstreamHttpMethod": [ "POST" ]
+		},
 		{
 			"DownstreamPathTemplate": "/authentication/version/{devicetype}",
 			"DownstreamScheme": "http",
@@ -135,8 +135,22 @@
 			],
 			"UpstreamPathTemplate": "/getvehiclemodels/{brandid}",
 			"UpstreamHttpMethod": [ "GET" ]
+		},
+
+		/* Analytics */
+		{
+			"DownstreamPathTemplate": "/analytics/models/{brandid}",
+			"DownstreamScheme": "http",
+			"DownstreamHostAndPorts": [
+				{
+					"Host": "10.222.98.163",
+					"Port": 20391
+				}
+			],
+			"UpstreamPathTemplate": "/getlastmileage",
+			"UpstreamHttpMethod": [ "GET" ]
 		}
-  ],
+	],
   "GlobalConfiguration": {
    
   }
