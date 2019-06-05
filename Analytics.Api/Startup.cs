@@ -70,6 +70,7 @@ namespace Analytics.Api
 			var bus = app.ApplicationServices.GetRequiredService<IServiceBus>();
 			bus.Subscribe<IdentityUserAddedEvent, IdentityUserAddedEventHandler>("UserAddedAnalytics");
 			bus.Subscribe<NewVehicleAddedEvent, NewVehicleAddedEventHandler>("VehicleAddedAnalytics");
+			bus.Subscribe<VehicleDeletedEvent, VehicleDeletedEventHandler>("VehicleDeletedAnalytics");
 
 			app.UseMvc();
 		}
@@ -110,13 +111,15 @@ namespace Analytics.Api
 			// MQ integration
 			services.AddTransient<IdentityUserAddedEventHandler>();
 			services.AddTransient<NewVehicleAddedEventHandler>();
+			services.AddTransient<VehicleDeletedEventHandler>();
 
 			services.AddSingleton<ISubscriptionManager, AnalyticsSubscriptionManager>(sp =>
 			{
 				var userAddedHandler = sp.GetRequiredService<IdentityUserAddedEventHandler>();
 				var vehicleAddedHandler = sp.GetRequiredService<NewVehicleAddedEventHandler>();
+				var vehicleDeletedHandler = sp.GetRequiredService<VehicleDeletedEventHandler>();
 
-				return new AnalyticsSubscriptionManager(userAddedHandler, vehicleAddedHandler);
+				return new AnalyticsSubscriptionManager(userAddedHandler, vehicleAddedHandler, vehicleDeletedHandler);
 			});
 
 			services.AddSingleton<IServiceBus, RabbitMQServiceBus>(sp =>

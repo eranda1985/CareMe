@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Vehicle.Core.Exceptions;
 using Vehicle.Core.Validators;
@@ -16,7 +15,7 @@ namespace Vehicle.Model.Services
 {
 	public class VehicleDataService : IService<VehicleDataDto>
 	{
-		private IExceptionService _exceptionService;
+		private readonly IExceptionService _exceptionService;
 		private readonly IVehicleDataRepository _vehicleDataRepository;
 		private readonly IVehicleUserDataRepository _vehicleUserDataRepository;
 		private readonly IVehicleTypeRepository _vehicleTypeRepository;
@@ -33,7 +32,7 @@ namespace Vehicle.Model.Services
 				IVehicleUserDataRepository vehicleUserDataRepository,
 				IVehicleTypeRepository vehicleTypeRepository,
 				IVehicleBrandRepository vehicleBrandRepository,
-				IVehicleModelRepository  vehicleModelRepository,
+				IVehicleModelRepository vehicleModelRepository,
 				IServiceBus serviceBus)
 		{
 			_logger = logger;
@@ -98,9 +97,13 @@ namespace Vehicle.Model.Services
 				var newvehicle = await _vehicleDataRepository.GetVehicleByRego(dto.RegoPlate);
 				var evt = new NewVehicleAddedEvent()
 				{
-					VehicleId = newvehicle.Id, Rego = newvehicle.RegoPlate, LastODOMeter = newvehicle.ODOMeter, LastUpdated = newvehicle.Date.ToString("yyyy/MM/dd")
+					VehicleId = newvehicle.Id,
+					Rego = newvehicle.RegoPlate,
+					LastODOMeter = newvehicle.ODOMeter,
+					LastUpdated = newvehicle.Date.ToString("yyyy/MM/dd")
 				};
 
+				// Notify other APIs 
 				_serviceBus.Publish<NewVehicleAddedEvent>(evt);
 				_logger.LogDebug("New vehicle added event published for rego: {0}", newvehicle.RegoPlate);
 			}
@@ -199,7 +202,13 @@ namespace Vehicle.Model.Services
 			var id = (long)args[0];
 			var vehiclePoco = await _vehicleDataRepository.GetVehicleById(id);
 			var res = await _vehicleDataRepository.DeleteEntry(vehiclePoco);
-			
+
+			if(res > -1)
+			{
+				// Notify other APIs about the deleted vehicle.
+				_serviceBus.Publish(new VehicleDeletedEvent { VehicleId = id });
+			}
+
 			return res > -1;
 
 		}
