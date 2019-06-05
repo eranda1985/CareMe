@@ -14,7 +14,7 @@ namespace Analytics.Model.Services
 	{
 		private readonly IExceptionService _exceptionService;
 		private readonly IFuelDataRepository<FuelDetailsModel> _fuelRepository;
-		IService<VehiclesDetailsDto> _vehicleService;
+		private readonly IService<VehiclesDetailsDto> _vehicleService;
 
 		public FuelDataService(
 			IExceptionService exceptionService,
@@ -32,30 +32,30 @@ namespace Analytics.Model.Services
 			_exceptionService.Throw(() => Validator.CheckNull(((FuelDataRepository)_fuelRepository).DBContext));
 
 			var model = Mapper.Map<FuelDetailsModel>(dto);
-			bool result = false;
+			bool insertStatus = false;
 
-			using (_fuelRepository)
+			var updatedVehicleDto = new VehiclesDetailsDto
 			{
-				var res = await _fuelRepository.AddNew(model);
-				result = res > -1;
-			}
+				VehicleId = dto.VehicleId,
+				LastODOMeter = dto.Mileage,
+				LastUpdated = dto.Date
+			};
 
-			if (result == true)
+			var updateStatus = await ((VehicleDataService)_vehicleService).UpdateEntry(updatedVehicleDto);
+
+			if (updateStatus)
 			{
-				var updatedVehicleDto = new VehiclesDetailsDto
+				using (_fuelRepository)
 				{
-					VehicleId = dto.VehicleId,
-					LastODOMeter = dto.Mileage,
-					LastUpdated = dto.Date
-				};
-
-				result = await ((VehicleDataService)_vehicleService).UpdateEntry(updatedVehicleDto);
+					var res = await _fuelRepository.AddNew(model);
+					insertStatus = res > -1;
+				}
 			}
 
-			return result;
+			return (insertStatus && updateStatus);
 		}
 
-		public async Task<bool> DeleteEntry(long id)
+		public async Task<bool> DeleteEntry(long vehicleId)
 		{
 			_exceptionService.Throw(() => Validator.CheckNull(((FuelDataRepository)_fuelRepository).DBContext));
 
@@ -63,7 +63,7 @@ namespace Analytics.Model.Services
 
 			using (_fuelRepository)
 			{
-				var existingPoco = await _fuelRepository.GetEntryById(id);
+				var existingPoco = await _fuelRepository.GetEntryById(vehicleId);
 				result = await _fuelRepository.DeleteEntry(existingPoco);
 			}
 

@@ -62,10 +62,10 @@ namespace Analytics.Model.Repositories
 			return await Query(qstring);
 		}
 
-		public async Task<FuelDetailsModel> GetEntryById(long id)
+		public async Task<FuelDetailsModel> GetEntryById(long vid)
 		{
-			var qstring = "SELECT * FROM FuelConsumption WHERE Id=@0";
-			var res = await Query(qstring, id);
+			var qstring = "SELECT * FROM FuelConsumption WHERE VehicleId=@0";
+			var res = await Query(qstring, vid);
 			return res.FirstOrDefault();
 		}
 	}

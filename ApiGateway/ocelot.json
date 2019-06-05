@@ -151,6 +151,7 @@
 			"UpstreamHttpMethod": [ "POST" ]
 		},
 
+
 		/* Analytics */
 		{
 			"DownstreamPathTemplate": "/analytics/recentdata",
@@ -161,7 +162,7 @@
 					"Port": 20391
 				}
 			],
-			"UpstreamPathTemplate": "/getlastmileage",
+			"UpstreamPathTemplate": "/recentfueldata",
 			"UpstreamHttpMethod": [ "GET" ]
 		}
 	],
