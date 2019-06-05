@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Analytics.Api.ActionFilters;
+﻿using Analytics.Api.ActionFilters;
 using Analytics.Api.Exceptions;
 using Analytics.Api.IntegrationEventHandlers;
 using Analytics.Core;
@@ -17,7 +13,6 @@ using CareMe.IntegrationService;
 using CareMe.RabbitMQIntegrationService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -74,12 +69,13 @@ namespace Analytics.Api
 
 			var bus = app.ApplicationServices.GetRequiredService<IServiceBus>();
 			bus.Subscribe<IdentityUserAddedEvent, IdentityUserAddedEventHandler>("UserAddedAnalytics");
+			bus.Subscribe<NewVehicleAddedEvent, NewVehicleAddedEventHandler>("VehicleAddedAnalytics");
 
 			app.UseMvc();
 		}
 	}
 
-	static class ServiceExtensions
+	internal static class ServiceExtensions
 	{
 		public static IServiceCollection AddModelMapping(this IServiceCollection services)
 		{
@@ -110,11 +106,15 @@ namespace Analytics.Api
 
 			// MQ integration
 			services.AddTransient<IdentityUserAddedEventHandler>();
-			services.AddSingleton<ISubscriptionManager, AnalyticsSubscriptionManager>(sp=>
+			services.AddTransient<NewVehicleAddedEventHandler>();
+
+			services.AddSingleton<ISubscriptionManager, AnalyticsSubscriptionManager>(sp =>
 			{
-				var handler = sp.GetRequiredService<IdentityUserAddedEventHandler>();
-				return new AnalyticsSubscriptionManager(handler);
-			 });
+				var userAddedHandler = sp.GetRequiredService<IdentityUserAddedEventHandler>();
+				var vehicleAddedHandler = sp.GetRequiredService<NewVehicleAddedEventHandler>();
+
+				return new AnalyticsSubscriptionManager(userAddedHandler, vehicleAddedHandler);
+			});
 
 			services.AddSingleton<IServiceBus, RabbitMQServiceBus>(sp =>
 			{

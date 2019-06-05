@@ -18,7 +18,7 @@ namespace Analytics.Api.Controllers
 		[MapToApiVersion("1.0")]
 		public async Task<IActionResult> Ping()
 		{
-			return Ok("Reply from server");
+			return Ok("Reply from Analytics API.");
 		}
 	}
 }

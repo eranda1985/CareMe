@@ -98,7 +98,7 @@ namespace Vehicle.Model.Services
 				var newvehicle = await _vehicleDataRepository.GetVehicleByRego(dto.RegoPlate);
 				var evt = new NewVehicleAddedEvent()
 				{
-					VehicleId = newvehicle.Id, Rego = newvehicle.RegoPlate, LastODOMeter = newvehicle.ODOMeter, LastUpdated = newvehicle.Date
+					VehicleId = newvehicle.Id, Rego = newvehicle.RegoPlate, LastODOMeter = newvehicle.ODOMeter, LastUpdated = newvehicle.Date.ToString("yyyy/MM/dd")
 				};
 
 				_serviceBus.Publish<NewVehicleAddedEvent>(evt);

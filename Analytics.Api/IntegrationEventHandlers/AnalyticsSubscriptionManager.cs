@@ -9,10 +9,14 @@ namespace Analytics.Api.IntegrationEventHandlers
 	public class AnalyticsSubscriptionManager : ISubscriptionManager
 	{
 		private IdentityUserAddedEventHandler _identityUserAddedEventHandler;
+		NewVehicleAddedEventHandler _vehicleAddedEventHandler;
 
-		public AnalyticsSubscriptionManager(IdentityUserAddedEventHandler handler )
+		public AnalyticsSubscriptionManager(
+			IdentityUserAddedEventHandler userAddedEventHandler,
+			NewVehicleAddedEventHandler vehicleAddedEventHandler)
 		{
-			_identityUserAddedEventHandler = handler;
+			_identityUserAddedEventHandler = userAddedEventHandler;
+			_vehicleAddedEventHandler = vehicleAddedEventHandler;
 		}
 
 		public IIntegrationEventHandler GetEventHandler<T>() where T : IIntegrationEventHandler
@@ -21,6 +25,12 @@ namespace Analytics.Api.IntegrationEventHandlers
 			{
 				return _identityUserAddedEventHandler;
 			}
+
+			if (typeof(T).Equals(_vehicleAddedEventHandler.GetType()))
+			{
+				return _identityUserAddedEventHandler;
+			}
+
 
 			return null;
 		}
