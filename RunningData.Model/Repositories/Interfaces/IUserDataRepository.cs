@@ -1,14 +1,12 @@
 ﻿using RunningData.Model.Models;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace RunningData.Model.Repositories.Interfaces
 {
-	public interface IUserDataRepository: IRepository<UserDataModel>
+	public interface IUserDataRepository<T> : IDisposable where T : UserDataModel
 	{
-		Task<bool> UpsertUser(UserDataModel user);
-        Task<UserDataModel> GetUserByName(string username);
+		Task<bool> UpsertUser(T user);
+		Task<T> GetUserByName(string username);
 	}
 }
