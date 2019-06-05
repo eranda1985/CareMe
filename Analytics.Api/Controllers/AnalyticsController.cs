@@ -37,7 +37,7 @@ namespace Analytics.Api.Controllers
 		[Route("recentdata")]
 		[ProducesResponseType(200, Type = typeof(List<FuelDetailsDto>))]
 		[MapToApiVersion("1.0")]
-		//[ServiceFilter(typeof(AuthorizeUserTokenAttribute))]
+		[ServiceFilter(typeof(AuthorizeUserTokenAttribute))]
 
 		public async Task<IActionResult> GetFuelConsumptionRecent()
 		{
