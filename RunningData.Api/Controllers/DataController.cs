@@ -15,7 +15,7 @@ using RunningData.Model.Services;
 
 namespace RunningData.Api.Controllers
 {
-    [Route("postdata")]
+    [Route("fueldata")]
     [Produces("application/json")]
     [ApiVersion("1.0")]
     public class DataController : Controller
@@ -31,9 +31,9 @@ namespace RunningData.Api.Controllers
             _configuration = configuration;
         }
         
-        // POST: postdata/fuel
+        // POST: fueldata/add
         [HttpPost]
-        [Route("fuel")]
+        [Route("add")]
         [ProducesResponseType(200, Type=typeof(bool))]
         [MapToApiVersion("1.0")]
 	    [ServiceFilter(typeof(AuthorizeUserTokenAttribute))]
@@ -43,7 +43,8 @@ namespace RunningData.Api.Controllers
             var res = await ((FuelDataService)_fuelService).InsertAsync(DateTime.Parse(request.Date,CultureInfo.GetCultureInfo("en-AU"))
                 , request.Litres, 
                 request.Price, 
-                request.Mileage);
+                request.Mileage,
+								request.VehicleId);
             return res;
         }
     }

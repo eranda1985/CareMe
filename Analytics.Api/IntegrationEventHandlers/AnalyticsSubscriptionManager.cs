@@ -7,15 +7,18 @@ namespace Analytics.Api.IntegrationEventHandlers
 		private readonly IdentityUserAddedEventHandler _identityUserAddedEventHandler;
 		private readonly NewVehicleAddedEventHandler _vehicleAddedEventHandler;
 		private readonly VehicleDeletedEventHandler _vehicleDeletedEventHandler;
+		private readonly FuelRecordAddedEventHandler _fuelRecordAddedEventHandler;
 
 		public AnalyticsSubscriptionManager(
 			IdentityUserAddedEventHandler userAddedEventHandler,
 			NewVehicleAddedEventHandler vehicleAddedEventHandler,
-			VehicleDeletedEventHandler vehicleDeletedEventHandler)
+			VehicleDeletedEventHandler vehicleDeletedEventHandler,
+			FuelRecordAddedEventHandler fuelRecordAddedEventHandler)
 		{
 			_identityUserAddedEventHandler = userAddedEventHandler;
 			_vehicleAddedEventHandler = vehicleAddedEventHandler;
 			_vehicleDeletedEventHandler = vehicleDeletedEventHandler;
+			_fuelRecordAddedEventHandler = fuelRecordAddedEventHandler;
 		}
 
 		public IIntegrationEventHandler GetEventHandler<T>() where T : IIntegrationEventHandler
@@ -34,6 +37,12 @@ namespace Analytics.Api.IntegrationEventHandlers
 			{
 				return _vehicleDeletedEventHandler;
 			}
+
+			if (typeof(T).Equals(_fuelRecordAddedEventHandler.GetType()))
+			{
+				return _fuelRecordAddedEventHandler;
+			}
+
 
 			return null;
 		}

@@ -52,5 +52,22 @@ namespace Analytics.Model.Services
 
 			return result;
 		}
+
+		public async Task<bool> UpdateEntry(VehiclesDetailsDto dto)
+		{
+			_exceptionService.Throw(() => Validator.CheckNull(((VehicleRepository)_vehicleRepository).DBContext));
+
+			bool result = false;
+
+			using (_vehicleRepository)
+			{
+				var existingPoco = await _vehicleRepository.GetVehicleById(dto.VehicleId);
+				existingPoco.LastODOMeter = dto.LastODOMeter;
+				existingPoco.LastUpdated = dto.LastUpdated;
+				result = await _vehicleRepository.UpdateVehicle(existingPoco);
+			}
+
+			return result;
+		}
 	}
 }

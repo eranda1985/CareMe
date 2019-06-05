@@ -137,9 +137,23 @@
 			"UpstreamHttpMethod": [ "GET" ]
 		},
 
+		/* Fuel Data*/
+		{
+			"DownstreamPathTemplate": "/fueldata/add",
+			"DownstreamScheme": "http",
+			"DownstreamHostAndPorts": [
+				{
+					"Host": "10.222.98.163",
+					"Port": 20491
+				}
+			],
+			"UpstreamPathTemplate": "/addfuelentry",
+			"UpstreamHttpMethod": [ "POST" ]
+		},
+
 		/* Analytics */
 		{
-			"DownstreamPathTemplate": "/analytics/models/{brandid}",
+			"DownstreamPathTemplate": "/analytics/recentdata",
 			"DownstreamScheme": "http",
 			"DownstreamHostAndPorts": [
 				{

@@ -42,11 +42,17 @@ namespace Analytics.Model.Repositories
 			this.DBContext = context;
 		}
 
-		public async Task<VehicleDetailsModel> GetVehicleById(long id)
+		public async Task<VehicleDetailsModel> GetVehicleById(long vehicleId)
 		{
 			var qstring = "SELECT * FROM VehicleDetails WHERE VehicleId = @0";
-			var res = await Query(qstring, id);
+			var res = await Query(qstring, vehicleId);
 			return res.FirstOrDefault();
+		}
+
+		public async Task<bool> UpdateVehicle(VehicleDetailsModel poco)
+		{
+			var res = await Update(poco);
+			return res > -1;
 		}
 	}
 }

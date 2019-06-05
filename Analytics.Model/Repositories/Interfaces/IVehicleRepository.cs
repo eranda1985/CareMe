@@ -13,5 +13,6 @@ namespace Analytics.Model.Repositories.Interfaces
 		Task<long> AddNew(T poco);
 		Task<bool> DeleteEntry(T poco);
 		Task<VehicleDetailsModel> GetVehicleById(long id);
+		Task<bool> UpdateVehicle(T poco);
 	}
 }

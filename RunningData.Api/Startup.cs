@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using CareMe.IntegrationService;
 using CareMe.RabbitMQIntegrationService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -45,16 +38,16 @@ namespace RunningData.Api
 			{
 				options.AddPolicy("CorsPolicy", builder =>
 							{
-						builder.AllowAnyOrigin()
-									.AllowAnyMethod()
-									.AllowAnyHeader();
-					});
+								builder.AllowAnyOrigin()
+											.AllowAnyMethod()
+											.AllowAnyHeader();
+							});
 			})
 			.AddMvc(options =>
 			{
 				options.Filters.Add(typeof(GlobalExceptionHandler));
-							//options.Filters.Add(typeof(AuthorizeUserTokenAttribute)); // Can't register the filter here since it uses DI
-						})
+				//options.Filters.Add(typeof(AuthorizeUserTokenAttribute)); // Can't register the filter here since it uses DI
+			})
 			.AddControllersAsServices();
 
 			services.AddApiVersioning(o =>
@@ -82,7 +75,7 @@ namespace RunningData.Api
 		}
 	}
 
-	static class Extensions
+	internal static class Extensions
 	{
 		public static IServiceCollection AddIoC(this IServiceCollection services, IConfiguration configuration)
 		{

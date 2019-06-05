@@ -71,6 +71,7 @@ namespace Analytics.Api
 			bus.Subscribe<IdentityUserAddedEvent, IdentityUserAddedEventHandler>("UserAddedAnalytics");
 			bus.Subscribe<NewVehicleAddedEvent, NewVehicleAddedEventHandler>("VehicleAddedAnalytics");
 			bus.Subscribe<VehicleDeletedEvent, VehicleDeletedEventHandler>("VehicleDeletedAnalytics");
+			bus.Subscribe<FuelRecordAddedEvent, FuelRecordAddedEventHandler>("VehicleDeletedAnalytics");
 
 			app.UseMvc();
 		}
@@ -91,6 +92,7 @@ namespace Analytics.Api
 				.ForMember(dst => dst.UserName, opt => opt.MapFrom(src => src.Username));
 
 				config.CreateMap<VehiclesDetailsDto, VehicleDetailsModel>();
+				config.CreateMap<FuelDetailsDto, FuelDetailsModel>();
 			});
 
 			return services;
@@ -102,24 +104,28 @@ namespace Analytics.Api
 			services.AddTransient<IService<UserDataDto>, UserDataService>();
 			services.AddTransient<IExceptionService, ExceptionService>();
 			services.AddTransient<IService<VehiclesDetailsDto>, VehicleDataService>();
+			services.AddTransient<IService<FuelDetailsDto>, FuelDataService>();
 
 			// respositories
 			services.AddTransient<IUserDataRepository<UserDataModel>, UserDataRepository>();
 			services.AddTransient<IVehicleRepository<VehicleDetailsModel>, VehicleRepository>();
+			services.AddTransient<IFuelDataRepository<FuelDetailsModel>, FuelDataRepository>();
 			services.AddTransient<IDataConnection, SqlDataConnection>();
 
 			// MQ integration
 			services.AddTransient<IdentityUserAddedEventHandler>();
 			services.AddTransient<NewVehicleAddedEventHandler>();
 			services.AddTransient<VehicleDeletedEventHandler>();
+			services.AddTransient<FuelRecordAddedEventHandler>();
 
 			services.AddSingleton<ISubscriptionManager, AnalyticsSubscriptionManager>(sp =>
 			{
 				var userAddedHandler = sp.GetRequiredService<IdentityUserAddedEventHandler>();
 				var vehicleAddedHandler = sp.GetRequiredService<NewVehicleAddedEventHandler>();
 				var vehicleDeletedHandler = sp.GetRequiredService<VehicleDeletedEventHandler>();
+				var fuelRecordAddedHandler = sp.GetRequiredService<FuelRecordAddedEventHandler>();
 
-				return new AnalyticsSubscriptionManager(userAddedHandler, vehicleAddedHandler, vehicleDeletedHandler);
+				return new AnalyticsSubscriptionManager(userAddedHandler, vehicleAddedHandler, vehicleDeletedHandler, fuelRecordAddedHandler);
 			});
 
 			services.AddSingleton<IServiceBus, RabbitMQServiceBus>(sp =>
