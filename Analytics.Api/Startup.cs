@@ -88,6 +88,8 @@ namespace Analytics.Api
 				config.CreateMap<UserDataDto, UserDataModel>()
 				.ForMember(dst => dst.SecretKey, opt => opt.MapFrom(src => src.Secret))
 				.ForMember(dst => dst.UserName, opt => opt.MapFrom(src => src.Username));
+
+				config.CreateMap<VehiclesDetailsDto, VehicleDetailsModel>();
 			});
 
 			return services;
@@ -98,10 +100,11 @@ namespace Analytics.Api
 			// services 
 			services.AddTransient<IService<UserDataDto>, UserDataService>();
 			services.AddTransient<IExceptionService, ExceptionService>();
-
+			services.AddTransient<IService<VehiclesDetailsDto>, VehicleDataService>();
 
 			// respositories
 			services.AddTransient<IUserDataRepository<UserDataModel>, UserDataRepository>();
+			services.AddTransient<IVehicleRepository<VehicleDetailsModel>, VehicleRepository>();
 			services.AddTransient<IDataConnection, SqlDataConnection>();
 
 			// MQ integration

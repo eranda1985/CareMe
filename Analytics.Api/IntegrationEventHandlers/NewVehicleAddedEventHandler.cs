@@ -26,15 +26,16 @@ namespace Analytics.Api.IntegrationEventHandlers
 		{
 			_logger.LogDebug("Entering into the handler for New Vehicled Added event in Analytics API");
 
-			var e = @event as NewVehicleAddedEvent;
-
-			_ = await ((VehicleDataService)_service).AddEntry(new VehiclesDetailsDto
+			if (@event is NewVehicleAddedEvent e)
 			{
-				VehicleId = e.VehicleId,
-				Rego = e.Rego,
-				LastODOMeter = e.LastODOMeter,
-				LastUpdated = DateTime.Parse(e.LastUpdated, CultureInfo.GetCultureInfo("en-AU"))
-			});
+				_ = await ((VehicleDataService)_service).AddEntry(new VehiclesDetailsDto
+				{
+					VehicleId = e.VehicleId,
+					Rego = e.Rego,
+					LastODOMeter = e.LastODOMeter,
+					LastUpdated = DateTime.Parse(e.LastUpdated, CultureInfo.GetCultureInfo("en-AU"))
+				});
+			}
 		}
 	}
 }

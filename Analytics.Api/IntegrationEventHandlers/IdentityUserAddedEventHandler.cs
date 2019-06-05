@@ -24,11 +24,14 @@ namespace Analytics.Api.IntegrationEventHandlers
 
 		public async Task HandleEvent(IntegrationEvent @event)
 		{
-			var e = @event as IdentityUserAddedEvent;
-			_ = await ((UserDataService)_userDataService).CreateUser(new UserDataDto
+			if (@event is IdentityUserAddedEvent e)
 			{
-				Secret = e.UserSecret, Username = e.Username
-			});
+				_ = await ((UserDataService)_userDataService).CreateUser(new UserDataDto
+				{
+					Secret = e.UserSecret,
+					Username = e.Username
+				});
+			}
 		}
 	}
 }

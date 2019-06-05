@@ -28,7 +28,7 @@ namespace Analytics.Api.IntegrationEventHandlers
 
 			if (typeof(T).Equals(_vehicleAddedEventHandler.GetType()))
 			{
-				return _identityUserAddedEventHandler;
+				return _vehicleAddedEventHandler;
 			}
 
 
