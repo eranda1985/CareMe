@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Analytics.Api.ActionFilters;
@@ -35,7 +36,7 @@ namespace Analytics.Api.Controllers
 			_vehicleService = vehicleService;
 		}
 
-		//	GET: analytics/fuel/recent
+		//	GET: analytics/fuel/recentdata/{vehicleId}
 		[HttpGet]
 		[Route("fuel/recentdata/{vehicleId}")]
 		[ProducesResponseType(200, Type = typeof(List<FuelDetailsDto>))]
@@ -58,6 +59,34 @@ namespace Analytics.Api.Controllers
 		public async Task<IActionResult> GetLastMileInfo(long vehicleId)
 		{
 			var res = await ((VehicleDataService)_vehicleService).GetVehicleById(vehicleId);
+			return Ok(res);
+		}
+
+		//	GET: analytics/fuel/backward/{vehicleId}?seeddate=
+		[HttpGet]
+		[Route("fuel/backward/{vehicleId}")]
+		[ProducesResponseType(200, Type = typeof(List<FuelDetailsDto>))]
+		[MapToApiVersion("1.0")]
+		[ServiceFilter(typeof(AuthorizeUserTokenAttribute))]
+
+		public async Task<IActionResult> GetFuelConsumptionBackward(string seeddate, long vehicleId)
+		{
+			var seedDate = DateTime.Parse(seeddate, CultureInfo.GetCultureInfo("en-AU"));
+			var res = await ((FuelDataService)_fuelService).GetBackwardEntries(seedDate, vehicleId);
+			return Ok(res);
+		}
+
+		//	GET: analytics/fuel/forward/{vehicleId}?seeddate=
+		[HttpGet]
+		[Route("fuel/forward/{vehicleId}")]
+		[ProducesResponseType(200, Type = typeof(List<FuelDetailsDto>))]
+		[MapToApiVersion("1.0")]
+		[ServiceFilter(typeof(AuthorizeUserTokenAttribute))]
+
+		public async Task<IActionResult> GetFuelConsumptionForward(string seeddate, long vehicleId)
+		{
+			var seedDate = DateTime.Parse(seeddate, CultureInfo.GetCultureInfo("en-AU"));
+			var res = await ((FuelDataService)_fuelService).GetForwardEntries(seedDate, vehicleId);
 			return Ok(res);
 		}
 	}

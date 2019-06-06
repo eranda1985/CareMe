@@ -166,6 +166,30 @@
 			"UpstreamHttpMethod": [ "GET" ]
 		},
 		{
+			"DownstreamPathTemplate": "/analytics/fuel/forward/{vehicleId}?seeddate={seeddate}",
+			"DownstreamScheme": "http",
+			"DownstreamHostAndPorts": [
+				{
+					"Host": "10.222.98.163",
+					"Port": 20391
+				}
+			],
+			"UpstreamPathTemplate": "/forwardfueldata/{vehicleId}/{seeddate}",
+			"UpstreamHttpMethod": [ "GET" ]
+		},
+		{
+			"DownstreamPathTemplate": "/analytics/fuel/backward/{vehicleId}?seeddate={seeddate}",
+			"DownstreamScheme": "http",
+			"DownstreamHostAndPorts": [
+				{
+					"Host": "10.222.98.163",
+					"Port": 20391
+				}
+			],
+			"UpstreamPathTemplate": "/backwardfueldata/{vehicleId}/{seeddate}",
+			"UpstreamHttpMethod": [ "GET" ]
+		},
+		{
 			"DownstreamPathTemplate": "/analytics/vehicle/{vehicleId}/lastmile",
 			"DownstreamScheme": "http",
 			"DownstreamHostAndPorts": [

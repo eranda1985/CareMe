@@ -45,10 +45,10 @@ namespace Analytics.Model.Repositories
 			return await Query(qstring, vid);
 		}
 
-		public async Task<List<FuelDetailsModel>> GetBackwardEntriesFromOffset(DateTime seed)
+		public async Task<List<FuelDetailsModel>> GetBackwardEntriesFromOffset(DateTime seed, long vid)
 		{
-			var qstring = "SELECT TOP (7) * FROM FuelConsumption WHERE [Date] < @0 ORDER BY [Date] DESC";
-			return await Query(qstring);
+			var qstring = "SELECT TOP (7) * FROM FuelConsumption WHERE [Date] < @0 AND VehicleId = @1 ORDER BY [Date] DESC";
+			return await Query(qstring, seed, vid);
 		}
 
 		public void SetDBContext(Database context)
@@ -56,10 +56,10 @@ namespace Analytics.Model.Repositories
 			DBContext = context;
 		}
 
-		public async Task<List<FuelDetailsModel>> GetForewardEntriesFromOffset(DateTime seed)
+		public async Task<List<FuelDetailsModel>> GetForewardEntriesFromOffset(DateTime seed, long vid)
 		{
-			var qstring = "SELECT TOP (7) * FROM FuelConsumption WHERE [Date] > @0 ORDER BY [Date] DESC";
-			return await Query(qstring);
+			var qstring = "SELECT TOP (7) * FROM FuelConsumption WHERE [Date] > @0 AND VehicleId = @1 ORDER BY [Date] DESC";
+			return await Query(qstring, seed, vid);
 		}
 
 		public async Task<FuelDetailsModel> GetEntryById(long vid)

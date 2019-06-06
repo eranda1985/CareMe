@@ -85,7 +85,7 @@ namespace Analytics.Model.Services
 			return result;
 		}
 
-		public async Task<List<FuelDetailsDto>> GetBackwardEntries(DateTime seed)
+		public async Task<List<FuelDetailsDto>> GetBackwardEntries(DateTime seed, long vid)
 		{
 			_exceptionService.Throw(() => Validator.CheckNull(((FuelDataRepository)_fuelRepository).DBContext));
 
@@ -93,14 +93,14 @@ namespace Analytics.Model.Services
 
 			using (_fuelRepository)
 			{
-				var modelsList = await _fuelRepository.GetBackwardEntriesFromOffset(seed);
+				var modelsList = await _fuelRepository.GetBackwardEntriesFromOffset(seed, vid);
 				result = Mapper.Map<List<FuelDetailsDto>>(modelsList);
 			}
 
 			return result;
 		}
 
-		public async Task<List<FuelDetailsDto>> GetForwardEntries(DateTime seed)
+		public async Task<List<FuelDetailsDto>> GetForwardEntries(DateTime seed, long vid)
 		{
 			_exceptionService.Throw(() => Validator.CheckNull(((FuelDataRepository)_fuelRepository).DBContext));
 
@@ -108,7 +108,7 @@ namespace Analytics.Model.Services
 
 			using (_fuelRepository)
 			{
-				var modelsList = await _fuelRepository.GetForewardEntriesFromOffset(seed);
+				var modelsList = await _fuelRepository.GetForewardEntriesFromOffset(seed, vid);
 				result = Mapper.Map<List<FuelDetailsDto>>(modelsList);
 			}
 
