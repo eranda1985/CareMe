@@ -61,5 +61,6 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\UserData.sql" />
+    <Build Include="dbo\Tables\FuelData.sql" />
   </ItemGroup>
 </Project>

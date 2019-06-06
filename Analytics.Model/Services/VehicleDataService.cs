@@ -62,9 +62,12 @@ namespace Analytics.Model.Services
 			using (_vehicleRepository)
 			{
 				var existingPoco = await _vehicleRepository.GetVehicleById(dto.VehicleId);
-				existingPoco.LastODOMeter = dto.LastODOMeter;
-				existingPoco.LastUpdated = dto.LastUpdated;
-				result = await _vehicleRepository.UpdateVehicle(existingPoco);
+				if (existingPoco != null)
+				{
+					existingPoco.LastODOMeter = dto.LastODOMeter;
+					existingPoco.LastUpdated = dto.LastUpdated;
+					result = await _vehicleRepository.UpdateVehicle(existingPoco);
+				}
 			}
 
 			return result;

@@ -54,7 +54,7 @@ namespace Analytics.Api.ActionFilters
 
 				// Using the secret key generate a new token 
 				// Compute jwt secret
-				var bytes = Encoding.UTF8.GetBytes(string.Concat(_appSettings.JWTSecurityKey, userModel.Secret));
+				var bytes = Encoding.UTF8.GetBytes(string.Concat(_appSettings.JWTSecretKey, userModel.Secret));
 				SHA256Managed hash = new SHA256Managed();
 				byte[] jwtSecret = hash.ComputeHash(bytes);
 
