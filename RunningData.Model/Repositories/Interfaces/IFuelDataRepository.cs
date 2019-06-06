@@ -4,8 +4,8 @@ using RunningData.Model.Models;
 
 namespace RunningData.Model.Repositories.Interfaces
 {
-    public interface IFuelDataRepository: IRepository<FuelDataModel>
+    public interface IFuelDataRepository<T>: IDisposable where T: FuelDataModel
     {
-        Task<bool> AddFuelData(FuelDataModel poco);
+        Task<bool> AddFuelData(T poco);
     }
 }

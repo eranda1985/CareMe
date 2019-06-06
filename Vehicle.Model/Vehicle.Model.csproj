@@ -5,10 +5,12 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="7.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="NPoco" Version="3.9.4" />
     <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="2.2.4" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CareMe.IntegrationService\CareMe.IntegrationService.csproj" />
     <ProjectReference Include="..\Vehicle.Core\Vehicle.Core.csproj" />
   </ItemGroup>
 </Project>

@@ -24,7 +24,7 @@ namespace RunningData.Api.Parameters
 
         [DataType(DataType.Currency)]
         [JsonProperty(PropertyName = "price")]
-        public decimal Price
+        public double Price
         {
             get;
             set;
@@ -36,5 +36,8 @@ namespace RunningData.Api.Parameters
             get;
             set;
         }
+
+		[JsonProperty("vehicleid")]
+		public long VehicleId { get; set; }
     }
 }

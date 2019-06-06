@@ -65,7 +65,7 @@ namespace Identity.Model.Services
             if (user == null)
             {
                 var emailService = _emailService as EmailService;
-                emailService.SendMail("eranda.lakshantha@gmail.com", "eranda1985@yahoo.com");
+                emailService.SendMail("eranda.lakshantha@gmail.com", userName);
                 return new AuthenticationResponseDto { Token = "", Username = userName, Password = password, SignUpCode = "0000" };
 
             }
@@ -79,7 +79,7 @@ namespace Identity.Model.Services
 
             // Update last login date
             user.LastLoginDate = DateTime.Now;
-            await _userRepository.UpdateUserAsync(user);
+            _ = await _userRepository.UpdateUserAsync(user);
 
             // Create claims 
             List<Claim> claims = new List<Claim>
@@ -167,7 +167,7 @@ namespace Identity.Model.Services
                 _exceptionService.Throw(Validator.UnAuthorized);
             }
 
-            // Make sure to communicate this new user to RunningData API for integration purposes. 
+            // Make sure to communicate this new user to other APIs for integration purposes. 
             var msg = new IdentityUserAddedEvent(userDto.Username, userDto.SecretKey);
             _logger.LogDebug("Publish Message username: {0} secret: {1}", msg.Username, msg.UserSecret);
             _serviceBus.Publish<IdentityUserAddedEvent>(msg);

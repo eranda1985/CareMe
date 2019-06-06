@@ -1,11 +1,11 @@
-﻿{
+{
   "iisSettings": {
-    "windowsAuthentication": false, 
-    "anonymousAuthentication": true, 
-    "iisExpress": {
-      "applicationUrl": "http://localhost:2609",
-      "sslPort": 44326
-    }
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+		"iisExpress": {
+			"applicationUrl": "http://localhost:20292",
+			"sslPort": 0
+		}
   },
   "profiles": {
     "IIS Express": {
@@ -18,10 +18,10 @@
     "Vehicle.API": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "http://*:2609/",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "applicationUrl": "http://*:20291/"
     }
   }
 }

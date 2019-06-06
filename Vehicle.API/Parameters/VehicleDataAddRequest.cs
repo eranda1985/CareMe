@@ -24,5 +24,7 @@ namespace Vehicle.API.Parameters
         public string Date { get; set; }
         [JsonProperty(PropertyName = "odo")]
         public double ODOMeter { get; set; }
+        [JsonProperty(PropertyName = "username")]
+        public string Username { get; set; }
     }
 }
