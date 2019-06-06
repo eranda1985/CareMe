@@ -19,22 +19,25 @@ namespace Analytics.Api.Controllers
 	{
 
 		private IService<FuelDetailsDto> _fuelService;
+		private IService<VehiclesDetailsDto> _vehicleService;
 		private IConfiguration _configuration;
 		private ILogger<AnalyticsController> _logger;
 
 		public AnalyticsController(
 			IService<FuelDetailsDto> fuelService,
+			IService<VehiclesDetailsDto> vehicleService,
 			IConfiguration configuration,
 			ILogger<AnalyticsController> logger)
 		{
 			_fuelService = fuelService;
 			_configuration = configuration;
 			_logger = logger;
+			_vehicleService = vehicleService;
 		}
 
 		//	GET: analytics/fuel/recent
 		[HttpGet]
-		[Route("recentdata")]
+		[Route("fuel/recentdata")]
 		[ProducesResponseType(200, Type = typeof(List<FuelDetailsDto>))]
 		[MapToApiVersion("1.0")]
 		[ServiceFilter(typeof(AuthorizeUserTokenAttribute))]
@@ -42,6 +45,19 @@ namespace Analytics.Api.Controllers
 		public async Task<IActionResult> GetFuelConsumptionRecent()
 		{
 			var res = await ((FuelDataService)_fuelService).GetRecentEntries();
+			return Ok(res);
+		}
+
+		//	GET: analytics/vehicle/{vehicleId}/lastmile
+		[HttpGet]
+		[Route("vehicle/{vehicleId}/lastmile")]
+		[ProducesResponseType(200, Type = typeof(VehiclesDetailsDto))]
+		[MapToApiVersion("1.0")]
+		[ServiceFilter(typeof(AuthorizeUserTokenAttribute))]
+
+		public async Task<IActionResult> GetLastMileInfo(long vehicleId)
+		{
+			var res = await ((VehicleDataService)_vehicleService).GetVehicleById(vehicleId);
 			return Ok(res);
 		}
 	}

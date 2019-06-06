@@ -154,7 +154,7 @@
 
 		/* Analytics */
 		{
-			"DownstreamPathTemplate": "/analytics/recentdata",
+			"DownstreamPathTemplate": "/analytics/fuel/recentdata",
 			"DownstreamScheme": "http",
 			"DownstreamHostAndPorts": [
 				{
@@ -163,6 +163,18 @@
 				}
 			],
 			"UpstreamPathTemplate": "/recentfueldata",
+			"UpstreamHttpMethod": [ "GET" ]
+		},
+		{
+			"DownstreamPathTemplate": "/analytics/vehicle/{vehicleId}/lastmile",
+			"DownstreamScheme": "http",
+			"DownstreamHostAndPorts": [
+				{
+					"Host": "10.222.98.163",
+					"Port": 20391
+				}
+			],
+			"UpstreamPathTemplate": "/lastmileage/{vehicleId}",
 			"UpstreamHttpMethod": [ "GET" ]
 		}
 	],

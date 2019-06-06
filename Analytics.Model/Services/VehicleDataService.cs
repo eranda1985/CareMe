@@ -72,5 +72,15 @@ namespace Analytics.Model.Services
 
 			return result;
 		}
+
+		public async Task<VehiclesDetailsDto> GetVehicleById(long vid)
+		{
+			using (_vehicleRepository)
+			{
+				var model = await _vehicleRepository.GetVehicleById(vid);
+				var dto = Mapper.Map<VehiclesDetailsDto>(model);
+				return dto;
+			}
+		}
 	}
 }
