@@ -39,10 +39,10 @@ namespace Analytics.Model.Repositories
 			}
 		}
 
-		public async Task<List<FuelDetailsModel>> GetRecentFuelEntries()
+		public async Task<List<FuelDetailsModel>> GetRecentFuelEntries(long vid)
 		{
-			var qstring = "SELECT TOP (7) * FROM FuelConsumption ORDER BY [Date] DESC";
-			return await Query(qstring);
+			var qstring = "SELECT TOP (7) * FROM FuelConsumption WHERE VehicleId = @0 ORDER BY [Date] DESC";
+			return await Query(qstring, vid);
 		}
 
 		public async Task<List<FuelDetailsModel>> GetBackwardEntriesFromOffset(DateTime seed)

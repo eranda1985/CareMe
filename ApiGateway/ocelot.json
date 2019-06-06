@@ -154,7 +154,7 @@
 
 		/* Analytics */
 		{
-			"DownstreamPathTemplate": "/analytics/fuel/recentdata",
+			"DownstreamPathTemplate": "/analytics/fuel/recentdata/{vehicleId}",
 			"DownstreamScheme": "http",
 			"DownstreamHostAndPorts": [
 				{
@@ -162,7 +162,7 @@
 					"Port": 20391
 				}
 			],
-			"UpstreamPathTemplate": "/recentfueldata",
+			"UpstreamPathTemplate": "/recentfueldata/{vehicleId}",
 			"UpstreamHttpMethod": [ "GET" ]
 		},
 		{

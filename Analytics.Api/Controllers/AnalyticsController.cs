@@ -37,14 +37,14 @@ namespace Analytics.Api.Controllers
 
 		//	GET: analytics/fuel/recent
 		[HttpGet]
-		[Route("fuel/recentdata")]
+		[Route("fuel/recentdata/{vehicleId}")]
 		[ProducesResponseType(200, Type = typeof(List<FuelDetailsDto>))]
 		[MapToApiVersion("1.0")]
 		[ServiceFilter(typeof(AuthorizeUserTokenAttribute))]
 
-		public async Task<IActionResult> GetFuelConsumptionRecent()
+		public async Task<IActionResult> GetFuelConsumptionRecent(long vehicleId)
 		{
-			var res = await ((FuelDataService)_fuelService).GetRecentEntries();
+			var res = await ((FuelDataService)_fuelService).GetRecentEntries(vehicleId);
 			return Ok(res);
 		}
 

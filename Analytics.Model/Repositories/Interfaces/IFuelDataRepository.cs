@@ -12,7 +12,7 @@ namespace Analytics.Model.Repositories.Interfaces
 		void SetDBContext(Database context);
 		Task<long> AddNew(U poco);
 		Task<bool> DeleteEntry(U poco);
-		Task<List<U>> GetRecentFuelEntries();
+		Task<List<U>> GetRecentFuelEntries(long vid);
 		Task<List<U>> GetBackwardEntriesFromOffset(DateTime seed);
 		Task<List<U>> GetForewardEntriesFromOffset(DateTime seed);
 		Task<U> GetEntryById(long id);

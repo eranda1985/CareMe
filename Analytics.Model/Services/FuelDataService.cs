@@ -70,7 +70,7 @@ namespace Analytics.Model.Services
 			return result;
 		}
 
-		public async Task<List<FuelDetailsDto>> GetRecentEntries()
+		public async Task<List<FuelDetailsDto>> GetRecentEntries(long vid)
 		{
 			_exceptionService.Throw(() => Validator.CheckNull(((FuelDataRepository)_fuelRepository).DBContext));
 
@@ -78,7 +78,7 @@ namespace Analytics.Model.Services
 
 			using (_fuelRepository)
 			{
-				var modelsList = await _fuelRepository.GetRecentFuelEntries();
+				var modelsList = await _fuelRepository.GetRecentFuelEntries(vid);
 				result = Mapper.Map<List<FuelDetailsDto>>(modelsList);
 			}
 

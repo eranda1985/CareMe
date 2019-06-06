@@ -73,7 +73,7 @@ namespace Vehicle.Model.Services
 				Brand = brand,
 				Model = model,
 				FuelType = fuelType,
-				RegoPlate = regoPlate.Trim(),
+				RegoPlate = regoPlate.Trim().ToLower(),
 				Date = date,
 				ODOMeter = odoMeter
 			};
