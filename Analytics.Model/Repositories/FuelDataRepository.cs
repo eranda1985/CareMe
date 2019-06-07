@@ -41,13 +41,13 @@ namespace Analytics.Model.Repositories
 
 		public async Task<List<FuelDetailsModel>> GetRecentFuelEntries(long vid)
 		{
-			var qstring = "SELECT TOP (7) * FROM FuelConsumption WHERE VehicleId = @0 ORDER BY [Date] DESC";
+			var qstring = "SELECT TOP (7) * FROM FuelConsumption WHERE VehicleId = @0 ORDER BY [Date] ASC";
 			return await Query(qstring, vid);
 		}
 
 		public async Task<List<FuelDetailsModel>> GetBackwardEntriesFromOffset(DateTime seed, long vid)
 		{
-			var qstring = "SELECT TOP (7) * FROM FuelConsumption WHERE [Date] < @0 AND VehicleId = @1 ORDER BY [Date] DESC";
+			var qstring = "SELECT TOP (7) * FROM FuelConsumption WHERE [Date] < @0 AND VehicleId = @1 ORDER BY [Date] ASC";
 			return await Query(qstring, seed, vid);
 		}
 
@@ -58,7 +58,7 @@ namespace Analytics.Model.Repositories
 
 		public async Task<List<FuelDetailsModel>> GetForewardEntriesFromOffset(DateTime seed, long vid)
 		{
-			var qstring = "SELECT TOP (7) * FROM FuelConsumption WHERE [Date] > @0 AND VehicleId = @1 ORDER BY [Date] DESC";
+			var qstring = "SELECT TOP (7) * FROM FuelConsumption WHERE [Date] > @0 AND VehicleId = @1 ORDER BY [Date] ASC";
 			return await Query(qstring, seed, vid);
 		}
 
@@ -71,7 +71,7 @@ namespace Analytics.Model.Repositories
 
 		public async Task<List<FuelDetailsModel>> GetFuelDataWithinRange(DateTime upper, DateTime lower, long vid)
 		{
-			var qstring = "SELECT * FROM FuelConsumption WHERE [Date] >= @0 AND [Date] <= @1 AND VehicleId = @2 ORDER BY [Date] DESC";
+			var qstring = "SELECT * FROM FuelConsumption WHERE [Date] >= @0 AND [Date] <= @1 AND VehicleId = @2 ORDER BY [Date] ASC";
 			return await Query(qstring, lower, upper, vid);
 		}
 	}
