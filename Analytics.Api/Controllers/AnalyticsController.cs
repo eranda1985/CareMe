@@ -89,5 +89,21 @@ namespace Analytics.Api.Controllers
 			var res = await ((FuelDataService)_fuelService).GetForwardEntries(seedDate, vehicleId);
 			return Ok(res);
 		}
+
+		//	GET: analytics/fuel/daterange/{vehicleId}?startdate=&enddate=
+		[HttpGet]
+		[Route("fuel/daterange/{vehicleId}")]
+		[ProducesResponseType(200, Type = typeof(List<FuelDetailsDto>))]
+		[MapToApiVersion("1.0")]
+		[ServiceFilter(typeof(AuthorizeUserTokenAttribute))]
+
+		public async Task<IActionResult> GetFuelDataWithinRange(string startdate, string enddate, long vehicleId)
+		{
+			var startDate = DateTime.Parse(startdate, CultureInfo.GetCultureInfo("en-AU"));
+			var endDate = DateTime.Parse(enddate, CultureInfo.GetCultureInfo("en-AU"));
+
+			var res = await ((FuelDataService)_fuelService).GetFuelDataWithinRange(endDate, startDate, vehicleId);
+			return Ok(res);
+		}
 	}
 }

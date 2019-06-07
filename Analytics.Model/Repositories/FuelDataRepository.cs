@@ -68,5 +68,11 @@ namespace Analytics.Model.Repositories
 			var res = await Query(qstring, vid);
 			return res.FirstOrDefault();
 		}
+
+		public async Task<List<FuelDetailsModel>> GetFuelDataWithinRange(DateTime upper, DateTime lower, long vid)
+		{
+			var qstring = "SELECT * FROM FuelConsumption WHERE [Date] >= @0 AND [Date] <= @1 AND VehicleId = @2 ORDER BY [Date] DESC";
+			return await Query(qstring, lower, upper, vid);
+		}
 	}
 }

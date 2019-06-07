@@ -114,5 +114,20 @@ namespace Analytics.Model.Services
 
 			return result;
 		}
+
+		public async Task<List<FuelDetailsDto>> GetFuelDataWithinRange(DateTime upper, DateTime lower, long vid)
+		{
+			_exceptionService.Throw(() => Validator.CheckNull(((FuelDataRepository)_fuelRepository).DBContext));
+
+			List<FuelDetailsDto> result;
+
+			using (_fuelRepository)
+			{
+				var modelsList = await _fuelRepository.GetFuelDataWithinRange(upper, lower, vid);
+				result = Mapper.Map<List<FuelDetailsDto>>(modelsList);
+			}
+
+			return result;
+		}
 	}
 }
