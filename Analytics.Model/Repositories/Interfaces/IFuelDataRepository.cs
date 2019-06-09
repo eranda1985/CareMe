@@ -15,5 +15,6 @@ namespace Analytics.Model.Repositories.Interfaces
 		Task<List<U>> GetBackwardEntriesFromOffset(DateTime seed, long vid);
 		Task<List<U>> GetForewardEntriesFromOffset(DateTime seed, long vid);
 		Task<U> GetEntryById(long id);
+		Task<List<FuelDetailsModel>> GetFuelDataWithinRange(DateTime upper, DateTime lower, long vid);
 	}
 }

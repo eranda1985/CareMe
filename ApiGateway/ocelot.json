@@ -190,6 +190,18 @@
 			"UpstreamHttpMethod": [ "GET" ]
 		},
 		{
+			"DownstreamPathTemplate": "/analytics/fuel/daterange/{vehicleId}?startdate={startdate}&enddate={enddate}",
+			"DownstreamScheme": "http",
+			"DownstreamHostAndPorts": [
+				{
+					"Host": "10.222.98.163",
+					"Port": 20391
+				}
+			],
+			"UpstreamPathTemplate": "/fueldata/{vehicleId}/{startdate}/{enddate}",
+			"UpstreamHttpMethod": [ "GET" ]
+		},
+		{
 			"DownstreamPathTemplate": "/analytics/vehicle/{vehicleId}/lastmile",
 			"DownstreamScheme": "http",
 			"DownstreamHostAndPorts": [
