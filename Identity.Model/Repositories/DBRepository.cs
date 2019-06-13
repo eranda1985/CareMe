@@ -42,7 +42,7 @@ namespace Identity.Model.Repositories
         protected async Task<long> Add(T item)
         {
             var id = await DbContext.InsertAsync<T>(item);
-            var res =  Convert.ToInt64((Decimal)id);
+            var res =  Convert.ToInt64(id);
             return res;
         }
 
