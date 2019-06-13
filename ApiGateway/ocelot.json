@@ -1,219 +1,244 @@
 ﻿{
-	"ReRoutes": [
-		{
-			/*Authentication*/
+  "ReRoutes": [
+    {
+      /*Identity*/
 
-			"DownstreamPathTemplate": "/authentication/login",
-			"DownstreamScheme": "http",
-			"DownstreamHostAndPorts": [
-				{
-					"Host": "10.222.98.163",
-					"Port": 20191
-				}
-			],
-			"UpstreamPathTemplate": "/login/",
-			"UpstreamHttpMethod": [ "POST" ]
-		},
-		{
-			"DownstreamPathTemplate": "/authentication/signup",
-			"DownstreamScheme": "http",
-			"DownstreamHostAndPorts": [
-				{
-					"Host": "10.222.98.163",
-					"Port": 20191
-				}
-			],
-			"UpstreamPathTemplate": "/signup/",
-			"UpstreamHttpMethod": [ "POST" ]
-		},
-		{
-			"DownstreamPathTemplate": "/authentication/version/{devicetype}",
-			"DownstreamScheme": "http",
-			"DownstreamHostAndPorts": [
-				{
-					"Host": "10.222.98.163",
-					"Port": 20191
-				}
-			],
-			"UpstreamPathTemplate": "/versions/{devicetype}",
-			"UpstreamHttpMethod": [ "GET" ]
-		},
-
-		/*Vehicles*/
-		{
-			"DownstreamPathTemplate": "/vehicle/add",
-			"DownstreamScheme": "http",
-			"DownstreamHostAndPorts": [
-				{
-					"Host": "10.222.98.163",
-					"Port": 20291
-				}
-			],
-			"UpstreamPathTemplate": "/addvehicle",
-			"UpstreamHttpMethod": [ "POST" ]
-		},
-		{
-			"DownstreamPathTemplate": "/vehicle/setdfault/{rego}/{username}",
-			"DownstreamScheme": "http",
-			"DownstreamHostAndPorts": [
-				{
-					"Host": "10.222.98.163",
-					"Port": 20291
-				}
-			],
-			"UpstreamPathTemplate": "/setdafaultvehicle/{rego}/{username}",
-			"UpstreamHttpMethod": [ "POST" ]
-		},
-		{
-			"DownstreamPathTemplate": "/vehicle/update",
-			"DownstreamScheme": "http",
-			"DownstreamHostAndPorts": [
-				{
-					"Host": "10.222.98.163",
-					"Port": 20291
-				}
-			],
-			"UpstreamPathTemplate": "/updatevehicle",
-			"UpstreamHttpMethod": [ "PUT" ]
-		},
-		{
-			"DownstreamPathTemplate": "/vehicle/get/{username}",
-			"DownstreamScheme": "http",
-			"DownstreamHostAndPorts": [
-				{
-					"Host": "10.222.98.163",
-					"Port": 20291
-				}
-			],
-			"UpstreamPathTemplate": "/getvehiclesbyuser/{username}",
-			"UpstreamHttpMethod": [ "GET" ]
-		},
-		{
-			"DownstreamPathTemplate": "/vehicle/delete/{id}",
-			"DownstreamScheme": "http",
-			"DownstreamHostAndPorts": [
-				{
-					"Host": "10.222.98.163",
-					"Port": 20291
-				}
-			],
-			"UpstreamPathTemplate": "/deletevehicle/{id}",
-			"UpstreamHttpMethod": [ "DELETE" ]
-		},
-		{
-			"DownstreamPathTemplate": "/vehicle/types",
-			"DownstreamScheme": "http",
-			"DownstreamHostAndPorts": [
-				{
-					"Host": "10.222.98.163",
-					"Port": 20291
-				}
-			],
-			"UpstreamPathTemplate": "/getvehicletypes",
-			"UpstreamHttpMethod": [ "GET" ]
-		},
-		{
-			"DownstreamPathTemplate": "/vehicle/brands",
-			"DownstreamScheme": "http",
-			"DownstreamHostAndPorts": [
-				{
-					"Host": "10.222.98.163",
-					"Port": 20291
-				}
-			],
-			"UpstreamPathTemplate": "/getvehiclebrands",
-			"UpstreamHttpMethod": [ "GET" ]
-		},
-		{
-			"DownstreamPathTemplate": "/vehicle/models/{brandid}",
-			"DownstreamScheme": "http",
-			"DownstreamHostAndPorts": [
-				{
-					"Host": "10.222.98.163",
-					"Port": 20291
-				}
-			],
-			"UpstreamPathTemplate": "/getvehiclemodels/{brandid}",
-			"UpstreamHttpMethod": [ "GET" ]
-		},
-
-		/* Fuel Data*/
-		{
-			"DownstreamPathTemplate": "/fueldata/add",
-			"DownstreamScheme": "http",
-			"DownstreamHostAndPorts": [
-				{
-					"Host": "10.222.98.163",
-					"Port": 20491
-				}
-			],
-			"UpstreamPathTemplate": "/addfuelentry",
-			"UpstreamHttpMethod": [ "POST" ]
-		},
+      "DownstreamPathTemplate": "/authentication/login",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "127.0.0.1",
+          "Port": 20191
+        }
+      ],
+      "UpstreamPathTemplate": "/login/",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/authentication/signup",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "127.0.0.1",
+          "Port": 20191
+        }
+      ],
+      "UpstreamPathTemplate": "/signup/",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/authentication/version/{devicetype}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "127.0.0.1",
+          "Port": 20191
+        }
+      ],
+      "UpstreamPathTemplate": "/versions/{devicetype}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/authentication/profile/{username}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "127.0.0.1",
+          "Port": 20191
+        }
+      ],
+      "UpstreamPathTemplate": "/userprofile/{username}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/authentication/profile",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "127.0.0.1",
+          "Port": 20191
+        }
+      ],
+      "UpstreamPathTemplate": "/userprofile",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
 
 
-		/* Analytics */
-		{
-			"DownstreamPathTemplate": "/analytics/fuel/recentdata/{vehicleId}",
-			"DownstreamScheme": "http",
-			"DownstreamHostAndPorts": [
-				{
-					"Host": "10.222.98.163",
-					"Port": 20391
-				}
-			],
-			"UpstreamPathTemplate": "/recentfueldata/{vehicleId}",
-			"UpstreamHttpMethod": [ "GET" ]
-		},
-		{
-			"DownstreamPathTemplate": "/analytics/fuel/forward/{vehicleId}?seeddate={seeddate}",
-			"DownstreamScheme": "http",
-			"DownstreamHostAndPorts": [
-				{
-					"Host": "10.222.98.163",
-					"Port": 20391
-				}
-			],
-			"UpstreamPathTemplate": "/forwardfueldata/{vehicleId}/{seeddate}",
-			"UpstreamHttpMethod": [ "GET" ]
-		},
-		{
-			"DownstreamPathTemplate": "/analytics/fuel/backward/{vehicleId}?seeddate={seeddate}",
-			"DownstreamScheme": "http",
-			"DownstreamHostAndPorts": [
-				{
-					"Host": "10.222.98.163",
-					"Port": 20391
-				}
-			],
-			"UpstreamPathTemplate": "/backwardfueldata/{vehicleId}/{seeddate}",
-			"UpstreamHttpMethod": [ "GET" ]
-		},
-		{
-			"DownstreamPathTemplate": "/analytics/fuel/daterange/{vehicleId}?startdate={startdate}&enddate={enddate}",
-			"DownstreamScheme": "http",
-			"DownstreamHostAndPorts": [
-				{
-					"Host": "10.222.98.163",
-					"Port": 20391
-				}
-			],
-			"UpstreamPathTemplate": "/fueldata/{vehicleId}/{startdate}/{enddate}",
-			"UpstreamHttpMethod": [ "GET" ]
-		},
-		{
-			"DownstreamPathTemplate": "/analytics/vehicle/{vehicleId}/lastmile",
-			"DownstreamScheme": "http",
-			"DownstreamHostAndPorts": [
-				{
-					"Host": "10.222.98.163",
-					"Port": 20391
-				}
-			],
-			"UpstreamPathTemplate": "/lastmileage/{vehicleId}",
-			"UpstreamHttpMethod": [ "GET" ]
-		}
-	],
+    /*Vehicles*/
+    {
+      "DownstreamPathTemplate": "/vehicle/add",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "127.0.0.1",
+          "Port": 20291
+        }
+      ],
+      "UpstreamPathTemplate": "/addvehicle",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/vehicle/setdfault/{rego}/{username}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "127.0.0.1",
+          "Port": 20291
+        }
+      ],
+      "UpstreamPathTemplate": "/setdafaultvehicle/{rego}/{username}",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/vehicle/update",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "127.0.0.1",
+          "Port": 20291
+        }
+      ],
+      "UpstreamPathTemplate": "/updatevehicle",
+      "UpstreamHttpMethod": [ "PUT" ]
+    },
+    {
+      "DownstreamPathTemplate": "/vehicle/get/{username}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "127.0.0.1",
+          "Port": 20291
+        }
+      ],
+      "UpstreamPathTemplate": "/getvehiclesbyuser/{username}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/vehicle/delete/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "127.0.0.1",
+          "Port": 20291
+        }
+      ],
+      "UpstreamPathTemplate": "/deletevehicle/{id}",
+      "UpstreamHttpMethod": [ "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/vehicle/types",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "127.0.0.1",
+          "Port": 20291
+        }
+      ],
+      "UpstreamPathTemplate": "/getvehicletypes",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/vehicle/brands",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "127.0.0.1",
+          "Port": 20291
+        }
+      ],
+      "UpstreamPathTemplate": "/getvehiclebrands",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/vehicle/models/{brandid}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "127.0.0.1",
+          "Port": 20291
+        }
+      ],
+      "UpstreamPathTemplate": "/getvehiclemodels/{brandid}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+
+    /* Fuel Data*/
+    {
+      "DownstreamPathTemplate": "/fueldata/add",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "127.0.0.1",
+          "Port": 20491
+        }
+      ],
+      "UpstreamPathTemplate": "/addfuelentry",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+
+
+    /* Analytics */
+    {
+      "DownstreamPathTemplate": "/analytics/fuel/recentdata/{vehicleId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "127.0.0.1",
+          "Port": 20391
+        }
+      ],
+      "UpstreamPathTemplate": "/recentfueldata/{vehicleId}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/analytics/fuel/forward/{vehicleId}?seeddate={seeddate}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "127.0.0.1",
+          "Port": 20391
+        }
+      ],
+      "UpstreamPathTemplate": "/forwardfueldata/{vehicleId}/{seeddate}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/analytics/fuel/backward/{vehicleId}?seeddate={seeddate}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "127.0.0.1",
+          "Port": 20391
+        }
+      ],
+      "UpstreamPathTemplate": "/backwardfueldata/{vehicleId}/{seeddate}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/analytics/fuel/daterange/{vehicleId}?startdate={startdate}&enddate={enddate}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "127.0.0.1",
+          "Port": 20391
+        }
+      ],
+      "UpstreamPathTemplate": "/fueldata/{vehicleId}/{startdate}/{enddate}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/analytics/vehicle/{vehicleId}/lastmile",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "127.0.0.1",
+          "Port": 20391
+        }
+      ],
+      "UpstreamPathTemplate": "/lastmileage/{vehicleId}",
+      "UpstreamHttpMethod": [ "GET" ]
+    }
+  ],
   "GlobalConfiguration": {
    
   }

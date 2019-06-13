@@ -23,6 +23,7 @@ namespace Identity.Model.Services
         private readonly AppSettings _appSettings;
         private readonly IService<EmailDto> _emailService;
         private readonly IServiceBus _serviceBus;
+        private IUserProfileRepository _userProfileRepository;
 
         private ILogger<UserService> _logger;
 
@@ -30,7 +31,8 @@ namespace Identity.Model.Services
                            IUserRepository userRepo,
                            IConfiguration configuration,
                            IService<EmailDto> emailService,
-                           IServiceBus serviceBus)
+                           IServiceBus serviceBus,
+                           IUserProfileRepository userProfileRepository)
         {
             _exceptionService = exceptionService;
             _userRepository = userRepo;
@@ -39,6 +41,7 @@ namespace Identity.Model.Services
             _appSettings = configuration.Get<AppSettings>();
             _emailService = emailService;
             _serviceBus = serviceBus;
+            _userProfileRepository = userProfileRepository;
         }
 
         /// <summary>
@@ -189,6 +192,26 @@ namespace Identity.Model.Services
             // Get the token from Db and return 
             return new AuthenticationResponseDto { Token = token, Username = userDto.Username };
 
+        }
+
+        public async Task<UserProfileDto> GetUserProfile(params object[] args)
+        {
+            _exceptionService.Throw(() => Validator.CheckArgsLength(args, 1));
+            var username = args[0] as string;
+            var model = await _userProfileRepository.GetUserProfile(username);
+            var dto = AutoMapper.Mapper.Map<UserProfileDto>(model);
+            return dto;
+        }
+
+        public async Task<bool> AddUserProfile(params object[] args)
+        {
+            _exceptionService.Throw(() => Validator.CheckArgsLength(args, 4));
+            string username = args[0] as string;
+            string first = args[1] as string;
+            string last = args[2] as string;
+            string mobile = args[3] as string;
+
+            return await _userProfileRepository.AddOrUpdateProfile(username, first, last, mobile);
         }
     }
 }

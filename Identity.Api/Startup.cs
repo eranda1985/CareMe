@@ -68,6 +68,7 @@ namespace Identity.Api
         {
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IVersionRepository, VersionRepository>();
+            services.AddTransient<IUserProfileRepository, UserProfileRepository>();
 
             services.AddTransient<IService<UserDto>, UserService>();
             services.AddTransient<IService<EmailDto>, EmailService>();
@@ -90,6 +91,9 @@ namespace Identity.Api
             {
                 cfg.CreateMap<UserModel, UserDto>();
                 cfg.CreateMap<AppVersionModel, VersionDto>();
+                cfg.CreateMap<UserProfileModel, UserProfileDto>()
+                .ForMember(dest => dest.First, opt => opt.MapFrom(src => src.FirstName))
+                .ForMember(dest => dest.Last, opt => opt.MapFrom(src => src.LastName));
             });
             return services;
         }

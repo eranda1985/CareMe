@@ -71,7 +71,7 @@ namespace Analytics.Api
 			bus.Subscribe<IdentityUserAddedEvent, IdentityUserAddedEventHandler>("UserAddedAnalytics");
 			bus.Subscribe<NewVehicleAddedEvent, NewVehicleAddedEventHandler>("VehicleAddedAnalytics");
 			bus.Subscribe<VehicleDeletedEvent, VehicleDeletedEventHandler>("VehicleDeletedAnalytics");
-			bus.Subscribe<FuelRecordAddedEvent, FuelRecordAddedEventHandler>("VehicleDeletedAnalytics");
+			bus.Subscribe<FuelRecordAddedEvent, FuelRecordAddedEventHandler>("FuelRecordAddedAnalytics");
 
 			app.UseMvc();
 		}
