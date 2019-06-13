@@ -62,5 +62,6 @@
   <ItemGroup>
     <Build Include="dbo\Tables\UserDetail.sql" />
     <Build Include="dbo\Tables\AppVersion.sql" />
+    <Build Include="dbo\Tables\UserProfile.sql" />
   </ItemGroup>
 </Project>
