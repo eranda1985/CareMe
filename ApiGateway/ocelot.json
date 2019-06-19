@@ -39,7 +39,7 @@
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
-      "DownstreamPathTemplate": "/authentication/profile/{username}",
+      "DownstreamPathTemplate": "/user/profile/{username}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -51,7 +51,7 @@
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
-      "DownstreamPathTemplate": "/authentication/profile",
+      "DownstreamPathTemplate": "/user/profile",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
