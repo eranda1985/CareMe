@@ -199,7 +199,7 @@ namespace Identity.Model.Services
             _exceptionService.Throw(() => Validator.CheckArgsLength(args, 1));
             var username = args[0] as string;
             var model = await _userProfileRepository.GetUserProfile(username);
-            var dto = AutoMapper.Mapper.Map<UserProfileDto>(model);
+            var dto = AutoMapper.Mapper.Map<UserProfileDto>(model) ?? new UserProfileDto();
             return dto;
         }
 

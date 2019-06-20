@@ -28,7 +28,7 @@ namespace Identity.Api.Controllers
 
 		[HttpGet]
 		[Route("profile/{username}")]
-		[ProducesResponseType(200, Type = typeof(List<UserProfileDto>))]
+		[ProducesResponseType(200, Type = typeof(UserProfileDto))]
 		[ProducesResponseType(401)]
 		[MapToApiVersion("1.0")]
 		public async Task<IActionResult> GetProfile([FromRoute] string username)
