@@ -20,16 +20,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="appsettings.json" />
     <Content Remove="RunningData.Core\obj\project.assets.json" />
     <Content Remove="RunningData.Model\obj\project.assets.json" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="RunningData.Model\obj\RunningData.Model.csproj.nuget.cache" />
     <None Remove="RunningData.Model\obj\Debug\netstandard2.0\RunningData.Model.assets.cache" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="appsettings.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="RunningData.Core\AppConstants.cs" />

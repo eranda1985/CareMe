@@ -26,14 +26,8 @@
     <Compile Remove="Exceptions\UnauthorizedObjectResul.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Remove="appsettings.json" />
-  </ItemGroup>
-  <ItemGroup>
     <None Remove="Resources\.DS_Store" />
     <None Remove="~\LogFiles\Identity\Identity.log" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="appsettings.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CareMe.IntegrationService\CareMe.IntegrationService.csproj" />
