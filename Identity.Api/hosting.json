@@ -1,3 +1,3 @@
 {
-	"server.urls": "http://localhost:20191"
+	"server.urls": "http://*:20191"
 }
