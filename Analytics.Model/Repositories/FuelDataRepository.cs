@@ -41,7 +41,7 @@ namespace Analytics.Model.Repositories
 
 		public async Task<List<FuelDetailsModel>> GetRecentFuelEntries(long vid)
 		{
-			var qstring = "SELECT TOP (7) * FROM FuelConsumption WHERE VehicleId = @0 ORDER BY [Id] DESC";
+			var qstring = "SELECT TOP (7) * FROM FuelConsumption WHERE VehicleId = @0 ORDER BY [Date] DESC";
 			return await Query(qstring, vid);
 		}
 
