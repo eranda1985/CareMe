@@ -17,12 +17,26 @@ using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System;
+using System.IO;
+using System.Reflection;
 
 namespace Analytics.Api
 {
 	public class Startup
 	{
 		public IConfiguration Configuration { get; }
+
+		public string AssemblyDirectory
+		{
+			get
+			{
+				string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+				UriBuilder uri = new UriBuilder(codeBase);
+				string path = Uri.UnescapeDataString(uri.Path);
+				return Path.GetDirectoryName(path);
+			}
+		}
 
 		public Startup(IConfiguration config)
 		{
@@ -60,7 +74,7 @@ namespace Analytics.Api
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
 		{
-			loggerFactory.AddLog4Net();
+			loggerFactory.AddLog4Net(string.Format(@"{0}/log4net.config", AssemblyDirectory));
 
 			if (env.IsDevelopment())
 			{
@@ -136,5 +150,6 @@ namespace Analytics.Api
 
 			return services;
 		}
+
 	}
 }
