@@ -17,12 +17,26 @@ using RunningData.Model.Models;
 using RunningData.Model.Repositories;
 using RunningData.Model.Repositories.Interfaces;
 using RunningData.Model.Services;
+using System;
+using System.IO;
+using System.Reflection;
 
 namespace RunningData.Api
 {
 	public class Startup
 	{
 		public IConfiguration Configuration { get; }
+
+		public string AssemblyDirectory
+		{
+			get
+			{
+				string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+				UriBuilder uri = new UriBuilder(codeBase);
+				string path = Uri.UnescapeDataString(uri.Path);
+				return Path.GetDirectoryName(path);
+			}
+		}
 
 		public Startup(IConfiguration configuration)
 		{
@@ -61,7 +75,7 @@ namespace RunningData.Api
 
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
 		{
-			loggerFactory.AddLog4Net();
+			loggerFactory.AddLog4Net(string.Format(@"{0}/log4net.config", AssemblyDirectory));
 
 			if (env.IsDevelopment())
 			{
