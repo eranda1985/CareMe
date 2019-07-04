@@ -46,21 +46,21 @@ namespace Vehicle.API
 		{
 			services.Configure<AppSettings>(Configuration);
 			services.AddIoC(Configuration)
-					.ModelMapping(Configuration)
-					.AddCors(options =>
+				.ModelMapping(Configuration)
+				.AddCors(options =>
+				{
+					options.AddPolicy("CorsPolicy", builder =>
 					{
-						options.AddPolicy("CorsPolicy", builder =>
-									{
-								builder.AllowAnyOrigin()
-											.AllowAnyMethod()
-											.AllowAnyHeader();
-							});
+						builder.AllowAnyOrigin()
+						.AllowAnyMethod()
+						.AllowAnyHeader();
+						});
 					})
-							.AddMvc(options =>
-							{
-								options.Filters.Add(typeof(GlobalExceptionHandler));
-							})
-									.AddControllersAsServices();
+				.AddMvc(options =>
+				{
+					options.Filters.Add(typeof(GlobalExceptionHandler));
+					})
+				.AddControllersAsServices();
 
 			services.AddApiVersioning(o =>
 			{
