@@ -82,6 +82,7 @@ namespace Vehicle.API
 
 			var eventBus = app.ApplicationServices.GetRequiredService<IServiceBus>();
 			eventBus.Subscribe<IdentityUserAddedEvent, IdentityUserAddEventHandler>("UserAddedVehicle");
+			eventBus.Subscribe<FuelRecordAddedEvent, FuelRecordAddedEventHandler>("FuelRecordAddedVehicle");
 
 			app.UseMvc();
 		}
@@ -105,8 +106,16 @@ namespace Vehicle.API
 
 			services.AddTransient<IDataConnection, SqlDataConnection>();
 			services.AddTransient<IdentityUserAddEventHandler>();
+			services.AddTransient<FuelRecordAddedEventHandler>();
 
-			services.AddSingleton<ISubscriptionManager, VehicleSubscriptionManager>();
+			services.AddSingleton<ISubscriptionManager, VehicleSubscriptionManager>(sp=> 
+			{
+				
+				var fuelDataEventHandler = sp.GetRequiredService<FuelRecordAddedEventHandler>();
+				var identityEventHandler = sp.GetRequiredService<IdentityUserAddEventHandler>();
+
+				return new VehicleSubscriptionManager(identityEventHandler);
+			});
 			services.AddSingleton<IServiceBus, RabbitMQServiceBus>(sp =>
 			{
 				var subsManager = sp.GetRequiredService<ISubscriptionManager>();

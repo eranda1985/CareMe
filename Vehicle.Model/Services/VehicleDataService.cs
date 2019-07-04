@@ -214,6 +214,21 @@ namespace Vehicle.Model.Services
 		}
 
 		/// <summary>
+		/// Retrives a vehicle by id
+		/// </summary>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		public async Task<VehicleDataDto> GetVehicleById(params object[] args)
+		{
+			_exceptionService.Throw(() => Validator.CheckArgsLength(args, 1));
+
+			var id = (long)args[0];
+			var poco = await _vehicleDataRepository.GetVehicleById(id);
+			var dto = Mapper.Map<VehicleDataDto>(poco);
+			return dto;
+		}
+
+		/// <summary>
 		/// Gets the list of vehicle types 
 		/// </summary>
 		/// <returns></returns>
