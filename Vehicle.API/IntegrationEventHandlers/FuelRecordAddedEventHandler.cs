@@ -1,4 +1,5 @@
 ﻿using CareMe.IntegrationService;
+using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using Vehicle.Model.Dto;
 using Vehicle.Model.Services;
@@ -7,9 +8,9 @@ namespace Vehicle.Api.IntegrationEventHandlers
 {
 	public class FuelRecordAddedEventHandler : IIntegrationEventHandler
 	{
-		private readonly IService<VehicleDataDto> _service;
+		private readonly VehicleDataSubscriberService _service;
 
-		public FuelRecordAddedEventHandler(IService<VehicleDataDto> service)
+		public FuelRecordAddedEventHandler(VehicleDataSubscriberService service)
 		{
 			_service = service;
 		}
@@ -18,9 +19,9 @@ namespace Vehicle.Api.IntegrationEventHandlers
 		{
 			if (@event is FuelRecordAddedEvent e)
 			{
-				var existing = await ((VehicleDataService)_service).GetVehicleById(e.VehicleId);
+				var existing = await _service.GetVehicleById(e.VehicleId);
 				existing.ODOMeter = e.Mileage;
-				_ = await ((VehicleDataService)_service).Update(existing);
+				_ = await _service.Update(existing);
 			}
 		}
 	}

@@ -5,15 +5,16 @@ namespace Vehicle.Api.IntegrationEventHandlers
     public class VehicleSubscriptionManager : ISubscriptionManager
 	{
 		private IdentityUserAddEventHandler _identityUserAddEventHandler;
-		//private FuelRecordAddedEventHandler _fuelRecordAddedEventHandler;
+		private FuelRecordAddedEventHandler _fuelRecordAddedEventHandler;
 
 
 		public VehicleSubscriptionManager(
-			IdentityUserAddEventHandler identityUserAddEventHandler
+			IdentityUserAddEventHandler identityUserAddEventHandler,
+			FuelRecordAddedEventHandler fuelRecordAddedEventHandler
 			)
 		{
 			_identityUserAddEventHandler = identityUserAddEventHandler;
-			//_fuelRecordAddedEventHandler = fuelRecordAddedEventHandler;
+			_fuelRecordAddedEventHandler = fuelRecordAddedEventHandler;
 		}
 
 		public IIntegrationEventHandler GetEventHandler<T>() where T : IIntegrationEventHandler
@@ -23,10 +24,10 @@ namespace Vehicle.Api.IntegrationEventHandlers
 				return _identityUserAddEventHandler;
 			}
 
-			//if (typeof(T).Equals(_fuelRecordAddedEventHandler.GetType()))
-			//{
-			//	return _fuelRecordAddedEventHandler;
-			//}
+			if (typeof(T).Equals(_fuelRecordAddedEventHandler.GetType()))
+			{
+				return _fuelRecordAddedEventHandler;
+			}
 
 			return null;
 		}

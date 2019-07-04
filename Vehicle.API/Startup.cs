@@ -95,6 +95,7 @@ namespace Vehicle.API
 			services.AddTransient<IExceptionService, ExceptionService>();
 			services.AddTransient<IService<VehicleDataDto>, VehicleDataService>();
 			services.AddTransient<IService<UserDataDto>, UserdataService>();
+			services.AddTransient<VehicleDataSubscriberService>();
 
 			services.AddTransient<IVehicleDataRepository, VehicleDataRepository>();
 			services.AddTransient<IUserDataRepository, UserDataRepository>();
@@ -106,15 +107,18 @@ namespace Vehicle.API
 
 			services.AddTransient<IDataConnection, SqlDataConnection>();
 			services.AddTransient<IdentityUserAddEventHandler>();
-			services.AddTransient<FuelRecordAddedEventHandler>();
+			services.AddTransient<FuelRecordAddedEventHandler>(sp=> 
+			{
+				var service = sp.GetRequiredService<VehicleDataSubscriberService>();
+				return new FuelRecordAddedEventHandler(service);
+			});
 
 			services.AddSingleton<ISubscriptionManager, VehicleSubscriptionManager>(sp=> 
 			{
-				
-				var fuelDataEventHandler = sp.GetRequiredService<FuelRecordAddedEventHandler>();
 				var identityEventHandler = sp.GetRequiredService<IdentityUserAddEventHandler>();
+				var fuelDataEventHandler = sp.GetRequiredService<FuelRecordAddedEventHandler>();
 
-				return new VehicleSubscriptionManager(identityEventHandler);
+				return new VehicleSubscriptionManager(identityEventHandler, fuelDataEventHandler);
 			});
 			services.AddSingleton<IServiceBus, RabbitMQServiceBus>(sp =>
 			{
