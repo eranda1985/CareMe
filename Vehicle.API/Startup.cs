@@ -46,21 +46,21 @@ namespace Vehicle.API
 		{
 			services.Configure<AppSettings>(Configuration);
 			services.AddIoC(Configuration)
-					.ModelMapping(Configuration)
-					.AddCors(options =>
+				.ModelMapping(Configuration)
+				.AddCors(options =>
+				{
+					options.AddPolicy("CorsPolicy", builder =>
 					{
-						options.AddPolicy("CorsPolicy", builder =>
-									{
-								builder.AllowAnyOrigin()
-											.AllowAnyMethod()
-											.AllowAnyHeader();
-							});
+						builder.AllowAnyOrigin()
+						.AllowAnyMethod()
+						.AllowAnyHeader();
+						});
 					})
-							.AddMvc(options =>
-							{
-								options.Filters.Add(typeof(GlobalExceptionHandler));
-							})
-									.AddControllersAsServices();
+				.AddMvc(options =>
+				{
+					options.Filters.Add(typeof(GlobalExceptionHandler));
+					})
+				.AddControllersAsServices();
 
 			services.AddApiVersioning(o =>
 			{
@@ -82,6 +82,7 @@ namespace Vehicle.API
 
 			var eventBus = app.ApplicationServices.GetRequiredService<IServiceBus>();
 			eventBus.Subscribe<IdentityUserAddedEvent, IdentityUserAddEventHandler>("UserAddedVehicle");
+			eventBus.Subscribe<FuelRecordAddedEvent, FuelRecordAddedEventHandler>("FuelRecordAddedVehicle");
 
 			app.UseMvc();
 		}
@@ -94,6 +95,7 @@ namespace Vehicle.API
 			services.AddTransient<IExceptionService, ExceptionService>();
 			services.AddTransient<IService<VehicleDataDto>, VehicleDataService>();
 			services.AddTransient<IService<UserDataDto>, UserdataService>();
+			services.AddTransient<VehicleDataSubscriberService>();
 
 			services.AddTransient<IVehicleDataRepository, VehicleDataRepository>();
 			services.AddTransient<IUserDataRepository, UserDataRepository>();
@@ -105,8 +107,19 @@ namespace Vehicle.API
 
 			services.AddTransient<IDataConnection, SqlDataConnection>();
 			services.AddTransient<IdentityUserAddEventHandler>();
+			services.AddTransient<FuelRecordAddedEventHandler>(sp=> 
+			{
+				var service = sp.GetRequiredService<VehicleDataSubscriberService>();
+				return new FuelRecordAddedEventHandler(service);
+			});
 
-			services.AddSingleton<ISubscriptionManager, VehicleSubscriptionManager>();
+			services.AddSingleton<ISubscriptionManager, VehicleSubscriptionManager>(sp=> 
+			{
+				var identityEventHandler = sp.GetRequiredService<IdentityUserAddEventHandler>();
+				var fuelDataEventHandler = sp.GetRequiredService<FuelRecordAddedEventHandler>();
+
+				return new VehicleSubscriptionManager(identityEventHandler, fuelDataEventHandler);
+			});
 			services.AddSingleton<IServiceBus, RabbitMQServiceBus>(sp =>
 			{
 				var subsManager = sp.GetRequiredService<ISubscriptionManager>();
