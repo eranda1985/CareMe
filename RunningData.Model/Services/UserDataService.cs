@@ -12,10 +12,10 @@ namespace RunningData.Model.Services
 {
 	public class UserDataService: IService<UserDataDto>
 	{
-		private readonly IUserDataRepository _userDataRepository;
+		private readonly IUserDataRepository<UserDataModel> _userDataRepository;
 		private ILogger<UserDataService> _logger;
 
-		public UserDataService(IUserDataRepository userDataRepository,
+		public UserDataService(IUserDataRepository<UserDataModel> userDataRepository,
 														ILogger<UserDataService> logger)
 		{
 			_userDataRepository = userDataRepository;

@@ -39,9 +39,9 @@ Thumbs.db
 
 # dotCover
 *.dotCover
-/RunningData.Api/Build
-/Identity.Api/Build
-/ApiGateway/Build
-/Analytics.Core/Build
 /Analytics.Api/Build
+/Analytics.Core/Build
+/Identity.Api/Build
+/RunningData.Api/Build
 /Vehicle.API/Build
+/ApiGateway/Build

@@ -23,6 +23,7 @@ namespace Identity.Model.Services
         private readonly AppSettings _appSettings;
         private readonly IService<EmailDto> _emailService;
         private readonly IServiceBus _serviceBus;
+        private IUserProfileRepository _userProfileRepository;
 
         private ILogger<UserService> _logger;
 
@@ -30,7 +31,8 @@ namespace Identity.Model.Services
                            IUserRepository userRepo,
                            IConfiguration configuration,
                            IService<EmailDto> emailService,
-                           IServiceBus serviceBus)
+                           IServiceBus serviceBus,
+                           IUserProfileRepository userProfileRepository)
         {
             _exceptionService = exceptionService;
             _userRepository = userRepo;
@@ -39,6 +41,7 @@ namespace Identity.Model.Services
             _appSettings = configuration.Get<AppSettings>();
             _emailService = emailService;
             _serviceBus = serviceBus;
+            _userProfileRepository = userProfileRepository;
         }
 
         /// <summary>
@@ -65,7 +68,7 @@ namespace Identity.Model.Services
             if (user == null)
             {
                 var emailService = _emailService as EmailService;
-                emailService.SendMail("eranda.lakshantha@gmail.com", "eranda1985@yahoo.com");
+                emailService.SendMail("eranda.lakshantha@gmail.com", userName);
                 return new AuthenticationResponseDto { Token = "", Username = userName, Password = password, SignUpCode = "0000" };
 
             }
@@ -79,7 +82,7 @@ namespace Identity.Model.Services
 
             // Update last login date
             user.LastLoginDate = DateTime.Now;
-            await _userRepository.UpdateUserAsync(user);
+            _ = await _userRepository.UpdateUserAsync(user);
 
             // Create claims 
             List<Claim> claims = new List<Claim>
@@ -167,7 +170,7 @@ namespace Identity.Model.Services
                 _exceptionService.Throw(Validator.UnAuthorized);
             }
 
-            // Make sure to communicate this new user to RunningData API for integration purposes. 
+            // Make sure to communicate this new user to other APIs for integration purposes. 
             var msg = new IdentityUserAddedEvent(userDto.Username, userDto.SecretKey);
             _logger.LogDebug("Publish Message username: {0} secret: {1}", msg.Username, msg.UserSecret);
             _serviceBus.Publish<IdentityUserAddedEvent>(msg);
@@ -189,6 +192,26 @@ namespace Identity.Model.Services
             // Get the token from Db and return 
             return new AuthenticationResponseDto { Token = token, Username = userDto.Username };
 
+        }
+
+        public async Task<UserProfileDto> GetUserProfile(params object[] args)
+        {
+            _exceptionService.Throw(() => Validator.CheckArgsLength(args, 1));
+            var username = args[0] as string;
+            var model = await _userProfileRepository.GetUserProfile(username);
+            var dto = AutoMapper.Mapper.Map<UserProfileDto>(model) ?? new UserProfileDto();
+            return dto;
+        }
+
+        public async Task<bool> AddUserProfile(params object[] args)
+        {
+            _exceptionService.Throw(() => Validator.CheckArgsLength(args, 4));
+            string username = args[0] as string;
+            string first = args[1] as string;
+            string last = args[2] as string;
+            string mobile = args[3] as string;
+
+            return await _userProfileRepository.AddOrUpdateProfile(username, first, last, mobile);
         }
     }
 }

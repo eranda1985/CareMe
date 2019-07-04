@@ -6,8 +6,6 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\" />
-    <Folder Include="Controllers\" />
-    <Folder Include="Parameters\" />
     <Folder Include="ActionFilters\" />
     <Folder Include="Resources\Config\" />
     <Folder Include="Exceptions\" />
@@ -15,9 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="2.2.4" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="2.3.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,20 +26,25 @@
     <Compile Remove="Exceptions\UnauthorizedObjectResul.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Remove="appsettings.json" />
-  </ItemGroup>
-  <ItemGroup>
     <None Remove="Resources\.DS_Store" />
     <None Remove="~\LogFiles\Identity\Identity.log" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="appsettings.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CareMe.IntegrationService\CareMe.IntegrationService.csproj" />
     <ProjectReference Include="..\CareMe.RabbitMQIntegrationService\CareMe.RabbitMQIntegrationService.csproj" />
     <ProjectReference Include="..\Identity.Model\Identity.Model.csproj" />
     <ProjectReference Include="..\Identity.Core\Identity.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="hosting.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

@@ -8,5 +8,6 @@ namespace Vehicle.Model.Dto
 	{
 		public string Username { get; set; }
 		public string Secret { get; set; }
+		public long Id { get; set; }
 	}
 }

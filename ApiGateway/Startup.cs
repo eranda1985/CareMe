@@ -4,6 +4,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
+using System;
+using System.Reflection;
+using System.IO;
 
 namespace ApiGateway
 {
@@ -11,13 +14,24 @@ namespace ApiGateway
   {
     private IConfiguration configuration;
 
-    public Startup(IHostingEnvironment env)
+		public string AssemblyDirectory
+		{
+			get
+			{
+				string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+				UriBuilder uri = new UriBuilder(codeBase);
+				string path = Uri.UnescapeDataString(uri.Path);
+				return Path.GetDirectoryName(path);
+			}
+		}
+
+		public Startup(IHostingEnvironment env)
     {
         var configurationBuilder = new ConfigurationBuilder()
         .SetBasePath(env.ContentRootPath)
             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
             .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-            .AddJsonFile("ocelot.json")
+            .AddJsonFile(string.Format(@"{0}/ocelot.json", AssemblyDirectory))
             .AddEnvironmentVariables();
 
       configuration = configurationBuilder.Build();
