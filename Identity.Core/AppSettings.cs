@@ -15,6 +15,6 @@ namespace Identity.Core
     public string SmtpPassword { get; set; }
     public string SmtpProvider { get; set; }
     public int SmtpPort { get; set; }
-
-  }
+		public string EmailFrom { get; set; }
+	}
 }
