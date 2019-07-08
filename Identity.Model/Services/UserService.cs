@@ -68,7 +68,9 @@ namespace Identity.Model.Services
             if (user == null)
             {
                 var emailService = _emailService as EmailService;
-                emailService.SendMail("eranda.lakshantha@gmail.com", userName);
+				var sender = _configuration.GetSection("EmailFrom").Value;
+
+								emailService.SendMail(sender, userName);
                 return new AuthenticationResponseDto { Token = "", Username = userName, Password = password, SignUpCode = "0000" };
 
             }
