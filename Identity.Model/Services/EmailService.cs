@@ -25,7 +25,7 @@ namespace Identity.Model.Services
       _clientFactory = clientFactory;
     }
 
-    public void SendMail(string from, string to)
+    public void SendMail(string from, string to, string code)
     {
       _emailDto = new EmailDto { FromAddress = from, ToAddress = to };
 
@@ -37,8 +37,18 @@ namespace Identity.Model.Services
       smtpFac.Password = _appSettings.SmtpPassword;
       smtpFac.SmtpDomain = _appSettings.SmtpProvider;
       smtpFac.SmtpPort = _appSettings.SmtpPort;
-      smtpFac.SendRequest(_emailDto); // <- Potential place to implement resilient connections. 
+      smtpFac.SendRequest(_emailDto, code); // <- Potential place to implement resilient connections. 
     }
 
-  }
+		/// <summary>
+		/// Generates a 4 digit code
+		/// </summary>
+		/// <returns></returns>
+		public string Get4DigitCode()
+		{
+			Random r = new Random();
+			int result = r.Next(0, 10000);
+			return result.ToString("D4");
+		}
+	}
 }

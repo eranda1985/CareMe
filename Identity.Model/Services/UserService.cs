@@ -69,8 +69,9 @@ namespace Identity.Model.Services
 			{
 				var emailService = _emailService as EmailService;
 				var sender = _configuration.GetSection("EmailFrom").Value;
-				emailService.SendMail(sender, userName);
-				return new AuthenticationResponseDto { Token = "", Username = userName, Password = password, SignUpCode = "0000" };
+				var signUpCode = emailService.Get4DigitCode();
+				emailService.SendMail(sender, userName, signUpCode);
+				return new AuthenticationResponseDto { Token = "", Username = userName, Password = password, SignUpCode = signUpCode };
 			}
 
 			// Ensure the passwords match. 
