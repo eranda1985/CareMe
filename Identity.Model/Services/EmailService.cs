@@ -25,7 +25,7 @@ namespace Identity.Model.Services
       _clientFactory = clientFactory;
     }
 
-    public void SendMail(string from, string to, string code)
+    public void SendMail(string from, string to, string code, string logoFilePath)
     {
       _emailDto = new EmailDto { FromAddress = from, ToAddress = to };
 
@@ -37,7 +37,7 @@ namespace Identity.Model.Services
       smtpFac.Password = _appSettings.SmtpPassword;
       smtpFac.SmtpDomain = _appSettings.SmtpProvider;
       smtpFac.SmtpPort = _appSettings.SmtpPort;
-      smtpFac.SendRequest(_emailDto, code); // <- Potential place to implement resilient connections. 
+      smtpFac.SendRequest(_emailDto, code, logoFilePath); // <- Potential place to implement resilient connections. 
     }
 
 		/// <summary>

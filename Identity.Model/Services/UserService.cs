@@ -52,12 +52,13 @@ namespace Identity.Model.Services
 		public async Task<AuthenticationResponseDto> LoginAsync(params object[] args)
 		{
 			_logger.LogDebug("Entering LoginAsync");
-			_exceptionService.Throw(() => Validator.CheckArgsLength(args, 4));
+			_exceptionService.Throw(() => Validator.CheckArgsLength(args, 5));
 
 			var userName = args[0] as string;
 			var password = args[1] as string;
 			var versionHash = args[2] as string;
 			var deviceType = args[3] as string;
+			var logoFilePath = args[4] as string;
 
 			_exceptionService.Throw(() => { Validator.CheckNull(userName); });
 
@@ -70,7 +71,7 @@ namespace Identity.Model.Services
 				var emailService = _emailService as EmailService;
 				var sender = _configuration.GetSection("EmailFrom").Value;
 				var signUpCode = emailService.Get4DigitCode();
-				emailService.SendMail(sender, userName, signUpCode);
+				emailService.SendMail(sender, userName, signUpCode, logoFilePath);
 				return new AuthenticationResponseDto { Token = "", Username = userName, Password = password, SignUpCode = signUpCode };
 			}
 

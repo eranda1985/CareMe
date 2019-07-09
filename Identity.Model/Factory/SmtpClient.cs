@@ -3,6 +3,7 @@ using Identity.Model.Dto;
 using Identity.Model.Services;
 using System;
 using System.Net.Mail;
+using System.Net.Mime;
 
 namespace Identity.Model.Factory
 {
@@ -26,12 +27,14 @@ namespace Identity.Model.Factory
 		/// <param name='args'></param>
 		public void SendRequest(params object[] args)
 		{
-			_exceptionService.Throw(() => Validator.CheckArgsLength(args, 2));
+			_exceptionService.Throw(() => Validator.CheckArgsLength(args, 3));
 			_exceptionService.Throw(() => Validator.CheckType<EmailDto>(args[0]));
 			_exceptionService.Throw(() => Validator.CheckType<string>(args[1]));
+			_exceptionService.Throw(() => Validator.CheckType<string>(args[2]));
 
 			var emailObj = args[0] as EmailDto;
 			var signUpCode = args[1] as string;
+			var logoFilePath = args[2] as string;
 
 			SmtpClient smtpClient = new SmtpClient(SmtpDomain, SmtpPort)
 			{
@@ -40,22 +43,26 @@ namespace Identity.Model.Factory
 				EnableSsl = true
 			};
 
-			//var img = new LinkedResource()
-			var mailBody = string.Format(HtmlBody, signUpCode, "\u00a9");
+			var img = new LinkedResource(string.Format("{0}/logo-color.png", logoFilePath))
+			{
+				ContentId = Guid.NewGuid().ToString()
+			};
+			var mailBody = string.Format(HtmlBody, signUpCode, "\u00a9", img.ContentId);
+			AlternateView alternateView = AlternateView.CreateAlternateViewFromString(mailBody, null, MediaTypeNames.Text.Html);
+			alternateView.LinkedResources.Add(img);
 
 			MailMessage mail = new MailMessage(emailObj.FromAddress, emailObj.ToAddress)
 			{
-				Subject = "New Sign-up Request",
-				Body = mailBody
+				Subject = "New Sign-up Request"
 			};
-
 			mail.IsBodyHtml = true;
+			mail.AlternateViews.Add(alternateView);
 
 			smtpClient.Send(mail);
 		}
 
-		string HtmlBody => @"<body style='margin:0px; padding:0px;' bgcolor='#efefef'>
-<table align='center' border='0' cellspacing='0' cellpadding='0' ><tr><td valign='top' align='center'><img src='smiley.gif' alt='Smiley face' /><br /><br /><table width='100%' cellspacing='0' cellpadding='0' border='0' align='center'><tbody><tr><td style='font-family:'Open Sans', Arial, sans-serif; font-size:12px; line-height:15px; color:#0d1121;' valign='top' align='center'>
+		private string HtmlBody => @"<body style='margin:0px; padding:0px;' bgcolor='#efefef'>
+<table align='center' border='0' cellspacing='0' cellpadding='0' ><tr><td valign='top' align='center'><img src='cid:{2}' alt='Smiley face' /><br /><br /><table width='100%' cellspacing='0' cellpadding='0' border='0' align='center'><tbody><tr><td style='font-family:'Open Sans', Arial, sans-serif; font-size:12px; line-height:15px; color:#0d1121;' valign='top' align='center'>
 <h2>New sign up request for Cargenik App{1}</h2>
 <table align = 'center' border='0' cellspacing='0' cellpadding='0'>
 <tr><td align = 'center' valign='top' style='font-family:'Open Sans', Arial, sans-serif; font-size:16px; line-height:30px; color:#000000;'>
